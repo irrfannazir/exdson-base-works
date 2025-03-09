@@ -1,5 +1,5 @@
 #include "token.h"
-#include "..\data.h"
+#include "../data.h"
 #include <stdio.h>
 
 //from token.h
