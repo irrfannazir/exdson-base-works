@@ -6,7 +6,6 @@
 
 int pgm_size = 2500;
 char *pgm;
-    
 
 void create_and_compile_file(const char *filename, char *content) {
     // Open the file for writing ("w" mode will create the file if it doesn't exist)
@@ -19,7 +18,8 @@ void create_and_compile_file(const char *filename, char *content) {
     }
 
     // Write content to the file
-    printf("%s\n", content);
+    printf("********The output program implemented in C programming Language********");
+    printf("\n\n%s\n\n\n", content);
     fprintf(file, "%s", content);
     
     // Close the file

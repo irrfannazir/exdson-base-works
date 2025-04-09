@@ -1,1 +1,5 @@
-print{"things", 3, 4};
+print{
+    "the number declared is ",
+    4,
+    "\n"
+};

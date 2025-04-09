@@ -85,17 +85,18 @@ void lexf(){
     // scanf("%[^#]s", com);
     
     com = read_file_into_buffer("./main.ex");
-    printf("%s\n", com);
+    // printf("%s\n", com);
 
-    printf("Tokenizing the command.\n");
+    printf("\nTokenizing the command.\n");
     while(com[i] != '\0'){
         // Analyze each characters
         if(isstring){
             //Append if it is a string
             if(com[i] == '\"'){
                 isstring = 0;
+            }else{
+                append(com[i]);
             }
-            append(com[i]);
         }
         else if(com[i] == ' '){
             //The space is ignored.
@@ -174,7 +175,7 @@ void lexf(){
             isenter = 0;
         }else if(com[i] == '\"'){
             // if(isstring){
-                new_token(com[i]);
+                new_token('\0');
             // }else{
                 // append(com[i]);
             // }
