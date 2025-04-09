@@ -5,10 +5,10 @@
 #include "./include/declare.h"
 #include "./include/constants.h"
 #include <string.h>
+
 #include <stdio.h>
 
-// extern int line_method[MAX];
-// extern int line_size;
+
 
 
 void declare_the_variable(int index, int size){

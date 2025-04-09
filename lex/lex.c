@@ -5,6 +5,7 @@
 // #include "..\data.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #define MAX 500
 
 
@@ -30,8 +31,46 @@ int isstring = 0;
 c_type prev;
 
 
+char* read_file_into_buffer(const char* filename) {
+    FILE* file = fopen(filename, "r");
+    if (file == NULL) {
+        perror("Error opening file");
+        return NULL;
+    }
+
+    // Seek to end to get file size
+    fseek(file, 0, SEEK_END);
+    long file_size = ftell(file);
+    rewind(file);
+
+    // Allocate buffer (+1 for null terminator)
+    char* content = (char*)malloc(file_size + 1);
+    if (content == NULL) {
+        fclose(file);
+        fprintf(stderr, "Memory allocation failed\n");
+        return NULL;
+    }
+
+    // Read entire file
+    size_t bytes_read = fread(content, 1, file_size, file);
+    if (bytes_read != file_size) {
+        fclose(file);
+        free(content);
+        fprintf(stderr, "Error reading file\n");
+        return NULL;
+    }
+
+    // Null-terminate the string
+    content[bytes_read] = '\0';
+
+    fclose(file);
+    return content;
+}
+
+
+
 void lexf(){
-    char com[MAX];
+    char *com;
     int cursor = 0;
     int i = 0;
     int j;
@@ -41,12 +80,21 @@ void lexf(){
     int isenter = 0;
     int iscurly = 0;
     int space_count = 0;
-    scanf("%[^#]s", com);
+
+    // *com = (char*)malloc(MAX);
+    // scanf("%[^#]s", com);
+    
+    com = read_file_into_buffer("./main.ex");
+    printf("%s\n", com);
+
     printf("Tokenizing the command.\n");
     while(com[i] != '\0'){
         // Analyze each characters
         if(isstring){
             //Append if it is a string
+            if(com[i] == '\"'){
+                isstring = 0;
+            }
             append(com[i]);
         }
         else if(com[i] == ' '){
@@ -125,11 +173,11 @@ void lexf(){
             iscurly = 0;
             isenter = 0;
         }else if(com[i] == '\"'){
-            if(isstring){
+            // if(isstring){
                 new_token(com[i]);
-            }else{
-                append(com[i]);
-            }
+            // }else{
+                // append(com[i]);
+            // }
             next_type(t_string);
             prev = c_punct;
             isstring = !isstring;

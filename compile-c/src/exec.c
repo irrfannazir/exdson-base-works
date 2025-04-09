@@ -21,7 +21,7 @@ void add_the_program(){
     int function_cursor = 0;
     int datatype;
     strcpy(pgm, "int main(){return 0;}");
-    char temp[MAX];
+    char temp[4*MAX];
     for(int i = 0; i < line_size; i++){
         switch(line_method[i]){
             case 0:
@@ -41,6 +41,16 @@ void add_the_program(){
                         pgm_cursor
                     );
                 }
+                break;
+            case 1:
+                char format[MAX];
+                char parametre_value[MAX];
+                int i = 0;
+                while(parametre_list[i]){
+                    i++;
+                }
+                sprintf(temp, "printf(\"%s\", %s);", format, parametre_value);
+                pgm =append_at_index(pgm, temp, pgm_cursor)
                 break;
         }
         // printf("%d\n", line_method[i]);

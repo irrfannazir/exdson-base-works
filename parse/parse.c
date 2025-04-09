@@ -1,9 +1,12 @@
 #include "../data.h"
 #include "include/tree_node.h"
 #include "include/print.h"
-#include "include/declare.h"
-#include "include/declare_simple_var.h"
 #include <stdio.h>
+
+//The Syntax Checking Libraries
+#include "include/declare.h"
+#include "include/exio.h"
+#include "include/condition.h"
 
 
 int root_index;
@@ -19,6 +22,9 @@ void switch_case(int index, int size){
         switch(root_index){
             case 0:
                 declare_the_variable(index, size);
+                break;
+            case 1:
+                print_the_string(index, size);
                 break;
             default:
                 printe("Invalid syntax.", num_lines(index + 1), 0);
