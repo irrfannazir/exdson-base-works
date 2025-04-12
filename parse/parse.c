@@ -26,6 +26,9 @@ void switch_case(int index, int size){
             case 1:
                 print_the_string(index, size);
                 break;
+            case 2:
+                if_condition(index, size);
+                break;
             default:
                 printe("Invalid syntax.", num_lines(index + 1), 0);
                 found_the_syntax = 1;

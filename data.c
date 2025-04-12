@@ -9,6 +9,10 @@ int total_error;
 int indent_token[MAX];
 int dont_compile = 0;
 
+int block_cursor[MAX];
+int block_cursor_size = 0;
+
+
 struct Node *root_array[500];
 
 

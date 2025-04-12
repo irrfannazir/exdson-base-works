@@ -35,6 +35,10 @@ extern int function_size;
 extern char *pgm;
 extern int pgm_size;
 
+//block analyzer
+extern int block_cursor[MAX];
+extern int block_cursor_size;
+
 
 //functions
 int num_lines(int size);

@@ -2,7 +2,7 @@
 #include "include/token.h"
 #include "include/character.h"
 #include "include/keyword.h"
-// #include "..\data.h"
+// #include "../data.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -85,7 +85,7 @@ void lexf(){
     // scanf("%[^#]s", com);
     
     com = read_file_into_buffer("./main.ex");
-    // printf("%s\n", com);
+    printf("%s\n", com);
 
     printf("\nTokenizing the command.\n");
     while(com[i] != '\0'){
@@ -101,11 +101,15 @@ void lexf(){
         else if(com[i] == ' '){
             //The space is ignored.
             //The indent should be count for the execution
-            add_indent(&iscolonfound, &space_count);
             if(isspace == 0 && isenter == 0){
                 new_token('\0');
             }
-            isenter = 0;
+            if(iscolonfound && isenter){
+                add_indent(&space_count);
+                isenter = 1;
+            }else{
+                isenter = 0;
+            }
             isspace = 1;
         }
         else if(com[i] == '\n' || com[i] == delimiter){
@@ -223,6 +227,7 @@ void lexf(){
         new_token('\0');
     }
     filter_keyword();
+    
     // display_token();
     return ;
 }

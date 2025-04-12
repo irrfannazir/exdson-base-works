@@ -1,2 +1,3 @@
 #include <stdio.h>
-int main(){int a = 4;printf("the number declared is %d\n", a);return 0;}
+#include <stdio.h>
+int main(){if(1){printf("the number declared is 4\n");}printf("the number declared is 5\n");return 0;}

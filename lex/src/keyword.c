@@ -1,5 +1,6 @@
 #include "../data.h"
 #include <string.h>
+#include <stdio.h>
 
 char datatypes[MAX][MAX] = {"single", "array"};
 char datatype_input[MAX][MAX] = {"%d", "%a"};
@@ -60,5 +61,8 @@ void filter_keyword(){
                 }
             }
         }
+    }
+    for(int i = 0; i < num_lines(-1); i++){
+        printf("%d\n", indent_token[i]);
     }
 }
