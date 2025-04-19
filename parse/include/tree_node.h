@@ -10,6 +10,7 @@ struct Node{
     // 3 : Bracket
     // 4 : Identifier
     // 5 : Function Arguments 
+    // 6 : Founded 
     int start;
     int size;
     struct Node *left;

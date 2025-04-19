@@ -1,11 +1,5 @@
-if (1):
+single a = (2-5)*4 - 4*7;
+if(a == 1):
   print{
-    "the number declared is ",
-        4,
-        "\n"
-    };
-print{
-        "the number declared is ",
-        5,
-        "\n"
+    "hi"
 }

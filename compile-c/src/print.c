@@ -10,14 +10,14 @@ void print_execution_with_array(int *include_cursor){
     char format[MAX] = "";
     char parametre_value[MAX] = "";
     char temp[4*MAX];
-    while(parametre_list[i][j] != -1){
-        if(type[parametre_list[i][j]] == t_string){
-            strcat(format, token[parametre_list[i][j]]);
-        }else if(type[parametre_list[i][j]] == t_integer){
-            strcat(format, token[parametre_list[i][j]]);
-        }else if(type[parametre_list[i][j]] == t_identifier){
+    while(parametre_list[parametre_index][j] != -1){
+        if(type[parametre_list[parametre_index][j]] == t_string){
+            strcat(format, token[parametre_list[parametre_index][j]]);
+        }else if(type[parametre_list[parametre_index][j]] == t_integer){
+            strcat(format, token[parametre_list[parametre_index][j]]);
+        }else if(type[parametre_list[parametre_index][j]] == t_identifier){
             strcat(format, "%d");
-            strcat(parametre_value, token[parametre_list[i][j]]);
+            strcat(parametre_value, token[parametre_list[parametre_index][j]]);
         }
         j++;
     }

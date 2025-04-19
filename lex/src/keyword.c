@@ -62,7 +62,4 @@ void filter_keyword(){
             }
         }
     }
-    for(int i = 0; i < num_lines(-1); i++){
-        printf("%d\n", indent_token[i]);
-    }
 }

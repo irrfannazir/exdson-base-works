@@ -7,7 +7,7 @@
 // Function to append a string at a specific index
 char *append_at_index(const char* original, const char* to_append, int index) {
     // Validate the input
-    printf("%s is inserting onto \t%s\t at index %d\n", original, to_append, index);
+    // printf("%s is inserting onto \t%s\t at index %d\n", original, to_append, index);
     if (!original || !to_append || index < 0 || index > strlen(original)) {
         printf("Invalid input or index.\n");
         return NULL;

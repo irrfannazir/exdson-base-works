@@ -29,6 +29,18 @@ int find_the_least_priority(int start, int size){
             }else if(strcmp(token[i], "-") == 0 && priority < 3){
                 index = i;
                 priority = 3;
+            }else if(strcmp(token[i], "==") == 0 && priority < 4){
+                index = i;
+                priority = 4;
+            }else if(strcmp(token[i], "<=") == 0 && priority < 5){
+                index = i;
+                priority = 5;
+            }else if(strcmp(token[i], ">=") == 0 && priority < 6){
+                index = i;
+                priority = 6;
+            }else if(strcmp(token[i], "!=") == 0 && priority < 7){
+                index = i;
+                priority = 7;
             }
         }
         i++;
@@ -75,8 +87,10 @@ void display_postfix(struct Node *root){
     }
     // If the node is a leaf node (both left and right are NULL), print the data
     if (root->left == NULL && root->right == NULL) {
-        printf("%s ", token[root -> start]);
-
+        for(int i = root -> start; i < root -> start + root -> size; i++){
+            printf("%s ", token[i]);
+        }
+        // printf(" ( ::%d:: ) ", root -> data);
     }
 
     // Recurse for left and right subtrees

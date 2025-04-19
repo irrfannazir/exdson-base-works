@@ -2,8 +2,36 @@
 #include "../include/tree_node.h"
 #include "../data.h"
 #include <stdlib.h>
-
+#include <string.h>
 #include <stdio.h>
+
+int is_var_declared(int index){
+    for(int i = 0; i < line_size; i++){
+        int variable_index = parametre_list[i][1];
+        if(
+            line_method[i] == 0
+                &&
+            strcmp(token[variable_index], token[index]) == 0
+        ){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int is_unidentified(struct Node *ptr){
+    if(ptr -> size > 1){
+        return 1;
+    }
+    else if(ptr -> size == 1){
+        if(type[ptr -> start] == t_integer){
+            return 0;
+        }else if(type[ptr -> start] == t_identifier && is_var_declared(ptr -> start)){
+            return 0;
+        }
+        return 1;
+    }
+}
 
 struct Node *find_the_exp(struct Node* root) {
     int arr[MAX];
@@ -23,7 +51,14 @@ struct Node *find_the_exp(struct Node* root) {
         // Add the current node's value to the array
         arr[index] = current->data;
 
-        if(current -> data == 0 && current -> size > 1 && current -> right == NULL && current -> left == NULL
+        if(
+            current -> data == 0
+                &&
+            is_unidentified(current)
+                &&
+            current -> right == NULL
+                &&
+            current -> left == NULL
         ){
             return current;
         }

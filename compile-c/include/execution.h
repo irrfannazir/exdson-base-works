@@ -4,7 +4,7 @@
 
 
 extern int pgm_cursor;
-extern int i;
+extern int parametre_index;
 extern int block[MAX];
 extern int block_size;
 

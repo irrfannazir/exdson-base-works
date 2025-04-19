@@ -14,7 +14,6 @@ int found_the_syntax;
 struct Node *root_array[500];
 
 
-
 void switch_case(int index, int size){
     found_the_syntax = 0;
     root_index = 0;
@@ -30,7 +29,7 @@ void switch_case(int index, int size){
                 if_condition(index, size);
                 break;
             default:
-                printe("Invalid syntax.", num_lines(index + 1), 0);
+                printe("Invalid syntax.", index, 0);
                 found_the_syntax = 1;
                 break;
         }

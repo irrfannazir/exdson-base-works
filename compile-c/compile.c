@@ -44,6 +44,7 @@ void create_and_compile_file(const char *filename, char *content) {
 
 void compilef() {
     if(dont_compile) return;
+    printf("Compiling the program\n");
     const char *filename = "program.c";  // Name of the C file to create
     int max_size = 2500;
     pgm = (char *)malloc(max_size + 1);

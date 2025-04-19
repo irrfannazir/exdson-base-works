@@ -25,7 +25,7 @@ void if_condition(int index, int size){
             return;
         }
         parametre_list[line_size][0] = index + 2;
-        parametre_list[line_size][1] = index + size - 1;
+        parametre_list[line_size][1] = index + size - 2;
         parametre_list[line_size][2] = -1;
         line_method[line_size] = 2;
         line_size++;

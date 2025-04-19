@@ -8,7 +8,8 @@
 
 void if_execution(){
     char temp[4*MAX];
-    char condition[MAX] = "1";
+    char condition[MAX];
+    strcpy(condition, serialize(parametre_list[parametre_index][0], parametre_list[parametre_index][1]));
     sprintf(temp, "if(%s){}", condition);
     pgm = append_at_index(pgm, temp, pgm_cursor);
     pgm_cursor += strlen(temp);

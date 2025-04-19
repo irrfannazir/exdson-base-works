@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 int pgm_cursor = 11;
-int i;
+int parametre_index;
 
 
 int find_next_block(int start, int iter){
@@ -28,13 +28,12 @@ void add_the_program(){
     int function_cursor = 0;
     int datatype;
     strcpy(pgm, "int main(){return 0;}");
-    for(i = 0; i < line_size; i++){
-        printf("%d %d\n", indent_token[i - 1], indent_token[i]);
-        if(indent_token[i - 1] - 1 == indent_token[i]){
+    for(parametre_index = 0; parametre_index < line_size; parametre_index++){
+        if(indent_token[parametre_index - 1] - 1 == indent_token[parametre_index]){
             pgm_cursor = find_next_block(pgm_cursor, 1);
             // pgm_cursor = 36;
         }
-        switch(line_method[i]){
+        switch(line_method[parametre_index]){
             case 0:
                 declaration_execution();
                 break;
@@ -45,8 +44,8 @@ void add_the_program(){
                 if_execution();
                 break;
         }
-        // printf("%d\n", line_method[i]);
-        // display_postfix(root_array[i]);
+        // printf("%d\n", line_method[parametre_index]);
+        // display_postfix(root_array[parametre_index]);
     }
     printf("\n");
     return;
