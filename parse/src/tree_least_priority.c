@@ -41,6 +41,12 @@ int find_the_least_priority(int start, int size){
             }else if(strcmp(token[i], "!=") == 0 && priority < 7){
                 index = i;
                 priority = 7;
+            }else if(strcmp(token[i], ">") == 0 && priority < 8){
+                index = i;
+                priority = 8;
+            }else if(strcmp(token[i], "<") == 0 && priority < 9){
+                index = i;
+                priority = 9;
             }
         }
         i++;
