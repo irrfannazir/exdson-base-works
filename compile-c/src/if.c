@@ -18,3 +18,10 @@ void if_execution(){
     // block_cursor_size++;
     pgm_cursor -= 1;
 }
+
+void else_execution(){
+    char temp[MAX];
+    sprintf(temp, "else{}");
+    pgm = append_at_index(pgm, temp, pgm_cursor);
+    pgm_cursor += strlen(temp) - 1;
+}

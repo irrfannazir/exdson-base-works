@@ -28,6 +28,9 @@ void switch_case(int index, int size){
             case 2:
                 if_condition(index, size);
                 break;
+            case 3:
+                else_condition(index, size);
+                break;
             default:
                 printe("Invalid syntax.", index, 0);
                 found_the_syntax = 1;

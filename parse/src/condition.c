@@ -32,3 +32,23 @@ void if_condition(int index, int size){
         found_the_syntax = 1;
     }
 }
+
+void else_condition(int index, int size){
+    if(
+        strcmp(token[index], "else") == 0
+        &&
+        strcmp(token[index + 1], ":") == 0
+    ){
+        int current_line = num_lines(index);
+        if(indent_token[current_line] + 1 != indent_token[current_line + 1]){
+            printf("Error (%d:0): Indentation Error.\n", current_line);
+            found_the_syntax = 1;
+            dont_compile = 1;
+            return;
+        }
+        parametre_list[line_size][0] = -1;
+        line_method[line_size] = 3;
+        line_size++;
+        found_the_syntax = 1;
+    }
+}

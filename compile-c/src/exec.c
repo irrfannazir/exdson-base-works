@@ -43,6 +43,12 @@ void add_the_program(){
             case 2:
                 if_execution();
                 break;
+            case 3:
+                else_execution();
+                break;
+            case 4:
+                // for elif condition
+                break;
         }
         // printf("%d\n", line_method[parametre_index]);
         // display_postfix(root_array[parametre_index]);
