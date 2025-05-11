@@ -1,6 +1,10 @@
 #ifndef DATA_H
 #define DATA_H
 #define MAX 500
+#define DATATYPE_INPUT_LENGTH 75
+#define DATATYPE_INPUT_ARRAY_SIZE 5
+#define DATATYPE_SIZE 500
+#define DATATYPE_NAME_SIZE 50
 
 typedef enum{
     t_eof, t_identifier, t_integer, t_keyword,
@@ -17,8 +21,8 @@ extern t_type type[MAX];
 extern int token_size;
 extern int total_error;
 extern int indent_token[MAX];
-extern char datatypes[MAX][MAX];
-extern char datatype_input[MAX][MAX];
+extern char datatypes[DATATYPE_NAME_SIZE][DATATYPE_SIZE];
+extern char datatype_input[DATATYPE_INPUT_LENGTH][DATATYPE_INPUT_ARRAY_SIZE][DATATYPE_SIZE];
 extern int num_datatype;
 // extern t_type temp;
 
