@@ -1,10 +1,7 @@
 # Exdson Compiler
 
 ## Overview
-Exdson (Excelon Data Structure Object Notation) is a new programming language to handle Data Structure with Function-Oriented Syntax. This Open-source Compiler translates Exdson code into C, compiles it, and executes the resulting program. This conversion will give an idea to developers how the program is executed. We can update the compiler by implementing your syntax.
-
-## Features
-- Self-Updating Software: There is another .c file to update the compiler. This allows you to implement the your own creative syntax.
+Exdson (Excelon Data Structure Object Notation) is a programming language to handle Data Structure with Function-Oriented Syntax. This Open-source Compiler translates Exdson code into C, compiles it. You can update the compiler by implementing your syntax.
 
 ## Installation
 1. Clone the repository:
@@ -16,12 +13,6 @@ Exdson (Excelon Data Structure Object Notation) is a new programming language to
    ```sh
    make
    ```
-3. Run an Exdson program:
-   ```sh
-   ./exdson your_program.exd
-   ```
-
-## Usage
 
 ### Compiling & Running
 1. Run the Main Bat file which includes every compilation commands.
@@ -34,4 +25,13 @@ Exdson (Excelon Data Structure Object Notation) is a new programming language to
    single a = 3+5*3;
    ```
 4. It shows the c program which has been executed and shows the details of the compilation.
+
+
+## Features
+1. To activate interactive mode. Comment the 4th line of dependencies.h.
+2. To update the compiler with new syntax format. Run
+```sh
+./update.bat
+```
+   Then enter the syntax and the syntax to implement in c.
 

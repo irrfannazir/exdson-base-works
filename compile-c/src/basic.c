@@ -4,9 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#define LIBRARY_NAME_MAX 50
 
 char *serialize(int start, int end){
-    char *res = (char *)malloc(MAX * sizeof(char));
+    char *res = (char *)malloc(PROGRAM_TEMP_MAX * sizeof(char));
     strcpy(res, "");
     for(int i = start; i < end; i++){
         strcat(res, token[i]);
@@ -16,7 +17,7 @@ char *serialize(int start, int end){
 
 char *append_library(char *pgm, const char *library, int end){
     int islib = 0;
-    char lib[MAX];
+    char lib[LIBRARY_NAME_MAX];
     int len = 0;
     for(int i = 0; i < end; i++){
         if(pgm[i] == '<' || pgm[i] == '\"'){
@@ -39,9 +40,8 @@ char *append_library(char *pgm, const char *library, int end){
             len++;
         }
     }
-    char temp[MAX];
+    char temp[PROGRAM_TEMP_MAX];
     sprintf(temp, "#include %s\n", library);
     pgm = append_at_index(pgm, temp, 0);
 }
-
 

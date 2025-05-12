@@ -2,23 +2,20 @@
 #include "parse/include/tree_node.h"
 #include <stdio.h>
 
-char token[MAX][MAX];
-t_type type[MAX];
+char token[TOKEN_SIZE_MAX][TOKEN_STRING_MAX];
+t_type type[TOKEN_SIZE_MAX];
+int indent_token[TOKEN_SIZE_MAX];
 int token_size;
 int total_error;
-int indent_token[MAX];
 int dont_compile = 0;
-
-int block_cursor[MAX];
-int block_cursor_size = 0;
 
 
 struct Node *root_array[500];
 
 
-int line_method[MAX];
+int line_method[LINE_MAX];
 int line_size = 0;
-int parametre_list[MAX][MAX];
+int parametre_list[LINE_MAX][PARAMETRE_MAX];
 
 //To count number of lines
 int num_lines(int size){
@@ -27,7 +24,7 @@ int num_lines(int size){
     }
     int res = 0;
     for(int i = 0;i < size; i++){
-        if(type[i] == t_eof){
+        if(type[i] == TOKEN_EOF){
             res++;
         }
     }

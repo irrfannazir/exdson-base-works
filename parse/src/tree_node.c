@@ -24,9 +24,9 @@ int is_unidentified(struct Node *ptr){
         return 1;
     }
     else if(ptr -> size == 1){
-        if(type[ptr -> start] == t_integer){
+        if(type[ptr -> start] == TOKEN_INTEGER){
             return 0;
-        }else if(type[ptr -> start] == t_identifier && is_var_declared(ptr -> start)){
+        }else if(type[ptr -> start] == TOKEN_IDENTIFIER && is_var_declared(ptr -> start)){
             return 0;
         }
         return 1;
@@ -34,7 +34,7 @@ int is_unidentified(struct Node *ptr){
 }
 
 struct Node *find_the_exp(struct Node* root) {
-    int arr[MAX];
+    int arr[500];
     int index = 0;
     if (root == NULL) return NULL;
     if (root -> data == 0 && root -> size > 1 && root -> right == NULL && root -> left == NULL) return root;

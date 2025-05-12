@@ -7,15 +7,15 @@
 
 void print_execution_with_array(int *include_cursor){
     int j = 0;
-    char format[MAX] = "";
-    char parametre_value[MAX] = "";
-    char temp[4*MAX];
+    char format[PARAMETRE_PROGRAM_TEMP_MAX] = "";
+    char parametre_value[PARAMETRE_PROGRAM_TEMP_MAX] = "";
+    char temp[PROGRAM_TEMP_MAX];
     while(parametre_list[parametre_index][j] != -1){
-        if(type[parametre_list[parametre_index][j]] == t_string){
+        if(type[parametre_list[parametre_index][j]] == TOKEN_STRING){
             strcat(format, token[parametre_list[parametre_index][j]]);
-        }else if(type[parametre_list[parametre_index][j]] == t_integer){
+        }else if(type[parametre_list[parametre_index][j]] == TOKEN_INTEGER){
             strcat(format, token[parametre_list[parametre_index][j]]);
-        }else if(type[parametre_list[parametre_index][j]] == t_identifier){
+        }else if(type[parametre_list[parametre_index][j]] == TOKEN_IDENTIFIER){
             strcat(format, "%d");
             strcat(parametre_value, token[parametre_list[parametre_index][j]]);
         }

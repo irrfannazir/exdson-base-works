@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-int pgm_size = 2500;
 char *pgm;
 
 void create_and_compile_file(const char *filename, char *content) {
@@ -46,12 +45,10 @@ void compilef() {
     if(dont_compile) return;
     printf("Compiling the program\n");
     const char *filename = "program.c";  // Name of the C file to create
-    int max_size = 2500;
-    pgm = (char *)malloc(max_size + 1);
+    pgm = (char *)malloc(PGM_MAX + 1);
     add_the_program();
     // Call the function to create the file and compile it
     create_and_compile_file(filename, pgm);
 }
-
 
 

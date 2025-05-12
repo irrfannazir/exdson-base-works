@@ -45,7 +45,7 @@ void parsef(){
     int j = 0;
     printf("Parsing the tokens.\n");
     while(i+j < token_size){
-        if(type[i+j] == t_eof){
+        if(type[i+j] == TOKEN_EOF){
             switch_case(i, j);
             i = i+j+1;
             j = 0;

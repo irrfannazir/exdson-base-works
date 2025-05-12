@@ -9,11 +9,11 @@
 int expression(int index, int size){
     for(int i = index; i < index+size; i++){
         if(
-            type[i] != t_identifier
+            type[i] != TOKEN_IDENTIFIER
                 &&
-            type[i] != t_op
+            type[i] != TOKEN_OPERATOR
                 &&
-            type[i] != t_integer
+            type[i] != TOKEN_INTEGER
                 &&
             strcmp(token[i], "(") == 0
                 &&
@@ -44,7 +44,7 @@ int array_limit_specifier(int index, int size){
             }
             isopened = 0;
             found_a_value = 1;
-        }else if(type[i] == t_identifier || type[i] == t_integer){
+        }else if(type[i] == TOKEN_IDENTIFIER || type[i] == TOKEN_INTEGER){
             if(found_a_value){
                 return 0;
             }
@@ -68,7 +68,7 @@ int array(int index, int size){
                 return 0;
             }
             dont_expect_comma = 1;
-        }else if(type[i] == t_integer){
+        }else if(type[i] == TOKEN_INTEGER){
             if(!dont_expect_comma){
                 // printf("Error: Expected a comma value.\n");
                 return 0;
@@ -91,13 +91,13 @@ int identifier_delimiter(int index, int size){
     while(i < index+size){
         if(strcmp(token[i], ",") == 0){
             if(
-                type[j] == t_identifier
+                type[j] == TOKEN_IDENTIFIER
                     &&
                 i - j == 1
             ){
                 return 1;
             }else if(
-                type[j] == t_identifier
+                type[j] == TOKEN_IDENTIFIER
                     &&
                 strcmp(token[j + 1], "=") == 0
                     &&
@@ -137,25 +137,25 @@ int split_with_delimiter(int index, int size, const char delimiter){
 int buffer(int index, int size){
     int i = index;
     int dont_expect_semicolon = 1;
-    int dont_expect_datatype = 0;
-    int dont_expect_identifier = 0;
+    int dont_expecTOKEN_DATATYPE = 0;
+    int dont_expecTOKEN_IDENTIFIER = 0;
     debug_the_tokens("buffer", index, size);
     while(i < index+size){
-        if(type[i] == t_datatype){
-            if(dont_expect_datatype){
+        if(type[i] == TOKEN_DATATYPE){
+            if(dont_expecTOKEN_DATATYPE){
                 return 0;
             }else{
-                dont_expect_datatype = 1;
-                dont_expect_identifier = 0;
+                dont_expecTOKEN_DATATYPE = 1;
+                dont_expecTOKEN_IDENTIFIER = 0;
                 dont_expect_semicolon = 0;
             }
         }
-        else if(type[i] == t_identifier){
-            if(dont_expect_identifier){
+        else if(type[i] == TOKEN_IDENTIFIER){
+            if(dont_expecTOKEN_IDENTIFIER){
                 return 0;
             }else{
-                dont_expect_datatype = 1;
-                dont_expect_identifier = 1;
+                dont_expecTOKEN_DATATYPE = 1;
+                dont_expecTOKEN_IDENTIFIER = 1;
                 dont_expect_semicolon = 0;
             }
         }
@@ -163,8 +163,8 @@ int buffer(int index, int size){
             if(dont_expect_semicolon){
                 return 0;
             }else{
-                dont_expect_datatype = 0;
-                dont_expect_identifier = 0;
+                dont_expecTOKEN_DATATYPE = 0;
+                dont_expecTOKEN_IDENTIFIER = 0;
                 dont_expect_semicolon = 1;
             }
         }
@@ -176,7 +176,7 @@ int buffer(int index, int size){
 
 int unknown_datatype(char *datatype, int index, int size){
     int datatype_index = -1;
-    for(size_t i = 0; i < num_datatype; i++){
+    for(size_t i = 0; i < datatype_size; i++){
         if(strcmp(datatypes[i], datatype) == 0){
             datatype_index = i;
         }

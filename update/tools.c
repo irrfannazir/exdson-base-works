@@ -21,9 +21,9 @@ int check_var(char *str) {
 char *datatype(char token){
     switch(token){
         case 'd':
-        return "t_datatype";
+        return "TOKEN_DATATYPE";
         case 'i':
-            return "t_identifier";
+            return "TOKEN_IDENTIFIER";
     }
     return "";
 }

@@ -7,21 +7,19 @@
 #include <string.h>
 
 void if_execution(){
-    char temp[4*MAX];
-    char condition[MAX];
+    char temp[PROGRAM_TEMP_MAX];
+    char condition[PARAMETRE_PROGRAM_TEMP_MAX];
     strcpy(condition, serialize(parametre_list[parametre_index][0], parametre_list[parametre_index][1]));
     sprintf(temp, "if(%s){}", condition);
     pgm = append_at_index(pgm, temp, pgm_cursor);
     pgm_cursor += strlen(temp);
-    // printf("Find the pgm_cursor at %d\n", pgm_cursor);
-    // block_cursor[block_cursor_size] = 0;
-    // block_cursor_size++;
     pgm_cursor -= 1;
 }
 
 void else_execution(){
-    char temp[MAX];
+    char temp[PROGRAM_TEMP_MAX];
     sprintf(temp, "else{}");
     pgm = append_at_index(pgm, temp, pgm_cursor);
     pgm_cursor += strlen(temp) - 1;
 }
+

@@ -6,9 +6,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define FUNCTION_ARGUMENT_LIMIT 50
 
-char *function_id[500] = {"f"};
-int function_len[500] = {1};
+
+char *function_id[FUNCTION_MAX] = {"f"};
+int function_len[FUNCTION_MAX] = {1};
 int function_size = 1;
 
 
@@ -50,12 +52,16 @@ int exp_analysing(struct Node *root){
             ptr -> right = createNode(5, ptr -> start, 1);
             struct Node *ptr2 = ptr;
             int count = 0;
-            int comma_found[MAX];
+            int comma_found[FUNCTION_ARGUMENT_LIMIT];
             int end = ptr2 -> start + ptr2 -> size - 1;
             for (int i = ptr -> start + 2; i < ptr -> start + ptr -> size -1 && i < sizeof(token) / sizeof(token[0]); i++) {
                 if (strcmp(",", token[i]) == 0) {
                     comma_found[count] = i;
                     count++;
+                    if(count >= FUNCTION_ARGUMENT_LIMIT){
+                        printf("The arguments of the function %s is maximum.\n", token[ptr -> start]);
+                        exit(0);
+                    }
                 }
             }
             ptr2 -> right = createNode(5, ptr -> start, 1);

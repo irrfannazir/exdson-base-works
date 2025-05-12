@@ -15,10 +15,10 @@ void declare_the_variable(int index, int size){
     //single a = <?expression?>
     
     if(
-        type[index] == t_datatype
+        type[index] == TOKEN_DATATYPE
         // strcmp(token[index], "single") == 0
             &&
-        type[index+1] == t_identifier
+        type[index+1] == TOKEN_IDENTIFIER
             &&
         strcmp(token[index+2], "=") == 0
             &&

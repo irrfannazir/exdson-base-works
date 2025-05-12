@@ -50,17 +50,17 @@ void printw(char *str){
 
 // int declare_the_var_with_buffer(int index, int size){
 //     // if(
-//     //     (type[index] == t_datatype)
+//     //     (type[index] == TOKEN_DATATYPE)
 //     //      &&
 //     //     (isbuffer())
 //     // ){
-//     //     if(buffer_end + 1 < size && (size - buffer_end)%2 == 0 && type[buffer_end + 1] != t_identifier){
+//     //     if(buffer_end + 1 < size && (size - buffer_end)%2 == 0 && type[buffer_end + 1] != TOKEN_IDENTIFIER){
 //     //         printf("The %s is declared with name.\n", token[index]);
 //     //         return -2;
 //     //     }else if(buffer_end + 1 < size){
 //     //         int next = 0;
 //     //         for(int i = buffer_end; i < size; i++){
-//     //             if(type[i] == t_identifier){
+//     //             if(type[i] == TOKEN_IDENTIFIER){
 //     //                 if(next == 1){
 //     //                     printe("Expeted , before identifier.\n");
 //     //                     return -2;
@@ -82,7 +82,7 @@ void printw(char *str){
 //     //     int next = 0;
 //     //     for(int i = buffer_start; i < buffer_end; i++){
 //     //         if(token[i][0] != ','){
-//     //             if(type[i] == t_identifier || type[i] == t_integer){
+//     //             if(type[i] == TOKEN_IDENTIFIER || type[i] == TOKEN_INTEGER){
 //     //                 strcpy(buffer[MAX], token[i]);
 //     //             }else{
 //     //                 printe("Expected identifier or value.\n");
@@ -106,9 +106,9 @@ void printw(char *str){
 // int declare_default_var(int index, int size){
 //     //single a
 //     // if(
-//     //     (type[index] == t_datatype)
+//     //     (type[index] == TOKEN_DATATYPE)
 //     //         &&
-//     //     (type[index+1] == t_identifier)
+//     //     (type[index+1] == TOKEN_IDENTIFIER)
 //     //         &&
 //     //     (!isbuffer())
 //     // ){
@@ -127,13 +127,13 @@ void printw(char *str){
 //     //      &&
 //     //     (!isbuffer())
 //     //      &&
-//     //     (type[index] == t_datatype)
+//     //     (type[index] == TOKEN_DATATYPE)
 //     //      &&
-//     //     (type[index+1] == t_identifier)
+//     //     (type[index+1] == TOKEN_IDENTIFIER)
 //     //      &&
 //     //     (strcmp(token[index+2], "=") == 0)
 //     // ){
-//     //     if(type[index + 3] == t_integer){
+//     //     if(type[index + 3] == TOKEN_INTEGER){
 //     //         printf("The %s is decalred with name %s and value %s.\n", token[index], token[index+1], token[index+3]);
 //     //     }else{
 //     //         printe("Yet not developed");
@@ -143,9 +143,9 @@ void printw(char *str){
 //     //      &&
 //     //     (!isbuffer())
 //     //      &&
-//     //     (type[index] == t_datatype)
+//     //     (type[index] == TOKEN_DATATYPE)
 //     //      &&
-//     //     (type[index+1] == t_identifier)
+//     //     (type[index+1] == TOKEN_IDENTIFIER)
 //     // ){
 //     //     printe("Expected = after identifier.\n");
 //     //     return -1;
@@ -158,9 +158,9 @@ void printw(char *str){
 int declare_default_var(int index, int size){
     if(
         // single a
-        (type[index] == t_datatype)
+        (type[index] == TOKEN_DATATYPE)
             &&
-        (type[index+1] == t_identifier)
+        (type[index+1] == TOKEN_IDENTIFIER)
             &&
         (!isbuffer())
             &&
@@ -197,10 +197,10 @@ void parsef(){
     int i = 0;
     int j = 0;
     while(i + j < token_size){
-        if(type[i+j] == t_punctuation){
+        if(type[i+j] == TOKEN_PUNCTUATION){
             analyze_punctuator(i+j);
         }
-        if(type[i+j] == t_eof){
+        if(type[i+j] == TOKEN_EOF){
             parse_the_line(i, j);
             i = i+j+1;
             j = 0;

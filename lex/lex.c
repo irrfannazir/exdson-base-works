@@ -2,24 +2,32 @@
 #include "include/token.h"
 #include "include/character.h"
 #include "include/keyword.h"
-// #include "../data.h"
+#include "include/fileh.h"
+#include "../dependencies.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define MAX 500
 
 
 //The c_type is to store the type of previous character
 typedef enum{
-    c_char, c_digit, c_punct, c_operator
+    CTYPE_CHAR, // character value (a-z, A-Z)
+    CTYPE_DIGIT, // digit value (0-9)
+    CTYPE_PUNCT, // punctuators
+    CTYPE_OPERATOR // operator
 } c_type;
 
 
 typedef enum{
-    t_eof, t_identifier, t_integer, t_keyword,
-    //0     1               2           3
-    t_op, t_punctuation, t_datatype, t_expression, t_string
-    //4     5               6           7           8
+    TOKEN_EOF,          // 0 End Of File
+    TOKEN_IDENTIFIER,   // 1 Identifiers (variables, function names, etc.)
+    TOKEN_INTEGER,      // 2 Integer literals (e.g., 123, 456)
+    TOKEN_KEYWORD,      // 3 Keywords (e.g., if, for, while, etc.)
+    TOKEN_OPERATOR,     // 4 Operators (e.g., +, -, *, /, ==)
+    TOKEN_PUNCTUATION,  // 5 Punctuation (e.g., (, ), {, }, ;, ,)
+    TOKEN_DATATYPE,     // 6 Datatypes (e.g., int, float, char)
+    TOKEN_EXPRESSION,   // 7 Expressions (e.g., arithmetic, logical)
+    TOKEN_STRING        // 8 String literals (e.g., "Hello")
 } t_type;
 
 
@@ -30,42 +38,6 @@ int isstring = 0;
 
 c_type prev;
 
-
-char* read_file_into_buffer(const char* filename) {
-    FILE* file = fopen(filename, "r");
-    if (file == NULL) {
-        perror("Error opening file");
-        return NULL;
-    }
-
-    // Seek to end to get file size
-    fseek(file, 0, SEEK_END);
-    long file_size = ftell(file);
-    rewind(file);
-
-    // Allocate buffer (+1 for null terminator)
-    char* content = (char*)malloc(file_size + 1);
-    if (content == NULL) {
-        fclose(file);
-        fprintf(stderr, "Memory allocation failed\n");
-        return NULL;
-    }
-
-    // Read entire file
-    size_t bytes_read = fread(content, 1, file_size, file);
-    if (bytes_read != file_size) {
-        fclose(file);
-        free(content);
-        fprintf(stderr, "Error reading file\n");
-        return NULL;
-    }
-
-    // Null-terminate the string
-    content[bytes_read] = '\0';
-
-    fclose(file);
-    return content;
-}
 
 
 
@@ -81,12 +53,14 @@ void lexf(){
     int iscurly = 0;
     int space_count = 0;
 
-    // *com = (char*)malloc(MAX);
-    // scanf("%[^#]s", com);
+    #ifdef READ_FROM_INPUT
+        com = (char*)malloc(500);
+        scanf("%[^#]s", com);
+    #else
+        com = read_file_into_buffer(READING_FILE_DIRECTORY);
+        printf("%s\n", com);
+    #endif
     
-    com = read_file_into_buffer("./main.ex");
-    printf("%s\n", com);
-
     printf("\nTokenizing the command.\n");
     while(com[i] != '\0'){
         // Analyze each characters
@@ -120,60 +94,60 @@ void lexf(){
             //The delimiter is encountered.
             new_token('\0');
             isspace = 0;
-            next_type(t_eof);
+            next_type(TOKEN_EOF);
             new_token('\0');
             isenter = 1;
         }
         else if(is_char(com[i])){
             //The character is encountered.
             isspace = 0;
-            if(prev == c_char || prev == c_digit){
+            if(prev == CTYPE_CHAR || prev == CTYPE_DIGIT){
                 append(com[i]);
-            }else if(prev == c_operator || prev == c_punct){
+            }else if(prev == CTYPE_OPERATOR || prev == CTYPE_PUNCT){
                 new_token(com[i]);
             }
             isenter = 0;
-            next_type(t_identifier);
-            prev = c_char;
+            next_type(TOKEN_IDENTIFIER);
+            prev = CTYPE_CHAR;
             clear_indent(&iscolonfound);
         }else if(is_digit(com[i])){
             // The digit is encountered.
             isspace = 0;
-            if(prev == c_char || prev == c_digit){
+            if(prev == CTYPE_CHAR || prev == CTYPE_DIGIT){
                 //When the digit is found after the dot.
                 append(com[i]);
-            }else if(prev == c_operator || prev == c_punct){
+            }else if(prev == CTYPE_OPERATOR || prev == CTYPE_PUNCT){
                 new_token(com[i]);
             }
-            if(prev_type() != t_identifier){
-                next_type(t_integer);
+            if(prev_type() != TOKEN_IDENTIFIER){
+                next_type(TOKEN_INTEGER);
             }
             isenter = 0;
-            prev = c_digit;
+            prev = CTYPE_DIGIT;
             clear_indent(&iscolonfound);
         }else if(is_oper(com[i])){
             // The operator is encountered.
-            if(prev == c_operator){
+            if(prev == CTYPE_OPERATOR){
                 append(com[i]);
-            }else if(prev == c_char || prev == c_punct || prev == c_digit){
+            }else if(prev == CTYPE_CHAR || prev == CTYPE_PUNCT || prev == CTYPE_DIGIT){
                 new_token(com[i]);
             }
             isenter = 0;
-            prev = c_operator;
-            next_type(t_op);
+            prev = CTYPE_OPERATOR;
+            next_type(TOKEN_OPERATOR);
             isspace = 0;
             clear_indent(&iscolonfound);
         }else if(com[i] == '{'){
             new_token(com[i]);
-            next_type(t_punctuation);
-            prev = c_punct;
+            next_type(TOKEN_PUNCTUATION);
+            prev = CTYPE_PUNCT;
             isenter = 0;
             isspace = 0;
             iscurly = 1;
         }else if(com[i] == '}'){
             new_token(com[i]);
-            next_type(t_punctuation);
-            prev = c_punct;
+            next_type(TOKEN_PUNCTUATION);
+            prev = CTYPE_PUNCT;
             isspace = 0;
             iscurly = 0;
             isenter = 0;
@@ -183,16 +157,16 @@ void lexf(){
             // }else{
                 // append(com[i]);
             // }
-            next_type(t_string);
-            prev = c_punct;
+            next_type(TOKEN_STRING);
+            prev = CTYPE_PUNCT;
             isstring = !isstring;
         }else if(com[i] == '.'){
-            if(prev == c_digit){
+            if(prev == CTYPE_DIGIT){
                 append('.');
             }else{
                 new_token('.');
-                prev = c_punct;
-                next_type(t_punctuation);
+                prev = CTYPE_PUNCT;
+                next_type(TOKEN_PUNCTUATION);
             }
             isspace = 0;
         }else if(is_punct(com[i])){
@@ -204,13 +178,13 @@ void lexf(){
                 clear_indent(&iscolonfound);
             }
             isenter = 0;
-            next_type(t_punctuation);
-            prev = c_punct;
+            next_type(TOKEN_PUNCTUATION);
+            prev = CTYPE_PUNCT;
             isspace = 0;
         }else{
             isspace = 0;
             new_token(com[i]);
-            next_type(t_punctuation);
+            next_type(TOKEN_PUNCTUATION);
             printf("Error: The unknown character '%c' is found at line %d: %d\n", com[i], num_lines(-1), i);
             error_found();
             clear_indent(&iscolonfound);
@@ -222,8 +196,8 @@ void lexf(){
     if(com[i] != ' ' | com[i] != '\n' | com[i] != delimiter){
         new_token('\0');
     }
-    if(last_in() != t_eof){
-        next_type(t_eof);
+    if(last_in() != TOKEN_EOF){
+        next_type(TOKEN_EOF);
         new_token('\0');
     }
     filter_keyword();
