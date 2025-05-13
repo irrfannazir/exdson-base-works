@@ -56,9 +56,11 @@ void lexf(){
     #ifdef READ_FROM_INPUT
         com = (char*)malloc(500);
         scanf("%[^#]s", com);
+        #undef READ_FROM_INPUT
     #else
         com = read_file_into_buffer(READING_FILE_DIRECTORY);
         printf("%s\n", com);
+        #undef READING_FILE_DIRECTORY
     #endif
     
     printf("\nTokenizing the command.\n");
@@ -201,7 +203,10 @@ void lexf(){
         new_token('\0');
     }
     filter_keyword();
-    
-    // display_token();
+
+    #ifdef DISPLAY_TOKEN
+      display_token();
+    #endif
+    #undef DISPLAY_TOKEN
     return ;
 }

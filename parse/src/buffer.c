@@ -1,4 +1,5 @@
 #include "../data.h"
+#include "../dependencies.h"
 #include "../include/debug.h"
 #include "../include/print.h"
 #include "../include/tree.h"
@@ -22,7 +23,6 @@ int expression(int index, int size){
             return 0;
         }
     }
-    // printf("6");
     int k = parsing_tree_expression(index, size);
     return k;
 }
@@ -64,18 +64,25 @@ int array(int index, int size){
     while(i < index + size){
         if(strcmp(token[i], ",") == 0){
             if(dont_expect_comma){
-                // printf("Error: Expected an integer value.\n");
+                #ifdef ARRAY_SYNTAX_CHECK
+                  printf("Error: Expected an integer value.\n");
+                #endif
                 return 0;
             }
             dont_expect_comma = 1;
         }else if(type[i] == TOKEN_INTEGER){
             if(!dont_expect_comma){
-                // printf("Error: Expected a comma value.\n");
+                #ifdef ARRAY_SYNTAX_CHECK
+                printf("Error: Expected a comma value.\n");
+                #endif
                 return 0;
             }
             dont_expect_comma = 0;
         }else{
-            // printf("Error: Unexpected token.\n");
+            #ifdef ARRAY_SYNTAX_CHECK
+              printf("Error: Unexpected token.\n");
+              #undef ARRAY_SYNTAX_CHECK
+            #endif
             return 0;
         }
         i++;

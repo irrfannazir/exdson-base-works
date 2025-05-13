@@ -1,4 +1,5 @@
 #include "../data.h"
+#include "../dependencies.h"
 #include "./include/buffer.h"
 #include "./include/print.h"
 #include "./include/debug.h"
@@ -26,7 +27,9 @@ void declare_the_variable(int index, int size){
             &&
         expression(index+3, size - 3)
     ){
-        printf("The %s has declared with the name %s and assigned an expression.\n", token[index], token[index+1]);
+        #ifdef SYNTAX_INFO
+          printf("The %s has declared with the name %s and assigned an expression.\n", token[index], token[index+1]);
+        #endif
         parametre_list[line_size][0] = index;
         parametre_list[line_size][1] = index+1;
         parametre_list[line_size][2] = index+3;

@@ -57,9 +57,6 @@ void new_token(char c){
         token_len = 1;
         is_eof = 0;
     }
-    if(token_size >= TOKEN_STRING_MAX){
-        // printf("");
-    }
 }
 
 void next_type(int next){

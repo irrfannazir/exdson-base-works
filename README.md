@@ -28,7 +28,7 @@ Exdson (Excelon Data Structure Object Notation) is a programming language to han
 
 
 ## Features
-1. To activate interactive mode. Comment the 4th line of dependencies.h.
+1. To activate interactive mode. Remove the comment of (#define READ_FROM_INPUT) in dependencies.h.
 2. To update the compiler with new syntax format. Run
 ```sh
 ./update.bat

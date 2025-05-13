@@ -3,6 +3,7 @@
 #include "../include/tree_node.h"
 #include "../include/expression.h"
 #include "../data.h"
+#include "../dependencies.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -117,7 +118,10 @@ int parsing_tree_expression(int index, int size){
     if(a == 0){
         return 0;
     }
-    // display_postfix(root);
+    #ifdef DISPLAY_POSTFIX
+      display_postfix(root);
+      #undef DISPLAY_POSTFIX
+    #endif
     add_the_root(root);
     return 1;
 }
