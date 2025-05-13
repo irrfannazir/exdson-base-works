@@ -53,5 +53,4 @@ void parsef(){
             j++;
         }
     }
-    
 }

@@ -31,7 +31,6 @@ void add_the_program(){
     for(parametre_index = 0; parametre_index < line_size; parametre_index++){
         if(indent_token[parametre_index - 1] - 1 == indent_token[parametre_index]){
             pgm_cursor = find_next_block(pgm_cursor, 1);
-            // pgm_cursor = 36;
         }
         switch(line_method[parametre_index]){
             case 0:
@@ -50,9 +49,8 @@ void add_the_program(){
                 // for elif condition
                 break;
         }
-        // printf("%d\n", line_method[parametre_index]);
-        // display_postfix(root_array[parametre_index]);
     }
+    (ismath) ? (pgm = append_library(pgm, "<math.h>", include_cursor)):(0);
     printf("\n");
     return;
 }

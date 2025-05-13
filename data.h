@@ -51,6 +51,7 @@ extern int function_size;
 
 //compile
 extern char *pgm;
+extern int ismath;
 
 
 //functions

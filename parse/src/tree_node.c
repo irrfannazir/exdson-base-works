@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 
-int is_var_declared(int index){
+int is_variable_declared(int index){
     for(int i = 0; i < line_size; i++){
         int variable_index = parametre_list[i][1];
         if(
@@ -26,14 +26,14 @@ int is_unidentified(struct Node *ptr){
     else if(ptr -> size == 1){
         if(type[ptr -> start] == TOKEN_INTEGER){
             return 0;
-        }else if(type[ptr -> start] == TOKEN_IDENTIFIER && is_var_declared(ptr -> start)){
+        }else if(type[ptr -> start] == TOKEN_IDENTIFIER && is_variable_declared(ptr -> start)){
             return 0;
         }
         return 1;
     }
 }
 
-struct Node *find_the_exp(struct Node* root) {
+struct Node *find_next_expression(struct Node* root) {
     int arr[500];
     int index = 0;
     if (root == NULL) return NULL;
@@ -72,7 +72,6 @@ struct Node *find_the_exp(struct Node* root) {
             queue[rear++] = current->right;
         }
     }
-    // printf("Finished the program.\n");
     return NULL;
 }
 
@@ -86,6 +85,6 @@ void *createNode(int value, int start, int size){
     return newNode;
 }
 
-void add_the_root(struct Node *root){
+void save_expression_root(struct Node *root){
     return;
 }

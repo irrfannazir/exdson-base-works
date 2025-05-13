@@ -1,9 +1,6 @@
-single a = (2-5)*4 - 4*7;
-if(a > 1):
-  print{
-    "a is greater than 1"
-  }
-else:
-  print{
-    "a is lesser than 1"
-  }
+single a = pow(1, pow(2, 3))
+print{
+    "The result is ",
+    a,
+    "\n"
+};

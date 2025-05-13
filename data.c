@@ -17,6 +17,8 @@ int line_method[LINE_MAX];
 int line_size = 0;
 int parametre_list[LINE_MAX][PARAMETRE_MAX];
 
+int ismath = 0;
+
 //To count number of lines
 int num_lines(int size){
     if(size == -1){

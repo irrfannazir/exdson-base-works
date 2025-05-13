@@ -15,7 +15,6 @@
 // #define DATATYPE_DISPLAY
 // #define ARRAY_SYNTAX_CHECK
 // #define SYNTAX_INFO
-// #define DISPLAY_POSTFIX
 #ifdef DEBUG_MODE
   #ifndef DISPLAY_TOKEN 
     #define DISPLAY_TOKEN
