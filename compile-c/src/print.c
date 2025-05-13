@@ -27,7 +27,7 @@ void print_execution_with_array(int *include_cursor){
         sprintf(temp, "printf(\"%s\", %s);", format, parametre_value);
     }
     pgm = append_at_index(pgm, temp, pgm_cursor);
-    pgm = append_library(pgm, "<stdio.h>", 0);
+    pgm = append_library(pgm, "<stdio.h>", *include_cursor);
     *include_cursor += 18;
     pgm_cursor += 18;
 }
