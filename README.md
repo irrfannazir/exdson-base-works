@@ -26,6 +26,11 @@ Exdson (Excelon Data Structure Object Notation) is a programming language to han
    An example program for declaring a variable.
    ```sh
    single a = 3+5*3;
+   print{
+      "The number is ",
+      a,
+      "\n"
+   }
    ```
 4. It shows the c program which has been executed and shows the details of the compilation.
 
