@@ -15,7 +15,7 @@ Exdson (Excelon Data Structure Object Notation) is a programming language to han
    ```
 
 ### Compiling & Running
-3. Write your Exdson program as input.
+1. Write your Exdson program as input.
    An example program for declaring a variable.
    ```sh
    single a = 3+5*3;
@@ -26,14 +26,14 @@ Exdson (Excelon Data Structure Object Notation) is a programming language to han
    }
    ```
 
-1. Run the Main Bat file which includes every compilation commands.
+2. Run the Main Bat file which includes every compilation commands.
    ```sh
    # In Linux
       bash com.bat
    # In Windows
       ./com.bat
    ```
-4. It shows the c program which has been executed and shows the details of the compilation.
+3. It shows the c program which has been executed and shows the details of the compilation.
 
 
 ## Features
