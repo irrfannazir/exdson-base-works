@@ -144,25 +144,25 @@ int split_with_delimiter(int index, int size, const char delimiter){
 int buffer(int index, int size){
     int i = index;
     int dont_expect_semicolon = 1;
-    int dont_expecTOKEN_DATATYPE = 0;
-    int dont_expecTOKEN_IDENTIFIER = 0;
+    int dont_expect_datatype = 0;
+    int dont_expect_identifier = 0;
     PRINT_TOKENS_FOR_DEBUG(index, size);
     while(i < index+size){
         if(type[i] == TOKEN_DATATYPE){
-            if(dont_expecTOKEN_DATATYPE){
+            if(dont_expect_datatype){
                 return 0;
             }else{
-                dont_expecTOKEN_DATATYPE = 1;
-                dont_expecTOKEN_IDENTIFIER = 0;
+                dont_expect_datatype = 1;
+                dont_expect_identifier = 0;
                 dont_expect_semicolon = 0;
             }
         }
         else if(type[i] == TOKEN_IDENTIFIER){
-            if(dont_expecTOKEN_IDENTIFIER){
+            if(dont_expect_identifier){
                 return 0;
             }else{
-                dont_expecTOKEN_DATATYPE = 1;
-                dont_expecTOKEN_IDENTIFIER = 1;
+                dont_expect_datatype = 1;
+                dont_expect_identifier = 1;
                 dont_expect_semicolon = 0;
             }
         }
@@ -170,8 +170,8 @@ int buffer(int index, int size){
             if(dont_expect_semicolon){
                 return 0;
             }else{
-                dont_expecTOKEN_DATATYPE = 0;
-                dont_expecTOKEN_IDENTIFIER = 0;
+                dont_expect_datatype = 0;
+                dont_expect_identifier = 0;
                 dont_expect_semicolon = 1;
             }
         }
@@ -196,7 +196,6 @@ int unknown_datatype(char *datatype, int index, int size){
 }
 
 int find(int index, int size, char *a){
-    // debug_buffer(index, size);
     for(int i = index+size-1; i >= index; i--){
         if(strcmp(token[i], a) == 0){
             return i;

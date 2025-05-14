@@ -1,5 +1,5 @@
 #include "../data.h"
-#include "../dependencies.h"
+#include "debug.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -14,24 +14,6 @@ char datatype_input[DATATYPE_SIZE_MAX][DATATYPE_INPUT_ARRAY_SIZE][DATATYPE_INPUT
 };
 const char *keywords[] = {"if", "else", "elif", "new"};
 int datatype_size = 2;
-
-
-#ifdef DATATYPE_DISPLAY
-void display_datatype_list(){
-    printf("Datatype List:\n");
-    for (int i = 0; i < datatype_size; i++) {
-        printf("%s\n", datatypes[i]);
-    }
-    printf("\nDatatype Input List:\n");
-    for (int i = 0; i < datatype_size; i++) {
-        for (int j = 0; j < DATATYPE_INPUT_ARRAY_SIZE && datatype_input[i][j][0] != '\0'; j++) {
-            printf("%s ", datatype_input[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-}
-#endif
 
 
 void new_input(int i){
@@ -102,9 +84,5 @@ void filter_keyword(){
             }
         }
     }
-
-    #ifdef DATATYPE_DISPLAY
-        display_datatype_list();
-    #undef DATATYPE_DISPLAY
-    #endif
+    DISPLAY_DATATYPE_LIST;
 }

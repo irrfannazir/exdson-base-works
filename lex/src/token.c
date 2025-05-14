@@ -19,7 +19,7 @@ void append(char c){
     token[token_size][token_len] = c;
     token_len++;
     if(token_len >= TOKEN_SIZE_MAX){
-        printf("The TOKEN_SIZE_MAXin (data.h) is less than you need.\n");
+        printf("The TOKEN_SIZE_MAX in (data.h) is less than you need.\n");
         exit(0);
     }
 }

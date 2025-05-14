@@ -9,7 +9,6 @@
 
 
 // #define DISPLAY_TOKEN
-// #define DATATYPE_DISPLAY
 // #define SYNTAX_INFO
 
 
