@@ -9,9 +9,9 @@ Exdson (Excelon Data Structure Object Notation) is a programming language to han
    git clone https://github.com/yourusername/exdson-base-works.git
    cd exdson-base-works
    ```
-2. Build the compiler (assuming dependencies are installed):
+2. Run the compiler:
    ```sh
-   make
+   ./main.exe
    ```
 
 ### Compiling & Running
