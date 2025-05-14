@@ -3,7 +3,7 @@
 #ifdef DEBUG_LEX
  #ifndef DEBUG_H
  #define DEBUG_H
-  #define DATATYPE_DISPLAY
+//   #define DATATYPE_DISPLAY
   #ifdef DATATYPE_DISPLAY
     #define DISPLAY_DATATYPE_LIST                                                                \
         printf("Datatype List:\n");                                                                     \
