@@ -60,7 +60,7 @@ int array_limit_specifier(int index, int size){
 int array(int index, int size){
     int dont_expect_comma = 1;
     int i = index;
-    debug_the_tokens("array", index, size);
+    PRINT_TOKENS_FOR_DEBUG(index, size);
     while(i < index + size){
         if(strcmp(token[i], ",") == 0){
             if(dont_expect_comma){
@@ -73,7 +73,7 @@ int array(int index, int size){
         }else if(type[i] == TOKEN_INTEGER){
             if(!dont_expect_comma){
                 #ifdef ARRAY_SYNTAX_CHECK
-                printf("Error: Expected a comma value.\n");
+                  printf("Error: Expected a comma value.\n");
                 #endif
                 return 0;
             }
@@ -146,7 +146,7 @@ int buffer(int index, int size){
     int dont_expect_semicolon = 1;
     int dont_expecTOKEN_DATATYPE = 0;
     int dont_expecTOKEN_IDENTIFIER = 0;
-    debug_the_tokens("buffer", index, size);
+    PRINT_TOKENS_FOR_DEBUG(index, size);
     while(i < index+size){
         if(type[i] == TOKEN_DATATYPE){
             if(dont_expecTOKEN_DATATYPE){

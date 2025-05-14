@@ -4,10 +4,6 @@
 #include <stdarg.h>
 
 
-void debug_the_token(char *comment, int index){
-    printf("%s %s\t", comment, token[index]);
-}
-
 void debug_the_false_arg(int count, ...){
     va_list args;
     int i, sum = 0;

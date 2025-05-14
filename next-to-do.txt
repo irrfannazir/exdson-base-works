@@ -1,14 +1,16 @@
-1.  printe() in print.c shows the error message. The function can't
+1.  Create a bash command for interactive mode and passive mode in com.bat.
+
+2.  printe() in print.c shows the error message. The function can't
     show where exactly the error is.
 
-2.  Need to implement linked list to the process of lexical analysis
+3.  Need to implement linked list to the process of lexical analysis
     (char **token, t_type *type, int *indent_token) for dynamic memory
     allocation in (token.c). After lexical analysis, Allocate some
     space with fixed allocation in global header file (data.h).
 
-3.  Change the program which writes the compiled program direct to
+4.  Change the program which writes the compiled program direct to
     the file while compilation. Now, the compiled program is saved
     on the string "pgm" and then write it to the new file and compile.
 
-4.  Add a compilation program, which compiles the program into inline assembly 
+5.  Add a compilation program, which compiles the program into inline assembly 
     using preprocessor directive.

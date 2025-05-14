@@ -6,8 +6,8 @@ Exdson (Excelon Data Structure Object Notation) is a programming language to han
 ## Installation
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/exdson-compiler.git
-   cd exdson-compiler
+   git clone https://github.com/yourusername/exdson-base-works.git
+   cd exdson-base-works
    ```
 2. Build the compiler (assuming dependencies are installed):
    ```sh
@@ -17,7 +17,10 @@ Exdson (Excelon Data Structure Object Notation) is a programming language to han
 ### Compiling & Running
 1. Run the Main Bat file which includes every compilation commands.
    ```sh
-   bash com.bat
+   # In Linux
+      bash com.bat
+   # In Windows
+      ./com.bat
    ```
 3. Write your Exdson program as input.
    An example program for declaring a variable.
@@ -30,8 +33,11 @@ Exdson (Excelon Data Structure Object Notation) is a programming language to han
 ## Features
 1. To activate interactive mode. Remove the comment of (#define READ_FROM_INPUT) in dependencies.h.
 2. To update the compiler with new syntax format. Run
-```sh
-./update.bat
-```
+   ```sh
+   # In Linux
+      bash update.bat
+   # In Windows.
+      ./update.bat
+   ```
    Then enter the syntax and the syntax to implement in c.
 

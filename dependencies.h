@@ -8,21 +8,10 @@
 #endif
 
 
-
-
-// #define DEBUG_MODE
 // #define DISPLAY_TOKEN
 // #define DATATYPE_DISPLAY
-// #define ARRAY_SYNTAX_CHECK
 // #define SYNTAX_INFO
-#ifdef DEBUG_MODE
-  #ifndef DISPLAY_TOKEN 
-    #define DISPLAY_TOKEN
-  #endif
-  #ifndef DATATYPE_DISPLAY
-    #define DATATYPE_DISPLAY
-  #endif
-#endif
+
 
 
 #endif

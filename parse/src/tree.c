@@ -47,18 +47,21 @@ int analyze_expression(struct Node *root){
             &&
             strcmp(token[ptr -> start + ptr -> size - 1], ")") == 0
         ){
+            
             ptr -> start++;
             ptr -> size -= 2;
             ptr = find_next_expression(root);
             continue;
+            
         }
         if(isfunction != -1){
-            ptr -> right = createNode(FUNCTION_ARGUMENTS, ptr -> start, 1);
+
             struct Node *ptr2 = ptr;
             int count = 0;
             int comma_found[FUNCTION_ARGUMENT_LIMIT];
             int end = ptr2 -> start + ptr2 -> size - 1;
             int isfunctionFound = 0;
+            ptr -> right = createNode(FUNCTION_ARGUMENTS, ptr -> start, 1);
             for (int i = ptr -> start + 2; i < ptr -> start + ptr -> size -1 && i < sizeof(token) / sizeof(token[0]); i++) {
                 if (strcmp(",", token[i]) == 0 && !isfunctionFound) {
                     comma_found[count] = i;
@@ -88,28 +91,23 @@ int analyze_expression(struct Node *root){
             #endif
             
             if(count == 0){
+
                 ptr2 -> left = createNode(UNARY_EXPRESSION, ptr -> start + 2, ptr -> size - 3);
-                
-                #ifdef DEBUG_FUNCTION_ARGUMENTS
-                  for(int j = ptr -> start + 2; j < ptr -> start + ptr -> size - 1; j++){
-                      printf("%s ", token[j]);
-                  }
-                  printf("\n");
-                #endif
+                PRINT_TOKENS_FOR_DEBUG(ptr -> start + 2, ptr -> start + ptr -> size - 1);
 
             }
             while(count > 0){
+                
                 ptr2 -> left = createNode(FUNCTION_ARGUMENTS, -1, -1);
                 ptr2 = ptr2 -> left;
                 count--;
                 ptr2 -> right = createNode(UNARY_EXPRESSION, comma_found[count] + 1, end - comma_found[count] - 1);
                 end = comma_found[count];
                 PRINT_TOKENS_FOR_DEBUG(comma_found[count] + 1, end);
+
             }
             ptr2 -> left = createNode(UNARY_EXPRESSION, ptr -> start + 2, end - ptr -> start - 2);
-
             PRINT_TOKENS_FOR_DEBUG(ptr -> start + 2, end);
-
         }else if(isoperation != -1){
             ptr -> right = createNode(OPERATOR, isoperation, 1);
             //Operator
@@ -152,6 +150,7 @@ int parsing_tree_expression(int index, int size){
     if(result == 0){
         return 0;
     }
+
     #ifdef DISPLAY_POSTFIX
       display_postfix(root);
       #undef DISPLAY_POSTFIX
