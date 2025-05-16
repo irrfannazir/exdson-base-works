@@ -1,6 +1,11 @@
 #ifndef DATA_H
 #define DATA_H
 
+/*
+    This is the file where all the data which is commonly used for lex, parse, compile.
+*/
+
+
 //limits
 #define TOKEN_STRING_MAX 50
 #define TOKEN_SIZE_MAX 500

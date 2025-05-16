@@ -1,8 +1,9 @@
 
-// #define DEBUG_LEX
+#define DEBUG_LEX
 #ifdef DEBUG_LEX
  #ifndef DEBUG_H
  #define DEBUG_H
+  #define DISPLAY_TOKEN
 //   #define DATATYPE_DISPLAY
   #ifdef DATATYPE_DISPLAY
     #define DISPLAY_DATATYPE_LIST                                                                \

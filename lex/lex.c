@@ -3,6 +3,7 @@
 #include "include/character.h"
 #include "include/keyword.h"
 #include "include/fileh.h"
+#include "include/debug.h"
 #include "../dependencies.h"
 #include <stdio.h>
 #include <string.h>
@@ -89,7 +90,7 @@ void lexf(){
             isspace = 1;
         }
         else if(com[i] == '\n' || com[i] == delimiter){
-            if(iscurly){
+            if(iscurly != 0){
                 i++;
                 continue;
             }
@@ -139,20 +140,20 @@ void lexf(){
             next_type(TOKEN_OPERATOR);
             isspace = 0;
             clear_indent(&iscolonfound);
-        }else if(com[i] == '{'){
+        }else if(com[i] == '{' || com[i] == '('){
             new_token(com[i]);
             next_type(TOKEN_PUNCTUATION);
             prev = CTYPE_PUNCT;
             isenter = 0;
             isspace = 0;
-            iscurly = 1;
-        }else if(com[i] == '}'){
+            iscurly++;
+        }else if(com[i] == '}' || com[i] == ')'){
             new_token(com[i]);
             next_type(TOKEN_PUNCTUATION);
             prev = CTYPE_PUNCT;
             isspace = 0;
-            iscurly = 0;
             isenter = 0;
+            iscurly--;
         }else if(com[i] == '\"'){
             // if(isstring){
                 new_token('\0');
