@@ -2,6 +2,7 @@
 #include "../include/execution.h"
 #include "../include/basic.h"
 #include "../include/str.h"
+#include "../fileh.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -26,8 +27,8 @@ void print_execution_with_array(int *include_cursor){
     }else{
         sprintf(temp, "printf(\"%s\", %s);", format, parametre_value);
     }
-    pgm = append_at_index(pgm, temp, pgm_cursor);
-    pgm = append_library(pgm, "<stdio.h>", *include_cursor);
+    write_file(PGM_EXATED_FILE_NAME, temp, pgm_cursor);
+    append_library(PGM_EXATED_FILE_NAME, "<stdio.h>", *include_cursor);
     *include_cursor += 18;
     pgm_cursor += 18;
 }

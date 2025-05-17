@@ -2,8 +2,8 @@
 #include "include/token.h"
 #include "include/character.h"
 #include "include/keyword.h"
-#include "include/fileh.h"
 #include "include/debug.h"
+#include "../fileh.h"
 #include "../dependencies.h"
 #include <stdio.h>
 #include <string.h>
@@ -55,11 +55,11 @@ void lexf(){
     int space_count = 0;
 
     #ifdef READ_FROM_INPUT
-        com = (char*)malloc(500);
+        com = (char*)malloc(PGM_MAX);
         scanf("%[^#]s", com);
         #undef READ_FROM_INPUT
     #else
-        com = read_file_into_buffer(READING_FILE_DIRECTORY);
+        com = read_file(READING_FILE_DIRECTORY);
         printf("%s\n", com);
         #undef READING_FILE_DIRECTORY
     #endif

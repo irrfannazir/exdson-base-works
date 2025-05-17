@@ -1,5 +1,6 @@
 #include "../include/basic.h"
 #include "../include/str.h"
+#include "../fileh.h"
 #include "../data.h"
 #include <stdlib.h>
 #include <string.h>
@@ -15,10 +16,11 @@ char *serialize(int start, int end){
     return res;
 }
 
-char *append_library(char *pgm, const char *library, int end){
+char *append_library(char *filename, const char *library, int end){
     int islib = 0;
     char lib[LIBRARY_NAME_MAX];
     int len = 0;
+    char *pgm = read_file(PGM_EXATED_FILE_NAME);
     for(int i = 0; i < end; i++){
         if(pgm[i] == '<' || pgm[i] == '\"'){
             islib = 1;
@@ -42,6 +44,6 @@ char *append_library(char *pgm, const char *library, int end){
     }
     char temp[PROGRAM_TEMP_MAX];
     sprintf(temp, "#include %s\n", library);
-    pgm = append_at_index(pgm, temp, 0);
+    write_file(PGM_EXATED_FILE_NAME, temp, 0);
 }
 

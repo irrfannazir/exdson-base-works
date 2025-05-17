@@ -19,6 +19,7 @@
 #define PARAMETRE_PROGRAM_TEMP_MAX 500
 #define PROGRAM_TEMP_MAX 4*PARAMETRE_PROGRAM_TEMP_MAX
 #define PGM_MAX 5*PROGRAM_TEMP_MAX
+#define PGM_EXATED_FILE_NAME "program.c"
 
 
 
@@ -55,7 +56,6 @@ extern int function_len[FUNCTION_MAX];
 extern int function_size;
 
 //compile
-extern char *pgm;
 extern int ismath;
 
 

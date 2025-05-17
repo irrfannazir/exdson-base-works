@@ -8,11 +8,7 @@
     allocation in (token.c). After lexical analysis, Allocate some
     space with fixed allocation in global header file (data.h).
 
-4.  Change the program which writes the compiled program direct to
-    the file while compilation. Now, the compiled program is saved
-    on the string "pgm" and then write it to the new file and compile.
-
-5.  Add a compilation program, which compiles the program into assembly
+4.  Add a compilation program, which compiles the program into assembly
     program. Steps to do it.
     Step 1:    Understand the difference of working logic of compilation
                in each system.

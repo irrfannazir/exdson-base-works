@@ -3,6 +3,7 @@
 #include "../include/str.h"
 #include "../include/execution.h"
 #include "../include/basic.h"
+#include "../fileh.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +13,7 @@ int parametre_index;
 
 
 int find_next_block(int start, int iter){
+    char *pgm = read_file(PGM_EXATED_FILE_NAME);
     for(int i = start; pgm[i] != '\0'; i++){
         if(pgm[i] == '}'){
             iter--;
@@ -27,7 +29,6 @@ void add_the_program(){
     int include_cursor = 0;
     int function_cursor = 0;
     int datatype;
-    strcpy(pgm, "int main(){return 0;}");
     for(parametre_index = 0; parametre_index < line_size; parametre_index++){
         if(indent_token[parametre_index - 1] - 1 == indent_token[parametre_index]){
             pgm_cursor = find_next_block(pgm_cursor, 1);
@@ -50,7 +51,7 @@ void add_the_program(){
                 break;
         }
     }
-    (ismath) ? (pgm = append_library(pgm, "<math.h>", include_cursor)):(0);
+    (ismath) ? (append_library(PGM_EXATED_FILE_NAME, "<math.h>", include_cursor)):(0);
     printf("\n");
     return;
 }

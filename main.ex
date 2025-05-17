@@ -1,8 +1,9 @@
-single a = pow(
-    1,  pow(2, 3)
-)
-print{
-    "The result is ",
-    a,
-    "\n"
-};
+single a = 3;
+if(a == 3):
+  print{
+    "The number is 3"
+  }
+else:
+  print{
+    "The number is not 3"
+  }

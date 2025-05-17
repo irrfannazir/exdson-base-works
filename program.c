@@ -1,3 +1,3 @@
-#include <math.h>
 #include <stdio.h>
-int main(){int a = pow(1,pow(2,3));printf("The result is %d\n", a);return 0;}
+#include <stdio.h>
+int main(){int a = 3;if(a==3){printf("The number is 3");}else{printf("The number is not 3");}return 0;}
