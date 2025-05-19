@@ -8,37 +8,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int pgm_cursor = 11;
+int program_cursor[CURSOR_MAX];
+int cursor_size = 2;
 int parametre_index;
 
 
-int find_next_block(int start, int iter){
-    char *pgm = read_file(PGM_EXATED_FILE_NAME);
-    for(int i = start; pgm[i] != '\0'; i++){
-        if(pgm[i] == '}'){
-            iter--;
-        }
-        if(iter == 0){
-            return i + 1;
-        }
-    }
-}
-
-
 void add_the_program(){
-    int include_cursor = 0;
-    int function_cursor = 0;
     int datatype;
+    program_cursor[FUNCTION_CURSOR] = 0;
+    program_cursor[CURRENT_CURSOR] = 11;
     for(parametre_index = 0; parametre_index < line_size; parametre_index++){
         if(indent_token[parametre_index - 1] - 1 == indent_token[parametre_index]){
-            pgm_cursor = find_next_block(pgm_cursor, 1);
+            remove_cursor();
         }
         switch(line_method[parametre_index]){
             case 0:
                 declaration_execution();
                 break;
             case 1:
-                print_execution_with_array(&include_cursor);
+                print_execution_with_array();
                 break;
             case 2:
                 if_execution();
@@ -51,7 +39,7 @@ void add_the_program(){
                 break;
         }
     }
-    (ismath) ? (append_library(PGM_EXATED_FILE_NAME, "<math.h>", include_cursor)):(0);
+    (ismath) ? (append_library(PGM_EXATED_FILE_NAME, "<math.h>", program_cursor[FUNCTION_CURSOR])):(0);
     printf("\n");
     return;
 }

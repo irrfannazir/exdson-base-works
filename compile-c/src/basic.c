@@ -1,5 +1,6 @@
 #include "../include/basic.h"
 #include "../include/str.h"
+#include "../include/execution.h"
 #include "../fileh.h"
 #include "../data.h"
 #include <stdlib.h>
@@ -45,5 +46,6 @@ char *append_library(char *filename, const char *library, int end){
     char temp[PROGRAM_TEMP_MAX];
     sprintf(temp, "#include %s\n", library);
     write_file(PGM_EXATED_FILE_NAME, temp, 0);
+    cursor_is_moved(FUNCTION_CURSOR, 19);
 }
 

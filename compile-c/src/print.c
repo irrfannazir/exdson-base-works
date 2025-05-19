@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void print_execution_with_array(int *include_cursor){
+void print_execution_with_array(){
     int j = 0;
     char format[PARAMETRE_PROGRAM_TEMP_MAX] = "";
     char parametre_value[PARAMETRE_PROGRAM_TEMP_MAX] = "";
@@ -27,8 +27,7 @@ void print_execution_with_array(int *include_cursor){
     }else{
         sprintf(temp, "printf(\"%s\", %s);", format, parametre_value);
     }
-    write_file(PGM_EXATED_FILE_NAME, temp, pgm_cursor);
-    append_library(PGM_EXATED_FILE_NAME, "<stdio.h>", *include_cursor);
-    *include_cursor += 18;
-    pgm_cursor += 18;
+    write_file(PGM_EXATED_FILE_NAME, temp, program_cursor[CURRENT_CURSOR]);
+    cursor_is_moved(CURRENT_CURSOR, strlen(temp));
+    append_library(PGM_EXATED_FILE_NAME, "<stdio.h>", program_cursor[FUNCTION_CURSOR]);
 }

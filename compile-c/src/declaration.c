@@ -12,7 +12,7 @@ void declaration_execution(){
     char temp[PROGRAM_TEMP_MAX];
     if(strcmp(token[datatype], "single") == 0){
         sprintf(temp, "int %s = %s;", token[parametre_list[parametre_index][1]], serialize(parametre_list[parametre_index][2], parametre_list[parametre_index][3]));
-        write_file(PGM_EXATED_FILE_NAME, temp, pgm_cursor);
-        pgm_cursor += strlen(temp);
+        write_file(PGM_EXATED_FILE_NAME, temp, program_cursor[CURRENT_CURSOR]);
+        cursor_is_moved(CURRENT_CURSOR, strlen(temp));
     }
 }
