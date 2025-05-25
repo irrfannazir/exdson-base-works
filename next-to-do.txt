@@ -17,3 +17,5 @@
     Step 3:    Write the common function which is used among every algorithm.
     Step 4:    Build the compiler for each system by using preprocessor
                directive.
+
+5.  Add functions to edit prompt of syntax and parametres.
