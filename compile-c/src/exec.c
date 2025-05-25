@@ -18,9 +18,7 @@ void add_the_program(){
     program_cursor[FUNCTION_CURSOR] = 0;
     program_cursor[CURRENT_CURSOR] = 11;
     for(parametre_index = 0; parametre_index < line_size; parametre_index++){
-        if(indent_token[parametre_index - 1] - 1 == indent_token[parametre_index]){
-            remove_cursor();
-        }
+        remove_cursor(indent_token[parametre_index - 1] - indent_token[parametre_index]);
         switch(line_method[parametre_index]){
             case 0:
                 declaration_execution();

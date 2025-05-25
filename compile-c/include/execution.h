@@ -16,7 +16,7 @@ void else_execution();
 
 void cursor_is_moved(int index, int value);
 void add_cursor(int value);
-int remove_cursor();
+int remove_cursor(int iterator);
 
 
 #endif

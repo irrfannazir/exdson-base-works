@@ -17,7 +17,9 @@ void add_cursor(int value){
     cursor_size++;
 }
 
-int remove_cursor(){
-    cursor_size--;
-    program_cursor[CURRENT_CURSOR] = program_cursor[cursor_size];
+int remove_cursor(int iterator){
+    for(int i = 0; i < iterator; i++){
+        cursor_size--;
+        program_cursor[CURRENT_CURSOR] = program_cursor[cursor_size];
+    }
 }
