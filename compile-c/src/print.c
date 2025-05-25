@@ -11,6 +11,9 @@ void print_execution_with_array(){
     char format[PARAMETRE_PROGRAM_TEMP_MAX] = "";
     char parametre_value[PARAMETRE_PROGRAM_TEMP_MAX] = "";
     char temp[PROGRAM_TEMP_MAX];
+    char prev[PROGRAM_TEMP_MAX];
+    int op;
+    strcpy(prev, read_file(PGM_EXATED_FILE_NAME));
     while(parametre_list[parametre_index][j] != -1){
         if(type[parametre_list[parametre_index][j]] == TOKEN_STRING){
             strcat(format, token[parametre_list[parametre_index][j]]);
@@ -28,6 +31,12 @@ void print_execution_with_array(){
         sprintf(temp, "printf(\"%s\", %s);", format, parametre_value);
     }
     write_file(PGM_EXATED_FILE_NAME, temp, program_cursor[CURRENT_CURSOR]);
+    // printf("The content shifted from: %s\n", read_file(PGM_EXATED_FILE_NAME));
+    // scanf("%d", &op);
+    if(op != 0){
+        // printf("to : %s\n", prev);
+        // printf("at %d\n", program_cursor[CURRENT_CURSOR]);
+    }
     cursor_is_moved(CURRENT_CURSOR, strlen(temp));
     append_library(PGM_EXATED_FILE_NAME, "<stdio.h>", program_cursor[FUNCTION_CURSOR]);
 }
