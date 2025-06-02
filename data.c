@@ -1,5 +1,4 @@
 #include "data.h"
-#include "parse/include/tree_node.h"
 #include <stdio.h>
 
 char token[TOKEN_SIZE_MAX][TOKEN_STRING_MAX];

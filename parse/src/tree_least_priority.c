@@ -1,6 +1,5 @@
-#include "../include/tree.h"
-#include "../include/tree_node.h"
 #include "../data.h"
+#include "node.h"
 #include <string.h>
 #include <stdio.h>
 

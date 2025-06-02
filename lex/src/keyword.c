@@ -63,7 +63,6 @@ void filter_keyword(){
                 //This condition is when type[i] is a keyword
                 continue;
             }
-            int datatype_size = datatype_size;
             if(is_new == 1){
                 int j = 0;
                 type[i] = TOKEN_DATATYPE;

@@ -1,10 +1,14 @@
-#include "../include/tree.h"
-#include "../include/tree_least_priority.h"
-#include "../include/tree_node.h"
-#include "../include/expression.h"
-#include "../include/print.h"
-#include "../include/debug.h"
 #include "../data.h"
+#include "print.h"
+#include "tree_node.h"
+#include "tree_least_priority.h"
+// #include "debug.h"
+// #include "../include/tree.h"
+// #include "../include/tree_least_priority.h"
+// #include "../include/tree_node.h"
+// #include "../include/expression.h"
+// #include "../include/print.h"
+#include "../include/debug.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

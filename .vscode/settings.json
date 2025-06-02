@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "tree.h": "c",
+        "condition.h": "c",
+        "debug.h": "c"
+    }
+}

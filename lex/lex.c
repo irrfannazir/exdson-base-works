@@ -1,7 +1,4 @@
-#include "include/indent.h"
-#include "include/token.h"
-#include "include/character.h"
-#include "include/keyword.h"
+#include "include/lexh.h"
 #include "include/debug.h"
 #include "../fileh.h"
 #include "../dependencies.h"
@@ -39,164 +36,175 @@ int isstring = 0;
 
 c_type prev;
 
+//For character analysis
+int isenter = 0;
+int isspacef = 0;
+int iscurly = 0;
+const char delimiter = ';';    
+int iscolonfound = 0;
+int space_count = 0;
 
+int char_analysis(char c){
+    // Analyze each characters
+    if(isstring){
+        //Append if it is a string
+        if(c == '\"'){
+            isstring = 0;
+        }else{
+            append(c);
+        }
+    }
+    else if(c == ' '){
+        //The space is ignored.
+        //The indent should be count for the execution
+        if(isspacef == 0 && isenter == 0){
+            new_token('\0');
+        }
+        if(iscolonfound && isenter){
+            add_indent(&space_count);
+            isenter = 1;
+        }else{
+            isenter = 0;
+        }
+        isspacef = 1;
+    }
+    else if(c == '\n' || c == delimiter){
+        if(iscurly != 0){
+            return 0;
+        }
+        //The delimiter is encountered.
+        new_token('\0');
+        isspacef = 0;
+        next_type(TOKEN_EOF);
+        new_token('\0');
+        isenter = 1;
+    }
+    else if(is_char(c)){
+        //The character is encountered.
+        isspacef = 0;
+        if(prev == CTYPE_CHAR || prev == CTYPE_DIGIT){
+            append(c);
+        }else if(prev == CTYPE_OPERATOR || prev == CTYPE_PUNCT){
+            new_token(c);
+        }
+        isenter = 0;
+        next_type(TOKEN_IDENTIFIER);
+        prev = CTYPE_CHAR;
+        clear_indent(&iscolonfound);
+    }else if(is_digit(c)){
+        // The digit is encountered.
+        isspacef = 0;
+        if(prev == CTYPE_CHAR || prev == CTYPE_DIGIT){
+            //When the digit is found after the dot.
+            append(c);
+        }else if(prev == CTYPE_OPERATOR || prev == CTYPE_PUNCT){
+            new_token(c);
+        }
+        if(prev_type() != TOKEN_IDENTIFIER){
+            next_type(TOKEN_INTEGER);
+        }
+        isenter = 0;
+        prev = CTYPE_DIGIT;
+        clear_indent(&iscolonfound);
+    }else if(is_oper(c)){
+        // The operator is encountered.
+        if(prev == CTYPE_OPERATOR){
+            append(c);
+        }else if(prev == CTYPE_CHAR || prev == CTYPE_PUNCT || prev == CTYPE_DIGIT){
+            new_token(c);
+        }
+        isenter = 0;
+        prev = CTYPE_OPERATOR;
+        next_type(TOKEN_OPERATOR);
+        isspacef = 0;
+        clear_indent(&iscolonfound);
+    }else if(c == '{' || c == '('){
+        new_token(c);
+        next_type(TOKEN_PUNCTUATION);
+        prev = CTYPE_PUNCT;
+        isenter = 0;
+        isspacef = 0;
+        iscurly++;
+    }else if(c == '}' || c == ')'){
+        new_token(c);
+        next_type(TOKEN_PUNCTUATION);
+        prev = CTYPE_PUNCT;
+        isspacef = 0;
+        isenter = 0;
+        iscurly--;
+    }else if(c == '\"'){
+        // if(isstring){
+            new_token('\0');
+        // }else{
+            // append(c);
+        // }
+        next_type(TOKEN_STRING);
+        prev = CTYPE_PUNCT;
+        isstring = !isstring;
+    }else if(c == '.'){
+        if(prev == CTYPE_DIGIT){
+            append('.');
+        }else{
+            new_token('.');
+            prev = CTYPE_PUNCT;
+            next_type(TOKEN_PUNCTUATION);
+        }
+        isspacef = 0;
+    }else if(is_punct(c)){
+        //The punctuator is encountered.
+        new_token(c);
+        if(c == ':'){
+            iscolonfound++;
+        }else{
+            clear_indent(&iscolonfound);
+        }
+        isenter = 0;
+        next_type(TOKEN_PUNCTUATION);
+        prev = CTYPE_PUNCT;
+        isspacef = 0;
+    }else{
+        isspacef = 0;
+        new_token(c);
+        next_type(TOKEN_PUNCTUATION);
+        printf("Error: The unknown character '%c' is found.\n", c);
+        error_found();
+        clear_indent(&iscolonfound);
+        isenter = 0;
+    }
+    return 0;
+}
 
 
 void lexf(){
-    char *com;
+    char c;
     int cursor = 0;
-    int i = 0;
     int j;
-    char delimiter = ';';    
-    int iscolonfound = 0;
-    int isspace = 0;
-    int isenter = 0;
-    int iscurly = 0;
-    int space_count = 0;
-
+    
     #ifdef READ_FROM_INPUT
+        char *com;
+        int i = 0;
         com = (char*)malloc(PGM_MAX);
         scanf("%[^#]s", com);
+        while(com[i] != '\0'){
+            char_analysis(com[i]);
+            i++;
+        }
+        c = com[i];
         #undef READ_FROM_INPUT
     #else
-        com = read_file(READING_FILE_DIRECTORY);
-        printf("%s\n", com);
+        // com = read_file(READING_FILE_DIRECTORY);
+        // printf("%s\n", com);
+        FILE *file = fopen(READING_FILE_DIRECTORY, "r");
+        while((c = fgetc(file)) != EOF){
+            char_analysis(c);
+        }
         #undef READING_FILE_DIRECTORY
     #endif
     
     printf("\nTokenizing the command.\n");
-    while(com[i] != '\0'){
-        // Analyze each characters
-        if(isstring){
-            //Append if it is a string
-            if(com[i] == '\"'){
-                isstring = 0;
-            }else{
-                append(com[i]);
-            }
-        }
-        else if(com[i] == ' '){
-            //The space is ignored.
-            //The indent should be count for the execution
-            if(isspace == 0 && isenter == 0){
-                new_token('\0');
-            }
-            if(iscolonfound && isenter){
-                add_indent(&space_count);
-                isenter = 1;
-            }else{
-                isenter = 0;
-            }
-            isspace = 1;
-        }
-        else if(com[i] == '\n' || com[i] == delimiter){
-            if(iscurly != 0){
-                i++;
-                continue;
-            }
-            //The delimiter is encountered.
-            new_token('\0');
-            isspace = 0;
-            next_type(TOKEN_EOF);
-            new_token('\0');
-            isenter = 1;
-        }
-        else if(is_char(com[i])){
-            //The character is encountered.
-            isspace = 0;
-            if(prev == CTYPE_CHAR || prev == CTYPE_DIGIT){
-                append(com[i]);
-            }else if(prev == CTYPE_OPERATOR || prev == CTYPE_PUNCT){
-                new_token(com[i]);
-            }
-            isenter = 0;
-            next_type(TOKEN_IDENTIFIER);
-            prev = CTYPE_CHAR;
-            clear_indent(&iscolonfound);
-        }else if(is_digit(com[i])){
-            // The digit is encountered.
-            isspace = 0;
-            if(prev == CTYPE_CHAR || prev == CTYPE_DIGIT){
-                //When the digit is found after the dot.
-                append(com[i]);
-            }else if(prev == CTYPE_OPERATOR || prev == CTYPE_PUNCT){
-                new_token(com[i]);
-            }
-            if(prev_type() != TOKEN_IDENTIFIER){
-                next_type(TOKEN_INTEGER);
-            }
-            isenter = 0;
-            prev = CTYPE_DIGIT;
-            clear_indent(&iscolonfound);
-        }else if(is_oper(com[i])){
-            // The operator is encountered.
-            if(prev == CTYPE_OPERATOR){
-                append(com[i]);
-            }else if(prev == CTYPE_CHAR || prev == CTYPE_PUNCT || prev == CTYPE_DIGIT){
-                new_token(com[i]);
-            }
-            isenter = 0;
-            prev = CTYPE_OPERATOR;
-            next_type(TOKEN_OPERATOR);
-            isspace = 0;
-            clear_indent(&iscolonfound);
-        }else if(com[i] == '{' || com[i] == '('){
-            new_token(com[i]);
-            next_type(TOKEN_PUNCTUATION);
-            prev = CTYPE_PUNCT;
-            isenter = 0;
-            isspace = 0;
-            iscurly++;
-        }else if(com[i] == '}' || com[i] == ')'){
-            new_token(com[i]);
-            next_type(TOKEN_PUNCTUATION);
-            prev = CTYPE_PUNCT;
-            isspace = 0;
-            isenter = 0;
-            iscurly--;
-        }else if(com[i] == '\"'){
-            // if(isstring){
-                new_token('\0');
-            // }else{
-                // append(com[i]);
-            // }
-            next_type(TOKEN_STRING);
-            prev = CTYPE_PUNCT;
-            isstring = !isstring;
-        }else if(com[i] == '.'){
-            if(prev == CTYPE_DIGIT){
-                append('.');
-            }else{
-                new_token('.');
-                prev = CTYPE_PUNCT;
-                next_type(TOKEN_PUNCTUATION);
-            }
-            isspace = 0;
-        }else if(is_punct(com[i])){
-            //The punctuator is encountered.
-            new_token(com[i]);
-            if(com[i] == ':'){
-                iscolonfound++;
-            }else{
-                clear_indent(&iscolonfound);
-            }
-            isenter = 0;
-            next_type(TOKEN_PUNCTUATION);
-            prev = CTYPE_PUNCT;
-            isspace = 0;
-        }else{
-            isspace = 0;
-            new_token(com[i]);
-            next_type(TOKEN_PUNCTUATION);
-            printf("Error: The unknown character '%c' is found at line %d: %d\n", com[i], num_lines(-1), i);
-            error_found();
-            clear_indent(&iscolonfound);
-            isenter = 0;
-        }
-        i++;
-    }
-    
-    if(com[i] != ' ' | com[i] != '\n' | com[i] != delimiter){
+
+
+    if(c != ' ' && c != '\n' && c != delimiter){
         new_token('\0');
     }
     if(last_in() != TOKEN_EOF){

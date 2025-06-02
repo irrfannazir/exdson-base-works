@@ -1,9 +1,8 @@
-#include "token.h"
 #include "../data.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-//from token.h
+//from lexh.h
 extern int is_eof;
 extern int token_len;
 extern int isstring;

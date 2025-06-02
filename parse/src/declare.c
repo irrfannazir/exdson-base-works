@@ -1,9 +1,6 @@
 #include "../data.h"
-#include "./include/buffer.h"
-#include "./include/print.h"
-#include "./include/debug.h"
-#include "./include/declare.h"
-#include "./include/constants.h"
+#include "expression.h"
+#include "constants.h"
 #include <string.h>
 
 #include <stdio.h>

@@ -1,12 +1,9 @@
 #include "../data.h"
-#include "include/tree_node.h"
 #include "include/print.h"
 #include <stdio.h>
 
 //The Syntax Checking Libraries
-#include "include/declare.h"
-#include "include/exio.h"
-#include "include/condition.h"
+#include "parseh.h"
 
 
 int root_index;

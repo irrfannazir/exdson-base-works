@@ -1,7 +1,6 @@
-#include "include/exio.h"
 #include "../data.h"
-#include "include/constants.h"
-#include "include/buffer.h"
+#include "split.h"
+#include "constants.h"
 #include <stdio.h>
 #include <string.h>
 
