@@ -19,3 +19,18 @@
                directive.
 
 5.  Add functions to edit prompt of syntax and parametres.
+
+6.  Change the process.
+    Now the program currently
+    1, The data of tokens, type and indentation save in data.h
+    2, The data of datatype is save in data.h
+    3, Finds for token_eof and parse the tokens from start to where token_eof found.
+    4, The data of method is saved in data.h
+    5, From the paramtre list in data.h, it compile it
+
+    Change it to
+    1, The data of token, type and indentation save in file tokens.txt
+    2, The data of datatype is save in tokens.txt
+    3, Scan the token, type tokens.txt until TOKEN_EOF is found, and parse it.
+    4, Delete the tokens.txt and save the data of method, indentation and needed strings in instructions.txt
+    5, From the methods.txt, and compile it
