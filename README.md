@@ -6,14 +6,15 @@ I have seen lots of people who have been working hard on labs and studying progr
 ## Overview
 Ex# (Excelon #) is a programming language simple programming language syntax to understand the compiler. By analyzing this open-source compiler, you can understand how the common compiler are working. 
 
-*How it's working?*
+*How it's working?*  
 This Compiler translates the programming language written inside the compiler program into C, compiles it.
 
-*The Ex# transpiler is flexible with syntax.*
+*The Ex# transpiler is flexible with syntax.*  
 You can update the compiler by implementing your syntax. 
 
-*How much i am involved in it?*
-![Commits](https://img.shields.io/github/commit-activity/y/irrfannazir/exdson-base-works)
+*How much i am involved in it?*  
+![](https://img.shields.io/github/commit-activity/y/irrfannazir/exdson-base-works)
+
 
 
 ## Installation
