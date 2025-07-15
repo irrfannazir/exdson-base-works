@@ -12,10 +12,6 @@ This Compiler translates the programming language written inside the compiler pr
 *The Ex# transpiler is flexible with syntax.*  
 You can update the compiler by implementing your syntax. 
 
-*How much i am involved in it?*  
-![](https://img.shields.io/github/commit-activity/y/irrfannazir/exdson-base-works)
-
-
 
 ## Installation
 1. Clone the repository:
