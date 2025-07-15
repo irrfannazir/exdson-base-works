@@ -12,6 +12,7 @@ This Compiler translates the programming language written inside the compiler pr
 -- The Ex# transpiler is flexible with syntax.
 You can update the compiler by implementing your syntax. 
 
+![GitHub forks](https://img.shields.io/github/forks/username/repo.svg)
 
 ## Installation
 1. Clone the repository:
