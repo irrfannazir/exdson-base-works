@@ -1,7 +1,17 @@
-# Exdson Compiler
+# Exdson Transpiler
+
+I have seen lots of people who have been working hard on labs and studying programming langs. Here's the compiler built for student who are curious to study about compiler. The students can edit the syntax of the compiler.
+
 
 ## Overview
-Exdson (Excelon Data Structure Object Notation) is a programming language to handle Data Structure with Function-Oriented Syntax. This Open-source Compiler translates Exdson code into C, compiles it. You can update the compiler by implementing your syntax.
+Ex# (Excelon #) is a programming language simple programming language syntax to understand the compiler. By analyzing this open-source compiler, you can understand how the common compiler are working. 
+
+-- How it's working?
+This Compiler translates the programming language written inside the compiler program into C, compiles it.
+
+-- The Ex# transpiler is flexible with syntax.
+You can update the compiler by implementing your syntax. 
+
 
 ## Installation
 1. Clone the repository:
