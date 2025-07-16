@@ -1,17 +1,18 @@
-# Ex# Transpiler
+# Ex-DSON Transpiler
 
 I have seen lots of people who have been working hard on labs and studying programming langs. This transpiler implements C program with simpler syntax ever. Here's the transpiler built for student who are working hard on c programming language.
 
 
 ## Overview
-Ex# (Excelon #) is a programming language simple programming language syntax to understand the compiler. By analyzing this open-source compiler, you can understand how the common compiler are working. 
+Ex-DSON (Excelon DSON) is a programming language simple programming language syntax to understand the compiler. By analyzing this open-source compiler, you can understand how the common compiler are working. 
 
 
 *How it's working?*  
 This Transpiler translates the programming language written inside the compiler program into C, compiles it.
 
-*The Ex# transpiler is flexible with syntax.*  
-You can update the compiler by implementing your syntax. 
+*The Ex-DSON transpiler is lightwieght.*  
+The syntax is primitive. So, it is simple and lightwieght.
+
 
 *Complexity and efficiency*
 Consider n as the number of tokens in the program, m as the maximum length of the string, referred in the program header file.
