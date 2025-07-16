@@ -1,10 +1,11 @@
-# Exdson Transpiler
+# Ex# Transpiler
 
-I have seen lots of people who have been working hard on labs and studying programming langs. Here's the transpiler built for student who are curious to study about compiler. The students can edit the syntax of the transpiler.
+I have seen lots of people who have been working hard on labs and studying programming langs. This transpiler implements C program with simpler syntax ever. Here's the transpiler built for student who are curious to study about compiler. The students can edit the syntax of the transpiler.
 
 
 ## Overview
 Ex# (Excelon #) is a programming language simple programming language syntax to understand the compiler. By analyzing this open-source compiler, you can understand how the common compiler are working. 
+
 
 *How it's working?*  
 This Transpiler translates the programming language written inside the compiler program into C, compiles it.
@@ -12,6 +13,10 @@ This Transpiler translates the programming language written inside the compiler 
 *The Ex# transpiler is flexible with syntax.*  
 You can update the compiler by implementing your syntax. 
 
+*Complexity and efficiency*
+Consider n as the number of tokens in the program, m as the maximum length of the string, referred in the program header file.
+**TIME COMPLEXITY: Omega(n)**
+**SPACE COMPLEXITY: O(m)**
 
 ## Installation
 1. Clone the repository:
