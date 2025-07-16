@@ -1,6 +1,6 @@
-# Ex-DSON Transpiler
+# Ex-DSON S2S Compiler
 
-I have seen lots of people who have been working hard on labs and studying programming langs. This transpiler implements C program with simpler syntax ever. Here's the transpiler built for student who are working hard on c programming language.
+I have seen lots of people who have been working hard on labs and studying programming langs. This compiler implements C program with simpler syntax ever. Here's the compiler built for student who are working hard on c programming language.
 
 
 ## Overview
@@ -8,9 +8,9 @@ Ex-DSON (Excelon DSON) is a programming language simple programming language syn
 
 
 *How it's working?*  
-This Transpiler translates the programming language written inside the compiler program into C, compiles it.
+This S2S Compiler translates the programming language written inside the compiler program into C, compiles it.
 
-*The Ex-DSON transpiler is lightwieght.*  
+*The Ex-DSON Compiler is lightwieght.*  
 The syntax is primitive. So, it is simple and lightwieght.
 
 
