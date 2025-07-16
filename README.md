@@ -1,6 +1,6 @@
 # Ex# Transpiler
 
-I have seen lots of people who have been working hard on labs and studying programming langs. This transpiler implements C program with simpler syntax ever. Here's the transpiler built for student who are curious to study about compiler. The students can edit the syntax of the transpiler.
+I have seen lots of people who have been working hard on labs and studying programming langs. This transpiler implements C program with simpler syntax ever. Here's the transpiler built for student who are working hard on c programming language.
 
 
 ## Overview
