@@ -1,2 +1,2 @@
 #include <stdio.h>
-int main(){int a = 3;if(a==3){if(a==3){int b = 4;}}else{printf("The number is not 3");}return 0;}
+int main(){int a = 3;if(a==3){printf("The number is %d\n", a);}return 0;}

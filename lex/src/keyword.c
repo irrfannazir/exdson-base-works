@@ -6,7 +6,6 @@
 
 char datatypes[DATATYPE_SIZE_MAX][DATATYPE_NAME_SIZE_MAX] = {
     "single",
-    "array"
 };
 char datatype_input[DATATYPE_SIZE_MAX][DATATYPE_INPUT_ARRAY_SIZE][DATATYPE_INPUT_LENGTH] = {
     {"%d", "%f", "\'%c\'", "\0"},
