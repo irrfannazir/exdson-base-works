@@ -4,7 +4,7 @@ I have seen lots of people who have been working hard on labs and studying progr
 
 
 ## Overview
-Ex-DSON (Excelon DSON) is a programming language simple programming language syntax to understand the compiler. By analyzing this open-source compiler, you can understand how the common compiler are working. 
+Ex-DSON is a programming language simple programming language syntax to understand the compiler. By analyzing this open-source compiler, you can understand how the common compiler are working. 
 
 
 *How it's working?*  
