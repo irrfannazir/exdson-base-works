@@ -1,0 +1,28 @@
+#ifndef COMPILEH_H
+#define COMPILEH_H
+
+#define DEFAULT_PROGRAM "$$include_cursor; $$function_cursor;int main(){$$program_cursor;return 0;}"
+#define PGM_CURSOR "$$program_cursor;"
+#define FUNCTION_CURSOR "$$function_cursor;"
+#define INCLUDE_CURSOR "$$include_cursor;"
+#define C_PROGRAM_MAX 500
+
+char *get_nth_line_from_parse(int n);
+int *line_to_int_array(const char *line, int *count);
+void create_file(const char *filename, const char *content);
+void print_file(const char *filename);
+void compile_file(const char *filename);
+void insert_before_target(const char *filename, const char *new_content, const char *target_string);
+void insert_before_target_with_newline(const char *filename, const char *new_content, const char *target_string);
+void add_the_header(const char *filename, const char *headername);
+char *serialize(int start, int end);
+void remove_string_from_file(const char *filename, const char *target, int isloop);
+const char *find_datatype(int index);
+
+void declaration_exec(int *arr, int count);
+void block_paradigm(char *keyword, int *arr, int count);
+void else_condition(int *arr, int count);
+void for_condition(int *arr, int count);
+void print_statement(int *arr, int count);
+
+#endif

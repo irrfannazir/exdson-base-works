@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "deasync": "^0.1.30",
+    "node-fetch": "^3.3.2"
+  }
+}

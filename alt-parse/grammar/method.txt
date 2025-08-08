@@ -1,0 +1,12 @@
+//Declaration
+TOKEN_DATATYPE TOKEN_ID = EXPRESSION
+//Errors in declaration
+TOKEN_DATATYPE TOKEN_ID = // expecting expression after '='
+//Conditional
+if ( EXPRESSION ) :
+else if ( EXPRESSION ) :
+else :
+//Loop
+for ( TOKEN_DATATYPE TOKEN_ID from EXPRESSION to EXPRESSION ) :
+while ( EXPRESSION ) :
+print { ARGUMENT }

@@ -1,0 +1,29 @@
+{
+    "files.associations": {
+        "tree.h": "c",
+        "condition.h": "c",
+        "debug.h": "c",
+        "compare": "c",
+        "memory": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "xmemory": "c",
+        "xtr1common": "c",
+        "xutility": "c",
+        "stdlib.h": "c",
+        "string.h": "c",
+        "parse.h": "c",
+        "append_fh.h": "c",
+        "stdio.h": "c",
+        "compile.h": "c",
+        "exec.h": "c",
+        "data.h": "c",
+        "constants.h": "c",
+        "p_error.h": "c",
+        "compileh.h": "c",
+        "syntax.h": "c",
+        "parseh.h": "c",
+        "pdebug.h": "c"
+    }
+}

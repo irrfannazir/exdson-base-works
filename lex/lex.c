@@ -1,0 +1,208 @@
+#include "include/lexh.h"
+#include "include/debug.h"
+#include "filename.h"
+#include "d_fh.h"
+#include "../constants.h"
+#include "../utils/p_error.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+// The c_type is to store the type of previous character
+typedef enum{
+    CTYPE_CHAR,      // a-z, A-Z
+    CTYPE_DIGIT,     // 0-9
+    CTYPE_PUNCT,     // punctuation like ; , ( )
+    CTYPE_OPERATOR   // + - * / = etc.
+} c_type;
+
+typedef enum{
+    TOKEN_EOF,          // 0 End Of File
+    TOKEN_IDENTIFIER,   // 1 Identifiers (variables, function names, etc.)
+    TOKEN_INTEGER,      // 2 Integer literals (e.g., 123, 456)
+    TOKEN_KEYWORD,      // 3 Keywords (e.g., if, for, while, etc.)
+    TOKEN_OPERATOR,     // 4 Operators (e.g., +, -, *, /, ==)
+    TOKEN_PUNCTUATION,  // 5 Punctuation (e.g., (, ), {, }, ;, ,)
+    TOKEN_DATATYPE,     // 6 Datatypes (e.g., single, float)
+    TOKEN_EXPRESSION,   // 7 Expressions (e.g., arithmetic, logical)
+    TOKEN_STRING        // 8 String literals (e.g., "Hello")
+} t_type;
+
+// Global variables (should be moved to LexerState struct)
+int token_len = 0;       // TODO: Debug usage scope
+int is_eof = 0;          // TODO: Debug EOF logic dependency
+int isstring = 0;        // Flag for inside string
+c_type prev;
+int isenter = 0;
+int isspacef = 0;
+int iscurly = 0;
+const char delimiter = ';';
+int space_count = 0;
+
+int char_analysis(char c){
+    if(isstring){
+        if(c == '"'){
+            isstring = 0;
+        }else{
+            append(c);
+        }
+    }
+    else if(c == ' '){
+        if(isspacef == 0 || isenter == 0){
+            new_token('\0');
+        }
+        if(isenter){
+            check_indent(&space_count);
+            isenter = 1;  // TODO: Redundant assignment?
+        }else{
+            isenter = 0;
+        }
+        isspacef = 1;
+    }
+    else if(c == '\n' || c == delimiter){
+        if(iscurly != 0){
+            return 0;
+        }
+        new_token('\0');
+        isspacef = 0;
+        next_type(TOKEN_EOF);
+        new_token('\0');
+        newline();
+        isenter = 1;
+    }
+    else if(is_char(c)){
+        isspacef = 0;
+        if(prev == CTYPE_CHAR || prev == CTYPE_DIGIT){
+            append(c);
+        }else if(prev == CTYPE_OPERATOR || prev == CTYPE_PUNCT){
+            new_token(c);
+        }
+        isenter = 0;
+        next_type(TOKEN_IDENTIFIER);
+        prev = CTYPE_CHAR;
+        append_indent(&space_count);
+    }
+    else if(is_digit(c)){
+        if(isspacef){
+            next_type(TOKEN_INTEGER);
+            new_token(c);
+        }else{
+            if(prev == CTYPE_CHAR || prev == CTYPE_DIGIT){
+                append(c);
+            }else if(prev == CTYPE_OPERATOR || prev == CTYPE_PUNCT){
+                new_token(c);
+            }
+        }
+        if(prev_type() != TOKEN_IDENTIFIER){
+            next_type(TOKEN_INTEGER);
+        }
+        isspacef = 0;
+        isenter = 0;
+        prev = CTYPE_DIGIT;
+        append_indent(&space_count);
+    }
+    else if(is_oper(c)){
+        if(prev == CTYPE_OPERATOR){
+            append(c);
+        }else if(prev == CTYPE_CHAR || prev == CTYPE_PUNCT || prev == CTYPE_DIGIT){
+            new_token(c);
+        }
+        isenter = 0;
+        prev = CTYPE_OPERATOR;
+        next_type(TOKEN_OPERATOR);
+        isspacef = 0;
+        append_indent(&space_count);
+    }
+    else if(c == '{' || c == '('){
+        new_token(c);
+        next_type(TOKEN_PUNCTUATION);
+        prev = CTYPE_PUNCT;
+        isenter = 0;
+        isspacef = 0;
+        iscurly++;
+    }
+    else if(c == '}' || c == ')'){
+        new_token(c);
+        next_type(TOKEN_PUNCTUATION);
+        prev = CTYPE_PUNCT;
+        isspacef = 0;
+        isenter = 0;
+        iscurly--;
+    }
+    else if(c == '"'){
+        new_token('\0');
+        next_type(TOKEN_STRING);
+        prev = CTYPE_PUNCT;
+        isstring = !isstring;
+    }
+    else if(c == '.'){
+        if(prev == CTYPE_DIGIT){
+            append('.');
+        }else{
+            new_token('.');
+            prev = CTYPE_PUNCT;
+            next_type(TOKEN_PUNCTUATION);
+        }
+        isspacef = 0;
+    }
+    else if(is_punct(c)){
+        new_token(c);
+        append_indent(&space_count);
+        isenter = 0;
+        next_type(TOKEN_PUNCTUATION);
+        prev = CTYPE_PUNCT;
+        isspacef = 0;
+    }
+    else{
+        isspacef = 0;
+        new_token(c);
+        next_type(TOKEN_PUNCTUATION);
+        printf("Error: The unknown character '%c' is found.\n", c);
+        error_found();
+        append_indent(&space_count);
+        isenter = 0;  // TODO: Consider recovering from error
+    }
+    return 0;
+}
+
+int lexf(const int8_t isinput, const char *ex_filename){
+    char c;
+    clear_file(LEX_HANDLING_FILE_NAME);
+    newline();
+    init_stat();
+    if(isinput){
+        char *com;
+        int i = 0;
+        com = (char*)malloc(PGM_MAX);
+        if(com == NULL){
+            printf("%s:%d: The memory allocation failed.\n", __FILE__, __LINE__);
+        }
+        scanf("%[^#]s", com);          // TODO: Replace with safer input method
+        while(com[i] != '\0'){
+            char_analysis(com[i]);
+            i++;
+        }
+        c = com[i];
+    }else if(ex_filename != NULL){
+        FILE *file = fopen(ex_filename, "r");
+        if (!file) {
+            __pc_error__("Error while retrieving program from file named %s", ex_filename);
+            return 1;
+        }
+        while((c = fgetc(file)) != EOF){
+            char_analysis(c);
+        }
+        fclose(file);
+    }
+    printf("\nTokenizing the command.\n");
+
+    if(c != ' ' && c != '\n' && c != delimiter){
+        new_token('\0');
+    }
+    if(last_in() != TOKEN_EOF){
+        next_type(TOKEN_EOF);
+        new_token('\0');
+    }
+    return 0;
+}
