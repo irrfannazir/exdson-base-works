@@ -1,4 +1,5 @@
-echo This is command to compile the compiler.
+echo This is command to compile or install the compiler.
+xargs npm install < packages.txt
 gcc -g main.c data.c src/get.c src/dir.c src/flush.c ^
     lex/lex.c lex/src/indent.c lex/src/token.c lex/src/character.c lex/src/check.c ^
         lex/src/type.c lex/src/appendf.c lex/src/readf.c lex/src/d_add.c           ^

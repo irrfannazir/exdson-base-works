@@ -1,4 +1,3 @@
-
 //Declaration
 TOKEN_DATATYPE TOKEN_ID ko EXPRESSION ke barabar rakho
 //Errors in declaration
@@ -12,4 +11,3 @@ ke liye ( TOKEN_DATATYPE TOKEN_ID EXPRESSION se EXPRESSION tak ) :
 jab tak ( EXPRESSION ) :
 //Print
 likho { ARGUMENT }
- ARGUMENT }
