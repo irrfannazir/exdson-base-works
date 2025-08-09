@@ -1,34 +1,78 @@
-#Ex Playground
+# Ex-DSON S2S Compiler
 
-Some have noticed the S2S compiler i made. I think now it's time to play with it.
+I have seen lots of people who have been working hard on labs and studying programming langs. This compiler implements C program with simpler syntax ever.. Here's the compiler built for student who are working hard on c programming language.
 
-*How can i use it?*
-Run this for interactive mode.
+## Updates
+
+**v2.0.1**   
+- Easy to debug
+- Now we can alter the syntax in order to our will manually or with prompt. You need to install node.js before using prompt.
 ```sh
-./ex-c
-```
-Run this for compile a file.
-```sh
-./ex-c main.ex
-```
-
-
-## Instructions
-1. You can run .js files in tools folder.   
-*To change the syntax of the programming language with prompts you give*
-```sh
+# Command to alter the syntax with prompt
 node tools/change_method.js
-```
-*To undo it.*
-```sh
+# Command to undo the syntax alteration
 node tools/undo_method.js
 ```
-There are some c programs. You should be careful to handle them.
-2. You should be careful while handling file in "parse/grammar/method.txt".
->> If you want to comment anything in text file, just start with '//'. If '//' is in the line but not at first, then after '//' is a text which shows when the syntax in line detected.
->> Dont change the following token in text file present in text file.
-    TOKEN_DATATYPE, TOKEN_ID, EXPRESSION, TOKEN_INTEGER, FUNCTION_NAME
->> The compiler saves the token from user whenever the token in text file starting with TOKEN is found. The compiler saves the starting token and ending token from user whenever the token which does not start with TOKEN in text file with capital letter (like EXPRESSION).
-If the order of the saving does changed just remember it. Answer it when i ask it later. Not now
->> Dont change the line by line order of the syntax. 
->> Only write in english characters. Even if it is another language.
+
+
+
+## Overview
+Ex-DSON is a programming language simple programming language syntax to understand the compiler. By analyzing this open-source compiler, you can understand how the common compiler are working. 
+
+
+*How it's working?*  
+This S2S Compiler translates the programming language written inside the compiler program into C, compiles it.
+
+*The Ex-DSON Compiler is lightwieght.*  
+The syntax is primitive. So, it is simple and lightwieght.
+
+
+*Complexity and efficiency*
+Consider n as the number of tokens in the program, m as the maximum length of the string, referred in the program header file.
+**TIME COMPLEXITY: Omega(n)**
+**SPACE COMPLEXITY: O(m)**
+
+## Installation
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/yourusername/exdson-base-works.git
+   cd exdson-base-works
+   ```
+2. Run the compiler:
+   ```sh
+   ./main.exe
+   ```
+
+### Compiling & Running
+1. Write your Exdson program as input in main.ex file.
+   An example program for declaring a variable.
+   ```sh
+   single a = 3+5*3;
+   print{
+      "The number is ",
+      a,
+      "\n"
+   }
+   ```
+
+2. Run the Main Bat file which includes every compilation commands.
+   ```sh
+   # In Linux
+      bash com.bat
+   # In Windows
+      ./com.bat
+   ```
+3. It shows the c program which has been executed and shows the details of the compilation.
+
+
+## Features
+1. To activate interactive mode. Remove the comment of (#define READ_FROM_INPUT) in dependencies.h.
+2. To update the compiler with new syntax format. Run
+   ```sh
+   # In Linux
+      bash update.bat
+   # In Windows.
+      ./update.bat
+   ```
+   Then enter the syntax and the syntax to implement in c.
+
