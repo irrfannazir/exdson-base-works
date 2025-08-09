@@ -13,7 +13,10 @@ logs
 *.log
 *.log.*
 
-fileh/
+fileh/m.exe
+fileh/main.c
+fileh/p.txt
+hidden_utils
 dist/
 build/
 .cache/

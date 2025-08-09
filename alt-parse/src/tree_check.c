@@ -52,7 +52,7 @@ int does_tree_needed(char *word){
     char *ss = get_nth_colon_line(ssn);
     ssn++;
     while(ss != NULL){
-        #ifndef P_CHECKING_WORD
+        #ifdef P_CHECKING_WORD
           printf("Checking the word %s == %s\n", ss, word);
         #endif
         if(strcmp(word, ss) == 0){

@@ -13,7 +13,6 @@ int append_token_details(int mln){
     FILE *file = fopen(PARSING_HANDLING_FILE_NAME, "a");
     if(file == NULL){
         __pc_error__("Error while appending the parsed data to file named %s", PARSING_HANDLING_FILE_NAME);
-        printf("Error opening file %s\n", PARSING_HANDLING_FILE_NAME);
         return 1;
     }
     fprintf(file, "%d %s\n", mln, parsed_token);

@@ -1,6 +1,16 @@
+#include "file_utils.h"
+#include <sys/stat.h>
+
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
+#define MAX_LINE_LENGTH 1024
+#define MAX_WORD_LENGTH 256
+#define TEMP_FILE "temp_file.tmp"
+
+static bool file_exists(const char* filename) {
+    struct stat st;
+    return stat(filename, &st) == 0;
+}
 
 void insert_before_target(const char *filename, const char *new_content, const char *target_string) {
     FILE *file = fopen(filename, "r");
@@ -68,4 +78,30 @@ void insert_before_target(const char *filename, const char *new_content, const c
 
     fclose(file);
     free(buffer);
+}
+
+void insert_before_string(const char* filename, const char* new_str, const char* target_str) {
+    if (!file_exists(filename)) return;
+
+    FILE* original = fopen(filename, "r");
+    FILE* temp = fopen(TEMP_FILE, "w");
+    
+    if (original && temp) {
+        char line[MAX_LINE_LENGTH];
+        bool found = false;
+        
+        while (fgets(line, sizeof(line), original)) {
+            if (!found && strstr(line, target_str)) {
+                fprintf(temp, "%s\n", new_str);
+                found = true;
+            }
+            fputs(line, temp);
+        }
+        
+        fclose(original);
+        fclose(temp);
+        
+        remove(filename);
+        rename(TEMP_FILE, filename);
+    }
 }

@@ -4,6 +4,7 @@
 #include "c_constant.h"
 #include "compileh.h"
 #include "../data.h"
+#include "../fileh/include/file_utils.h"
 
 
 void for_condition(int *arr, int count){
