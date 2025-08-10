@@ -50,12 +50,6 @@ struct Node *find_next_expression(struct Node* root) {
                 &&
             current -> left == NULL
         ){
-            printf("%d %d %d %d\n",
-                current -> data == EXPRESSION,
-                is_unidentified(current),
-                current -> right == NULL,
-                current -> left == NULL
-            );
             return current;
         }
         (index)++;

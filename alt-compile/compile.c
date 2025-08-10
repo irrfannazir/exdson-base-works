@@ -33,7 +33,7 @@ void process_parametres(int *arr, int count){
 
 void add_the_program(){
     int i = 0;
-    char *parsed_data = get_nth_line(PARSING_HANDLING_FILE_NAME, i);
+    char *parsed_data = get_nth_line(PARSING_HANDLING_FILE_NAME, i, NULL, 0);
     int indent_tab_number = 0;
     i++;
     while(parsed_data != NULL){
@@ -46,7 +46,7 @@ void add_the_program(){
         int count;
         int *arr = line_to_int_array(parsed_data, &count);
         process_parametres(arr, count);
-        parsed_data = get_nth_line(PARSING_HANDLING_FILE_NAME, i);
+        parsed_data = get_nth_line(PARSING_HANDLING_FILE_NAME, i, NULL, 0);
         i++;
         if( ( get_indentation(i - 3) - indent_tab_number == get_indentation(i - 2) ) && indent_tab_number != 0){
             remove_string_from_file(PGM_EXATED_FILE_NAME, PGM_CURSOR, 0);

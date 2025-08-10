@@ -26,6 +26,7 @@
         "parseh.h": "c",
         "pdebug.h": "c",
         "file_utils.h": "c",
-        "compilefh.h": "c"
+        "compilefh.h": "c",
+        "vector": "c"
     }
 }
