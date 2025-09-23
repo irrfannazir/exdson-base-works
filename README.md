@@ -76,3 +76,8 @@ Consider n as the number of tokens in the program, m as the maximum length of th
    ```
    Then enter the syntax and the syntax to implement in c.
 
+## Implementation
+The compiler has implemented by splitting the execution into three operations.
+1. Lexical Analysis (/lex) - Analyses and split the tokens from the input command or program
+2. Parsing Algorithm (/alt-parse) - Analyses the tokens via AST
+3. Compilation Process (/alt-compile) - Compiles the parsed information to c program
