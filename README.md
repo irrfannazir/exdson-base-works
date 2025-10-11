@@ -58,21 +58,13 @@ Consider n as the number of tokens in the program, m as the maximum length of th
 2. Run the Main Bat file which includes every compilation commands.
    ```sh
    # In Linux
-      bash com.bat
+      bash linux.bat
    # In Windows
-      ./com.bat
+      .\win.bat
    ```
 3. It shows the c program which has been executed and shows the details of the compilation.
 
 
 ## Features
 1. To activate interactive mode. Remove the comment of (#define READ_FROM_INPUT) in dependencies.h.
-2. To update the compiler with new syntax format. Run
-   ```sh
-   # In Linux
-      bash update.bat
-   # In Windows.
-      ./update.bat
-   ```
-   Then enter the syntax and the syntax to implement in c.
-
+2. Update the compiler with new syntax format.
