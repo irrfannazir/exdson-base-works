@@ -27,6 +27,7 @@
         "pdebug.h": "c",
         "file_utils.h": "c",
         "compilefh.h": "c",
-        "vector": "c"
+        "vector": "c",
+        "c_constant.h": "c"
     }
 }

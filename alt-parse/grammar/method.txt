@@ -9,4 +9,5 @@ else :
 //Loop
 for ( TOKEN_DATATYPE TOKEN_ID from EXPRESSION to EXPRESSION ) :
 while ( EXPRESSION ) :
+print { } // No Arguments are given 
 print { ARGUMENT }

@@ -66,7 +66,7 @@ Consider n as the number of tokens in the program, m as the maximum length of th
 
 
 ## Features
-1. To activate interactive mode. Remove the comment of (#define READ_FROM_INPUT) in dependencies.h.
+1. To activate interactive mode, Just type "ex-c".
 2. To update the compiler with new syntax format. 
 
 ## Implementation

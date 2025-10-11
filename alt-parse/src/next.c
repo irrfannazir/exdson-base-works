@@ -25,6 +25,7 @@ int next_line(int *mln, int *mtn){
     }
     if(error != NULL){
         printf("Error (%d): ", num_lines(lsn) + 1);
+        dont_compile = 1;
     }else{
         append_token_details(*mln);
     }

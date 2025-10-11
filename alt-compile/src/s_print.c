@@ -18,13 +18,14 @@ void print_statement(int *arr, int count){
         if(strcmp(get_token(i), ",") == 0){
             continue;
         }else if(get_type(i) == TOKEN_STRING || get_type(i) == TOKEN_INTEGER){
-            sprintf(format, "%s", get_token(i));
+            strcat(format, get_token(i));
         }else if(get_type(i) == TOKEN_IDENTIFIER){
-            sprintf(format, "%%d");
+            strcat(format, "%d");
             if(flag){
-                sprintf(para, ", %s", get_token(i));
+                strcat(para, ", ");
+                strcat(para, get_token(i));
             }else{
-                sprintf(para, "%s", get_token(i));
+                strcat(para, get_token(i));
             }
             flag = 1;
         }

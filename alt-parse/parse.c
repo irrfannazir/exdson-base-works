@@ -59,6 +59,7 @@ void parsef(){
             } else {
                 printf("Error (%d): %s\n", num_lines(lsn) + 1, DEFAULT_ERROR_MESSAGE);
             }
+            dont_compile = 1;
 
             if (next_line(&mln, &mtn)) {
                 // End of file
