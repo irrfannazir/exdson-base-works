@@ -67,4 +67,10 @@ Consider n as the number of tokens in the program, m as the maximum length of th
 
 ## Features
 1. To activate interactive mode. Remove the comment of (#define READ_FROM_INPUT) in dependencies.h.
-2. Update the compiler with new syntax format.
+2. To update the compiler with new syntax format. 
+
+## Implementation
+The compiler has implemented by splitting the execution into three operations.
+1. Lexical Analysis (/lex) - Analyses and split the tokens from the input command or program
+2. Parsing Algorithm (/alt-parse) - Analyses the tokens via AST
+3. Compilation Process (/alt-compile) - Compiles the parsed information to c program
