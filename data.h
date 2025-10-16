@@ -32,7 +32,7 @@
 
 
 // parse
-#define PARSE_DATATYPE_LIST_FILE_NAME "alt-parse/grammar/t_stat.txt"
+#define PARSE_DATATYPE_LIST_FILE_NAME "grammar/t_stat.txt"
 
 
 

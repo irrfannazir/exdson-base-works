@@ -1,6 +1,6 @@
 I am a programmer who communicate to you through API. So i need a perfect answer from you. I have the text file named "syntax.txt" which have the content
 "
-{ "alt-parse/grammar/method.txt" }
+{ "grammar/method.txt" }
 "
 My compiler check the syntax error using this text file.
 { input }

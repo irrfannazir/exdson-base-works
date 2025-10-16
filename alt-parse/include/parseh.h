@@ -5,16 +5,6 @@
 #define PARSE_DETAILS_MAX DIGIT*10
 #define PARSE_ERROR_MESSAGE_SIZE 100
 
-// int get_line_size(FILE *file);
-// int datatype_to_type(char *syn);
-// int print_token();
-
-/*
-    method: TD TI = EXPRESSION
-    lex:    single a = 3 + 4
-            0      1 2 3 4 5 6        
-*/
-
 extern int isparsing;
 extern char parsed_token[PARSE_DETAILS_MAX];
 extern int error_priority;
@@ -41,8 +31,49 @@ void push_error(const char *temp);
 int print_error();
 
 
-//Debugging
+static inline void reverse(char str[], int length) {
+    int start = 0;
+    int end = length - 1;
+    while (start < end) {
+        char temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+        start++;
+        end--;
+    }
+}
 
+
+static inline char* itoaf(int num, char* str, int base) {
+    int i = 0;
+    int isNegative = 0;
+
+    if (num == 0) {
+        str[i++] = '0';
+        str[i] = '\0';
+        return str;
+    }
+
+    if (num < 0 && base == 10) {
+        isNegative = 1;
+        num = -num;
+    }
+
+    while (num != 0) {
+        int rem = num % base;
+        str[i++] = (rem > 9) ? (rem - 10) + 'a' : rem + '0';
+        num /= base;
+    }
+
+    if (isNegative)
+        str[i++] = '-';
+
+    str[i] = '\0';
+
+    reverse(str, i);
+
+    return str;
+}
 
 
 #endif

@@ -4,7 +4,7 @@ const path = require('path');
 
 async function updateMethodFile(uncleanContent) {
 
-  const basePath = path.join(__dirname, '..', '..', 'alt-parse', 'grammar');
+  const basePath = path.join(__dirname, '..', '..', 'grammar');
   const methodPath = path.join(basePath, 'method.txt');
   const oldMethodPath = path.join(basePath, 'oldmethod.txt');
   const content = uncleanContent.replace(/^`+|`+$/g, '').trim();

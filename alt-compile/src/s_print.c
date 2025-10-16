@@ -10,7 +10,7 @@
 void print_statement(int *arr, int count){
     static char format[C_PROGRAM_MAX] = "";
     static char para[C_PROGRAM_MAX] = "";
-    static char temp[C_PROGRAM_MAX] = "";
+    static char temp[C_PROGRAM_MAX*100] = "";
     int flag = 0;
     add_the_header(PGM_EXATED_FILE_NAME, "stdio.h");
     // insert_newline_before_target(PGM_EXATED_FILE_NAME, INCLUDE_CURSOR);

@@ -10,7 +10,7 @@
 void init_stat() {
     FILE *fp = fopen(PARSE_DATATYPE_LIST_FILE_NAME, "w");
     if (fp == NULL) {
-        __pc_error__("Error while initiating datatype list file named %s", "alt-parse/grammar/t_stat.txt");
+        __pc_error__("Error while initiating datatype list file named %s", PARSE_DATATYPE_LIST_FILE_NAME);
         return;
     }
     fputs(DEFAULT_TEXT, fp);
@@ -20,7 +20,7 @@ void init_stat() {
 void append_datatype_in_stat(const char *datatype) {
     FILE *fp = fopen(PARSE_DATATYPE_LIST_FILE_NAME, "a");
     if (fp == NULL) {
-        __pc_error__("Error while appending datatype to list file named %s", "alt-parse/grammar/t_stat.txt");
+        __pc_error__("Error while appending datatype to list file named %s", PARSE_DATATYPE_LIST_FILE_NAME);
         return;
     }
     fprintf(fp, "\t%s\n", datatype);
@@ -30,7 +30,7 @@ void append_datatype_in_stat(const char *datatype) {
 char* get_datatype_from_stat(int n) {
     FILE *fp = fopen(PARSE_DATATYPE_LIST_FILE_NAME, "r");
     if (fp == NULL) {
-        __pc_error__("Error while retrieving datatype from list file named %s", "alt-parse/grammar/t_stat.txt");
+        __pc_error__("Error while retrieving datatype from list file named %s", PARSE_DATATYPE_LIST_FILE_NAME);
         return NULL;
     }
 

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include "parseh.h"
 #include "../data.h"
 
@@ -23,7 +22,7 @@ int append_token_details(int mln){
 
 void push_to_parse_string(int index){
     char temp[DIGIT];
-    itoa(index, temp, 10);
+    itoaf(index, temp, 10);
     strcat(parsed_token, temp);
     strcat(parsed_token, " ");
 }
