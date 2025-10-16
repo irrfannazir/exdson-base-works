@@ -27,16 +27,15 @@
 #define PGM_EXATED_FILE_NAME "program.c"
 
 
-#ifdef INT_MAX
-  #if INT_MAX == 2147483647
-    #define DIGIT 10
-  #endif
-#endif
-#ifndef DIGIT
-  #define DIGIT 20
-#endif
-
+#define DIGIT 20
 #define STRING_MAX (DIGIT+TOKEN_STRING_MAX+1)
+
+
+// parse
+#define PARSE_DATATYPE_LIST_FILE_NAME "alt-parse/grammar/t_stat.txt"
+
+
+
 
 
 typedef enum{

@@ -1,7 +1,7 @@
 #ifndef LEXH_H
 #define LEXH_H
 #include "lexf.h"
-#define PGM_MAX 500
+#define INLINE_PROGRAM_MAX_SIZE 500
 
 //indent.c
 void check_indent(int *space_count);

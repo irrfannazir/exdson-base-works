@@ -1,5 +1,5 @@
-#ifndef APPEND_FH
-#define APPEND_FH
+#ifndef APPEND_FH_H
+#define APPEND_FH_H
 #include "../data.h"
 
 int append_indent_to_file(const char *filename, int indent);

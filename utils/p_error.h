@@ -1,6 +1,5 @@
 #ifndef P_ERROR
 #define P_ERROR
-#define MSG_MAX 2000
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

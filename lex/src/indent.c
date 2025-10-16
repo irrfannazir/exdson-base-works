@@ -3,7 +3,6 @@
 #include "append_fh.h"
 #include <stdio.h>
 #include <string.h>
-#define MAX 500
 
 int appended_indent = 0;
 

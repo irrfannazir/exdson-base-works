@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 
-#define MAX_LINE_LENGTH 1024
 #define MAX_WORD_LENGTH 256
+#define MAX_LINE_LENGTH MAX_WORD_LENGTH*10
 #define TEMP_FILE "temp_file.tmp"
 
 static bool file_exists(const char* filename) {

@@ -1,5 +1,4 @@
 #include "include/lexh.h"
-#include "include/debug.h"
 #include "filename.h"
 #include "d_fh.h"
 #include "../constants.h"
@@ -174,7 +173,7 @@ int lexf(const int8_t isinput, const char *ex_filename){
     if(isinput){
         char *com;
         int i = 0;
-        com = (char*)malloc(PGM_MAX);
+        com = (char*)malloc(INLINE_PROGRAM_MAX_SIZE);
         if(com == NULL){
             printf("%s:%d: The memory allocation failed.\n", __FILE__, __LINE__);
         }

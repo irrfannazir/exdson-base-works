@@ -8,8 +8,6 @@
 
 #define MAX_LINE_LENGTH 1024
 
-
-
 char *get_word_from_method(int line_number, int token_number) {
     FILE *file = fopen(method_dir, "r");
     if (!file) {

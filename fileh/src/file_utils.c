@@ -1,8 +1,8 @@
 #include "file_utils.h"
 #include <sys/stat.h>
 
-#define MAX_LINE_LENGTH 1024
 #define MAX_WORD_LENGTH 256
+#define MAX_LINE_LENGTH MAX_WORD_LENGTH*10
 #define TEMP_FILE "temp_file.tmp"
 
 static bool file_exists(const char* filename) {
@@ -62,25 +62,3 @@ void remove_string(const char* filename, const char* target, bool is_loop) {
 }
 
 
-void create_parsing_handling_file() {
-    create_file("PARSING_HANDLING", "");
-}
-
-// void append_to_parsing_handling(int mln) {
-//     char content[20];
-//     sprintf(content, "%d", mln);
-//     append_to_file("PARSING_HANDLING", content);
-// }
-
-// // Token operations
-// void append_token_details(const char* filename, const char* type, const char* token) {
-//     char content[MAX_LINE_LENGTH];
-//     sprintf(content, "%s %s\n", type, token);
-//     append_to_file(filename, content);
-// }
-
-char* read_nth_token(const char* filename, int i) {
-    // Implementation would read the ith token from the file
-    // Similar to get_nth_word but with specific format handling
-    return NULL;
-}

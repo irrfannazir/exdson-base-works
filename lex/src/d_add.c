@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../data.h"
+
 #define TOKEN_BLOCK "TOKEN_DATATYPE:"
 #define DEFAULT_TEXT "TOKEN_DATATYPE:\n\tsingle\n\tarray\n"
 
+
 void init_stat() {
-    FILE *fp = fopen("alt-parse/grammar/t_stat.txt", "w");
+    FILE *fp = fopen(PARSE_DATATYPE_LIST_FILE_NAME, "w");
     if (fp == NULL) {
         __pc_error__("Error while initiating datatype list file named %s", "alt-parse/grammar/t_stat.txt");
         return;
@@ -16,7 +18,7 @@ void init_stat() {
 }
 
 void append_datatype_in_stat(const char *datatype) {
-    FILE *fp = fopen("alt-parse/grammar/t_stat.txt", "a");
+    FILE *fp = fopen(PARSE_DATATYPE_LIST_FILE_NAME, "a");
     if (fp == NULL) {
         __pc_error__("Error while appending datatype to list file named %s", "alt-parse/grammar/t_stat.txt");
         return;
@@ -26,7 +28,7 @@ void append_datatype_in_stat(const char *datatype) {
 }
 
 char* get_datatype_from_stat(int n) {
-    FILE *fp = fopen("alt-parse/grammar/t_stat.txt", "r");
+    FILE *fp = fopen(PARSE_DATATYPE_LIST_FILE_NAME, "r");
     if (fp == NULL) {
         __pc_error__("Error while retrieving datatype from list file named %s", "alt-parse/grammar/t_stat.txt");
         return NULL;
@@ -42,13 +44,14 @@ char* get_datatype_from_stat(int n) {
                 in_block = 1;
             }
         } else {
-            if (line[0] != '\t') break;  // End of block
+            // End of block
+            if (line[0] != '\t') break;  
             count++;
             if (count == n) {
                 // Remove trailing newline
                 line[strcspn(line, "\n")] = '\0';
                 fclose(fp);
-                return line + 1; // Skip tab
+                return line + 1;
             }
         }
     }
