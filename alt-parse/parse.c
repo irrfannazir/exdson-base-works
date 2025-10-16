@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../data.h"
+#include "../fileh/include/file_utils.h"
 #include "parseh.h"
 #include "pdebug.h"
 #include "../utils/p_error.h"
@@ -12,7 +13,7 @@ int isparsing = 1;
 
 void parsef(){
     printf("Alternative parsing.\n");
-    create_the_parser_file();
+    create_file(PARSING_HANDLING_FILE_NAME, NULL);
     int mln = 0;
     int mtn = 0;
     while(1){

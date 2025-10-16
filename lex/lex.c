@@ -1,7 +1,7 @@
 #include "include/lexh.h"
 #include "filename.h"
 #include "d_fh.h"
-#include "../constants.h"
+#include "../include/constants.h"
 #include "../utils/p_error.h"
 #include <stdio.h>
 #include <string.h>

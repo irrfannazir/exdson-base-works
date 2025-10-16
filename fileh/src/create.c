@@ -7,6 +7,8 @@ void create_file(const char *filename, const char *content) {
         __pc_error__("Error creating file named %s", filename);
         return;
     }
-    fputs(content, file);
+    if(content != NULL){
+        fputs(content, file);
+    }
     fclose(file);
 }

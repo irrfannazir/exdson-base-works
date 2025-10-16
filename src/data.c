@@ -1,4 +1,4 @@
-#include "data.h"
+#include "../data.h"
 #include <stdio.h>
 
 char token[TOKEN_SIZE_MAX][TOKEN_STRING_MAX];

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "../constants.h"
+#include "../include/constants.h"
 
 
 #ifdef DELETE_UNWANTED_FILES

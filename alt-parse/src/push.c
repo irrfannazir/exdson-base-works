@@ -21,16 +21,6 @@ int append_token_details(int mln){
     return 0;
 }
 
-int create_the_parser_file(){
-    FILE *file = fopen(PARSING_HANDLING_FILE_NAME, "w");
-    if(file == NULL){
-        __pc_error__("Error while creating a file named %s\n", PARSING_HANDLING_FILE_NAME);
-        return 1;
-    }
-    fclose(file);
-    return 0;
-}
-
 void push_to_parse_string(int index){
     char temp[DIGIT];
     itoa(index, temp, 10);

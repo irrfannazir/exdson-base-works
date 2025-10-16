@@ -1,5 +1,5 @@
 #include "../data.h"
-#include "../fileh.h"
+#include "../include/fileh.h"
 #include "lexh.h"
 #include <stdio.h>
 #include <stdlib.h>

@@ -8,10 +8,7 @@
 #define C_PROGRAM_MAX 500
 
 int *line_to_int_array(const char *line, int *count);
-// void print_file(const char *filename);
 void compile_file(const char *filename);
-// void insert_before_target(const char *filename, const char *new_content, const char *target_string);
-// void insert_before_target_with_newline(const char *filename, const char *new_content, const char *target_string);
 void add_the_header(const char *filename, const char *headername);
 char *serialize(int start, int end);
 void remove_string_from_file(const char *filename, const char *target, int isloop);

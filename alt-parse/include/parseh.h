@@ -23,7 +23,6 @@ extern char *error;
 extern int lsn;
 extern int ltn;
 
-int create_the_parser_file();
 void push_to_parse_string(int index);
 char *get_word_from_method(int line_number, int token_number); //Returns NULL if the line of method ends
 char *get_error_message_from_method(int line_number);

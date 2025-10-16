@@ -28,6 +28,7 @@
         "file_utils.h": "c",
         "compilefh.h": "c",
         "vector": "c",
-        "c_constant.h": "c"
+        "c_constant.h": "c",
+        "fileh.h": "c"
     }
 }
