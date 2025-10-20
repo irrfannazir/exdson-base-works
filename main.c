@@ -2,7 +2,7 @@
 #include "lex/lex.h"
 #include "alt-parse/parse.h"
 #include "alt-compile/compile.h"
-#include "constants.h"
+#include "include/constants.h"
 
 
 

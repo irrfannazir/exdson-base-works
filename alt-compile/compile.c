@@ -25,7 +25,7 @@ void process_parametres(int *arr, int count){
         case 6:
             block_paradigm("while", arr, count);
             break;
-        case 7:
+        case 8:
             print_statement(arr, count);
             break;
     }

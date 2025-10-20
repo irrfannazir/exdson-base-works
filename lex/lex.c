@@ -161,12 +161,14 @@ int char_analysis(char c){
         error_found();
         append_indent(&space_count);
         isenter = 0;  // TODO: Consider recovering from error
+	return 1;
     }
     return 0;
 }
 
 int lexf(const int8_t isinput, const char *ex_filename){
     char c;
+    int cec = 0;
     clear_file(LEX_HANDLING_FILE_NAME);
     newline();
     init_stat();
@@ -179,8 +181,10 @@ int lexf(const int8_t isinput, const char *ex_filename){
         }
         scanf("%[^#]s", com);          // TODO: Replace with safer input method
         while(com[i] != '\0'){
-            char_analysis(com[i]);
+            int status = char_analysis(com[i]);
             i++;
+	    if (status) cec++;
+	    if (cec > 3) break;
         }
         c = com[i];
     }else if(ex_filename != NULL){
@@ -189,9 +193,12 @@ int lexf(const int8_t isinput, const char *ex_filename){
             __pc_error__("Error while retrieving program from file named %s", ex_filename);
             return 1;
         }
-        while((c = fgetc(file)) != EOF){
-            char_analysis(c);
+        while((c = fgetc(file)) != 0xFF){
+            int status = char_analysis(c);
+	    if (status) cec++;
+	    if (cec > 3) break;
         }
+	puts("");
         fclose(file);
     }
     printf("\nTokenizing the command.\n");
