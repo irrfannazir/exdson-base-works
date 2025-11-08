@@ -1,4 +1,5 @@
 #include "include/lexh.h"
+#include "include/lexState.h"
 #include "filename.h"
 #include "d_fh.h"
 #include "../include/constants.h"
@@ -35,55 +36,51 @@ c_type prev;
 const char delimiter = ';';
 int space_count = 0;
 
-int char_analysis(char c){
-    static int isstring = 0;
-    static int isenter = 0;
-    static int isspacef = 0;
-    static int iscurly = 0;
-    if(isstring){
+int char_analysis(char c, struct lexState *s){
+    if(s -> isstring){
         if(c == '"'){
-            isstring = 0;
+            s -> isstring = 0;
         }else{
             append(c);
         }
     }
     else if(c == ' '){
-        if(isspacef == 0 || isenter == 0){
+        if(s -> isspacef == 0 || s -> isenter == 0){
             new_token('\0');
         }
-        if(isenter){
+        if(s -> isenter){
             check_indent(&space_count);
-            isenter = 1;  // TODO: Redundant assignment?
+            s -> isenter = 1;  // TODO: Redundant assignment?
         }else{
-            isenter = 0;
+            s -> isenter = 0;
         }
-        isspacef = 1;
+        s -> isspacef = 1;
     }
     else if(c == '\n' || c == delimiter){
-        if(iscurly != 0){
+        if(s -> iscurly != 0){
             return 0;
         }
         new_token('\0');
-        isspacef = 0;
+        s -> isspacef = 0;
         next_type(TOKEN_EOF);
         new_token('\0');
         newline();
-        isenter = 1;
+        s -> isenter = 1;
     }
     else if(is_char(c)){
-        isspacef = 0;
+        s -> isspacef = 0;
         if(prev == CTYPE_CHAR || prev == CTYPE_DIGIT){
             append(c);
         }else if(prev == CTYPE_OPERATOR || prev == CTYPE_PUNCT){
             new_token(c);
         }
-        isenter = 0;
+        s -> isenter = 0;
         next_type(TOKEN_IDENTIFIER);
         prev = CTYPE_CHAR;
         append_indent(&space_count);
     }
     else if(is_digit(c)){
-        if(isspacef){
+        if(s -> isspacef){
             next_type(TOKEN_INTEGER);
             new_token(c);
         }else{
@@ -96,8 +93,8 @@ int char_analysis(char c){
         if(prev_type() != TOKEN_IDENTIFIER){
             next_type(TOKEN_INTEGER);
         }
-        isspacef = 0;
-        isenter = 0;
+        s -> isspacef = 0;
+        s -> isenter = 0;
         prev = CTYPE_DIGIT;
         append_indent(&space_count);
     }
@@ -107,33 +104,33 @@ int char_analysis(char c){
         }else if(prev == CTYPE_CHAR || prev == CTYPE_PUNCT || prev == CTYPE_DIGIT){
             new_token(c);
         }
-        isenter = 0;
+        s -> isenter = 0;
         prev = CTYPE_OPERATOR;
         next_type(TOKEN_OPERATOR);
-        isspacef = 0;
+        s -> isspacef = 0;
         append_indent(&space_count);
     }
     else if(c == '{' || c == '('){
         new_token(c);
         next_type(TOKEN_PUNCTUATION);
         prev = CTYPE_PUNCT;
-        isenter = 0;
-        isspacef = 0;
-        iscurly++;
+        s -> isenter = 0;
+        s -> isspacef = 0;
+        s -> iscurly++;
     }
     else if(c == '}' || c == ')'){
         new_token(c);
         next_type(TOKEN_PUNCTUATION);
         prev = CTYPE_PUNCT;
-        isspacef = 0;
-        isenter = 0;
-        iscurly--;
+        s -> isspacef = 0;
+        s -> isenter = 0;
+        s -> iscurly--;
     }
     else if(c == '"'){
         new_token('\0');
         next_type(TOKEN_STRING);
         prev = CTYPE_PUNCT;
-        isstring = !isstring;
+        s -> isstring = !s -> isstring;
     }
     else if(c == '.'){
         if(prev == CTYPE_DIGIT){
@@ -143,24 +140,24 @@ int char_analysis(char c){
             prev = CTYPE_PUNCT;
             next_type(TOKEN_PUNCTUATION);
         }
-        isspacef = 0;
+        s -> isspacef = 0;
     }
     else if(is_punct(c)){
         new_token(c);
         append_indent(&space_count);
-        isenter = 0;
+        s -> isenter = 0;
         next_type(TOKEN_PUNCTUATION);
         prev = CTYPE_PUNCT;
-        isspacef = 0;
+        s -> isspacef = 0;
     }
     else{
-        isspacef = 0;
+        s -> isspacef = 0;
         new_token(c);
         next_type(TOKEN_PUNCTUATION);
         printf("Error: The unknown character '%c' is found.\n", c);
         error_found();
         append_indent(&space_count);
-        isenter = 0;  // TODO: Consider recovering from error
+        s -> isenter = 0;  // TODO: Consider recovering from error
 	    return 1;
     }
     return 0;
@@ -172,6 +169,7 @@ int lexf(const int8_t isinput, const char *ex_filename){
     clear_file(LEX_HANDLING_FILE_NAME);
     newline();
     init_stat();
+    struct lexState s = initLexState();
     if(isinput){
         char *com;
         int i = 0;
@@ -195,7 +193,7 @@ int lexf(const int8_t isinput, const char *ex_filename){
             return 1;
         }
         while((c = fgetc(file)) != 0xffffffff){
-            int status = char_analysis(c);
+            int status = char_analysis(c, &s);
 	        if (status) cec++;
 	        if (cec > 3) break;
         }
