@@ -31,15 +31,15 @@ typedef enum{
 // Global variables (should be moved to LexerState struct)
 int token_len = 0;       // TODO: Debug usage scope
 int is_eof = 0;          // TODO: Debug EOF logic dependency
-int isstring = 0;        // Flag for inside string
 c_type prev;
-int isenter = 0;
-int isspacef = 0;
-int iscurly = 0;
 const char delimiter = ';';
 int space_count = 0;
 
 int char_analysis(char c){
+    static int isstring = 0;
+    static int isenter = 0;
+    static int isspacef = 0;
+    static int iscurly = 0;
     if(isstring){
         if(c == '"'){
             isstring = 0;
@@ -161,7 +161,7 @@ int char_analysis(char c){
         error_found();
         append_indent(&space_count);
         isenter = 0;  // TODO: Consider recovering from error
-	return 1;
+	    return 1;
     }
     return 0;
 }
@@ -180,11 +180,12 @@ int lexf(const int8_t isinput, const char *ex_filename){
             printf("%s:%d: The memory allocation failed.\n", __FILE__, __LINE__);
         }
         scanf("%[^#]s", com);          // TODO: Replace with safer input method
+        
         while(com[i] != '\0'){
-            int status = char_analysis(com[i]);
+            int status = char_analysis(com[i], &s);
             i++;
-	    if (status) cec++;
-	    if (cec > 3) break;
+	        if (status) cec++;
+	        if (cec > 3) break;
         }
         c = com[i];
     }else if(ex_filename != NULL){
@@ -193,10 +194,10 @@ int lexf(const int8_t isinput, const char *ex_filename){
             __pc_error__("Error while retrieving program from file named %s", ex_filename);
             return 1;
         }
-        while((c = fgetc(file)) != 0xFF){
+        while((c = fgetc(file)) != 0xffffffff){
             int status = char_analysis(c);
-	    if (status) cec++;
-	    if (cec > 3) break;
+	        if (status) cec++;
+	        if (cec > 3) break;
         }
 	puts("");
         fclose(file);
