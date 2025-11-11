@@ -29,6 +29,8 @@
         "compilefh.h": "c",
         "vector": "c",
         "c_constant.h": "c",
-        "fileh.h": "c"
+        "fileh.h": "c",
+        "lexh.h": "c",
+        "lexstate.h": "c"
     }
 }

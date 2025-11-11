@@ -9,14 +9,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-// The c_type is to store the type of previous character
-typedef enum{
-    CTYPE_CHAR,      // a-z, A-Z
-    CTYPE_DIGIT,     // 0-9
-    CTYPE_PUNCT,     // punctuation like ; , ( )
-    CTYPE_OPERATOR   // + - * / = etc.
-} c_type;
-
 typedef enum{
     TOKEN_EOF,          // 0 End Of File
     TOKEN_IDENTIFIER,   // 1 Identifiers (variables, function names, etc.)
@@ -29,12 +21,13 @@ typedef enum{
     TOKEN_STRING        // 8 String literals (e.g., "Hello")
 } t_type;
 
+const char delimiter = ';';
+
+
 // Global variables (should be moved to LexerState struct)
 int token_len = 0;       // TODO: Debug usage scope
 int is_eof = 0;          // TODO: Debug EOF logic dependency
-c_type prev;
-const char delimiter = ';';
-int space_count = 0;
+
 
 int char_analysis(char c, struct lexState *s){
     if(s -> isstring){
@@ -49,7 +42,7 @@ int char_analysis(char c, struct lexState *s){
             new_token('\0');
         }
         if(s -> isenter){
-            check_indent(&space_count);
+            check_indent( &(s -> space_count) );
             s -> isenter = 1;  // TODO: Redundant assignment?
         }else{
             s -> isenter = 0;
@@ -69,24 +62,24 @@ int char_analysis(char c, struct lexState *s){
     }
     else if(is_char(c)){
         s -> isspacef = 0;
-        if(prev == CTYPE_CHAR || prev == CTYPE_DIGIT){
+        if(s -> prev == CTYPE_CHAR || s -> prev == CTYPE_DIGIT){
             append(c);
-        }else if(prev == CTYPE_OPERATOR || prev == CTYPE_PUNCT){
+        }else if(s -> prev == CTYPE_OPERATOR || s -> prev == CTYPE_PUNCT){
             new_token(c);
         }
         s -> isenter = 0;
         next_type(TOKEN_IDENTIFIER);
-        prev = CTYPE_CHAR;
-        append_indent(&space_count);
+        s -> prev = CTYPE_CHAR;
+        append_indent( &(s -> space_count) );
     }
     else if(is_digit(c)){
         if(s -> isspacef){
             next_type(TOKEN_INTEGER);
             new_token(c);
         }else{
-            if(prev == CTYPE_CHAR || prev == CTYPE_DIGIT){
+            if(s -> prev == CTYPE_CHAR || s -> prev == CTYPE_DIGIT){
                 append(c);
-            }else if(prev == CTYPE_OPERATOR || prev == CTYPE_PUNCT){
+            }else if(s -> prev == CTYPE_OPERATOR || s -> prev == CTYPE_PUNCT){
                 new_token(c);
             }
         }
@@ -95,25 +88,25 @@ int char_analysis(char c, struct lexState *s){
         }
         s -> isspacef = 0;
         s -> isenter = 0;
-        prev = CTYPE_DIGIT;
-        append_indent(&space_count);
+        s -> prev = CTYPE_DIGIT;
+        append_indent( &(s -> space_count) );
     }
     else if(is_oper(c)){
-        if(prev == CTYPE_OPERATOR){
+        if(s -> prev == CTYPE_OPERATOR){
             append(c);
-        }else if(prev == CTYPE_CHAR || prev == CTYPE_PUNCT || prev == CTYPE_DIGIT){
+        }else if(s -> prev == CTYPE_CHAR || s -> prev == CTYPE_PUNCT || s -> prev == CTYPE_DIGIT){
             new_token(c);
         }
         s -> isenter = 0;
-        prev = CTYPE_OPERATOR;
+        s -> prev = CTYPE_OPERATOR;
         next_type(TOKEN_OPERATOR);
         s -> isspacef = 0;
-        append_indent(&space_count);
+        append_indent( &(s -> space_count) );
     }
     else if(c == '{' || c == '('){
         new_token(c);
         next_type(TOKEN_PUNCTUATION);
-        prev = CTYPE_PUNCT;
+        s -> prev = CTYPE_PUNCT;
         s -> isenter = 0;
         s -> isspacef = 0;
         s -> iscurly++;
@@ -121,7 +114,7 @@ int char_analysis(char c, struct lexState *s){
     else if(c == '}' || c == ')'){
         new_token(c);
         next_type(TOKEN_PUNCTUATION);
-        prev = CTYPE_PUNCT;
+        s -> prev = CTYPE_PUNCT;
         s -> isspacef = 0;
         s -> isenter = 0;
         s -> iscurly--;
@@ -129,25 +122,25 @@ int char_analysis(char c, struct lexState *s){
     else if(c == '"'){
         new_token('\0');
         next_type(TOKEN_STRING);
-        prev = CTYPE_PUNCT;
+        s -> prev = CTYPE_PUNCT;
         s -> isstring = !s -> isstring;
     }
     else if(c == '.'){
-        if(prev == CTYPE_DIGIT){
+        if(s -> prev == CTYPE_DIGIT){
             append('.');
         }else{
             new_token('.');
-            prev = CTYPE_PUNCT;
+            s -> prev = CTYPE_PUNCT;
             next_type(TOKEN_PUNCTUATION);
         }
         s -> isspacef = 0;
     }
     else if(is_punct(c)){
         new_token(c);
-        append_indent(&space_count);
+        append_indent( &(s -> space_count) );
         s -> isenter = 0;
         next_type(TOKEN_PUNCTUATION);
-        prev = CTYPE_PUNCT;
+        s -> prev = CTYPE_PUNCT;
         s -> isspacef = 0;
     }
     else{
@@ -156,7 +149,7 @@ int char_analysis(char c, struct lexState *s){
         next_type(TOKEN_PUNCTUATION);
         printf("Error: The unknown character '%c' is found.\n", c);
         error_found();
-        append_indent(&space_count);
+        append_indent( &(s -> space_count) );
         s -> isenter = 0;  // TODO: Consider recovering from error
 	    return 1;
     }

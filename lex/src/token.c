@@ -19,7 +19,6 @@ int a = 0;
 
 //Append the character to the token
 void append(char c){
-    // token[token_size][token_len] = c;
     current_token[token_len] = c;
     token_len++;
     if(token_len >= TOKEN_SIZE_MAX){
