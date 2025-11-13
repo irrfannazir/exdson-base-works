@@ -1,4 +1,5 @@
 #include "../data.h"
+#include "../include/fh.h"
 #include "lexh.h"
 #include "append_fh.h"
 #include <stdio.h>

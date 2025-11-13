@@ -24,7 +24,6 @@ typedef enum{
 const char delimiter = ';';
 
 
-// Global variables (should be moved to LexerState struct)
 int token_len = 0;       // TODO: Debug usage scope
 int is_eof = 0;          // TODO: Debug EOF logic dependency
 
