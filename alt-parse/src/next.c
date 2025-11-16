@@ -23,6 +23,7 @@ int next_line(int *mln, int *mtn){
     if(error_message != NULL){
         push_error(error_message);
     }
+    free(error_message);
     if(error != NULL){
         printf("Error (%d): ", num_lines(lsn) + 1);
         dont_compile = 1;

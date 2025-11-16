@@ -51,6 +51,7 @@ void add_the_program(){
         if( ( get_indentation(i - 3) - indent_tab_number == get_indentation(i - 2) ) && indent_tab_number != 0){
             remove_string_from_file(PGM_EXATED_FILE_NAME, PGM_CURSOR, 0);
         }
+        free(arr);
     }
 }
 
