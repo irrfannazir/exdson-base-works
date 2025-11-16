@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 int is_declared_variable(int index){
+    // This function needs to check that whether the variable declared twice
     return 0;
 }
 

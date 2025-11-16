@@ -3,16 +3,37 @@
 #include "lexf.h"
 #define INLINE_PROGRAM_MAX_SIZE 500
 
+static inline int is_char(char c) {
+    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+}
+
+static inline int is_digit(char c) {
+    return (c >= '0' && c <= '9');
+}
+
+static inline int is_punct(char c) {
+    const char *punct = "(){}[].,:'\"";
+    for (int i = 0; punct[i] != '\0'; i++) {
+        if (punct[i] == c)
+            return 1;
+    }
+    return 0;
+}
+
+static inline int is_oper(char c) {
+    const char *operators = "+-*/=<>";
+    for (int i = 0; operators[i] != '\0'; i++) {
+        if (operators[i] == c)
+            return 1;
+    }
+    return 0;
+}
+
+
 //indent.c
 void check_indent(int *space_count);
 void append_indent(int *space_count);
 void newline();
-
-//character.c
-int is_char(char c);
-int is_digit(char c);
-int is_punct(char c);
-int is_oper(char c);
 
 //token.c
 extern int is_eof;

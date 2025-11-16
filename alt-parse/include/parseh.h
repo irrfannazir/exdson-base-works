@@ -1,6 +1,7 @@
 #ifndef PARSEH_H
 #define PARSEH_H
 #include "../data.h"
+#include <string.h>
 
 #define PARSE_DETAILS_MAX DIGIT*10
 #define PARSE_ERROR_MESSAGE_SIZE 100
@@ -23,12 +24,15 @@ int next_token(int *mln); // Moves to next token for both
 int next_method(int *mln, int *mtn); // Moves to next method checking
 int check_the_type(char *word, t_type type);
 int append_token_details(int mln); //Saves the index in a file for parsing
-int compare_the_word(char *word, char *token); //Compares the 
 int does_tree_needed(char *word); //Is word contains in tree.txt ending with ':'
 int parsing_tree_analysis(char *format, int start, int size); //Here is the function for parsing
 
 void push_error(const char *temp);
 int print_error();
+
+static inline int compare_the_word(char *word, char *token){
+    return strcmp(word, token) == 0;
+}
 
 
 static inline void reverse(char str[], int length) {
