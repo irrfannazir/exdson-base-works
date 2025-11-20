@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 #include "../data.h"
-#include "../lex/include/lexf.h"
+#include "../lex/include/clearf.h"
 #include "../lex/include/append_fh.h"
 
 //compile.c

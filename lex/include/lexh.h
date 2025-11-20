@@ -1,6 +1,5 @@
 #ifndef LEXH_H
 #define LEXH_H
-#include "lexf.h"
 #define INLINE_PROGRAM_MAX_SIZE 500
 
 static inline int is_char(char c) {

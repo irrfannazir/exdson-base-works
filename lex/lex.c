@@ -1,4 +1,5 @@
 #include "include/lexh.h"
+#include "include/clearf.h"
 #include "include/lexState.h"
 #include "filename.h"
 #include "d_fh.h"
