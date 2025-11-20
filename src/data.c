@@ -1,7 +1,6 @@
 #include "../data.h"
 #include <stdio.h>
 
-char token[TOKEN_SIZE_MAX][TOKEN_STRING_MAX];
 t_type type[TOKEN_SIZE_MAX];
 int indent_token[TOKEN_SIZE_MAX];
 int token_size;
