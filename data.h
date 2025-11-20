@@ -1,7 +1,7 @@
 #ifndef DATA_H
 #define DATA_H
 #include "lex/include/filename.h"
-#include "utils/p_error.h"
+#include "include/p_error.h"
 /*
     This is the file where all the data which is commonly used for lex, parse, compile.
 */

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "compileh.h"
-#include "../fileh/include/file_utils.h"
+#include "../include/fileh.h"
 #include "../data.h"
 
 void add_the_header(const char *filename, const char *headername){

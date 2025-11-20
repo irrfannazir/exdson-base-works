@@ -1,9 +1,10 @@
 #include "include/lexh.h"
+#include "include/clearf.h"
 #include "include/lexState.h"
 #include "filename.h"
 #include "d_fh.h"
 #include "../include/constants.h"
-#include "../utils/p_error.h"
+#include "../include/p_error.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
