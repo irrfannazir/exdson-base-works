@@ -5,7 +5,7 @@
 #include "../fileh/include/file_utils.h"
 #include "parseh.h"
 #include "pdebug.h"
-#include "../utils/p_error.h"
+#include "../include/p_error.h"
 
 #define DEFAULT_ERROR_MESSAGE "Invalid Syntax"
 
