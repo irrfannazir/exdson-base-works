@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../data.h"
-#include "../fileh/include/file_utils.h"
 #include "parseh.h"
 #include "pdebug.h"
+#include "../data.h"
 #include "../include/p_error.h"
+#include "../include/fileh.h"
 
 #define DEFAULT_ERROR_MESSAGE "Invalid Syntax"
 

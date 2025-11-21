@@ -5,7 +5,6 @@
 
 
 /*It is the where parsing tree in implemented*/
-
 int parsing_tree_analysis(char *format, int start, int size){
     struct Node *root = createNode(format, EXPRESSION, start, size);
     struct Node *ptr = find_next_expression(root);

@@ -1,11 +1,5 @@
-#include "../include/file_utils.h"
+#include "fileh.h"
 #include "../alt-parse/include/strh.h"
-#include <sys/stat.h>
-
-static bool file_exists(const char* filename) {
-    struct stat st;
-    return stat(filename, &st) == 0;
-}
 
 char* get_nth_line(const char* filename, int n, const char *keyword, int countcolon) {
     if (!file_exists(filename)) return NULL;

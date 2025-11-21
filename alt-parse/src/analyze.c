@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "../data.h"
-#include "../fileh/include/file_utils.h"
 #include "strh.h"
+#include "../include/fileh.h"
 
 
 int count_nos(char *line){

@@ -1,10 +1,5 @@
 #define BLOCK_PARADIGMA
-#include <stdio.h>
-#include <string.h>
-#include "c_constant.h"
-#include "compileh.h"
-#include "../data.h"
-#include "../fileh/include/file_utils.h"
+#include "sh.h"
 
 
 void else_condition(int *arr, int count){
