@@ -9,9 +9,9 @@
 
 
 char *get_error_message_from_method(int line_number) {
-    FILE *file = fopen(method_dir, "r");
+    FILE *file = fopen(METHOD_DIRECTORY, "r");
     if (!file) {
-        __pc_error__("Error while retrieving error message from file %s", method_dir);
+        __pc_error__("Error while retrieving error message from file %s", METHOD_DIRECTORY);
         return NULL;
     }
 

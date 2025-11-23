@@ -28,6 +28,7 @@ const char delimiter = ';';
 int token_len = 0;       // TODO: Debug usage scope
 int is_eof = 0;          // TODO: Debug EOF logic dependency
 
+#define CHAR_ANAL_STATE(MSG) if(c == 's'){puts(MSG);}
 
 int char_analysis(char c, struct lexState *s){
     if(s -> isstring){
@@ -171,13 +172,13 @@ int lexf(const int8_t isinput, const char *ex_filename){
             printf("%s:%d: The memory allocation failed.\n", __FILE__, __LINE__);
         }
         scanf("%[^#]s", com);          // TODO: Replace with safer input method
-        
         while(com[i] != '\0'){
             int status = char_analysis(com[i], &s);
             i++;
 	        if (status) cec++;
 	        if (cec > 3) break;
         }
+        puts("");
         c = com[i];
     }else if(ex_filename != NULL){
         FILE *file = fopen(ex_filename, "r");
@@ -185,7 +186,7 @@ int lexf(const int8_t isinput, const char *ex_filename){
             __pc_error__("Error while retrieving program from file named %s", ex_filename);
             return 1;
         }
-        while((c = fgetc(file)) != 0xffffffff){
+        while((c = fgetc(file)) != (signed int)0xffffffff){
             int status = char_analysis(c, &s);
 	        if (status) cec++;
 	        if (cec > 3) break;

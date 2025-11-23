@@ -24,6 +24,7 @@ static inline struct lexState initLexState() {
     state.isenter = 0;
     state.isspacef = 0;
     state.iscurly = 0;
+    state.prev = CTYPE_PUNCT;
     state.space_count = 0;
     return state;
 }

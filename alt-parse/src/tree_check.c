@@ -16,9 +16,9 @@ size_t slice_new_line(char *line) {
 
 
 char* get_nth_colon_line(int n) {
-    FILE* file = fopen(syntax_dir, "r");
+    FILE* file = fopen(SYNTAX_DIRECTORY, "r");
     if (!file){
-        __pc_error__("Error while retrieving syntax from file with directory named %s", syntax_dir);
+        __pc_error__("Error while retrieving syntax from file with directory named %s", SYNTAX_DIRECTORY);
         exit(1);
     }
 

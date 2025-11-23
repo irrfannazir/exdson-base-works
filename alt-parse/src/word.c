@@ -9,9 +9,9 @@
 #define MAX_LINE_LENGTH 1024
 
 char *get_word_from_method(int line_number, int token_number) {
-    FILE *file = fopen(method_dir, "r");
+    FILE *file = fopen(METHOD_DIRECTORY, "r");
     if (!file) {
-        __pc_error__("Error while retrieving method word from the file named %s", method_dir);
+        __pc_error__("Error while retrieving method word from the file named %s", METHOD_DIRECTORY);
         return NULL;
     }
 

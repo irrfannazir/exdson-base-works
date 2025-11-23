@@ -4,6 +4,7 @@
 #include "../data.h"
 
 void remove_string_from_file(const char *filename, const char *target, int isloop) {
+
     FILE *src = fopen(filename, "r");
     if (!src) {
         __pc_error__("Error while removing the string from the file %s", filename);
@@ -25,6 +26,8 @@ void remove_string_from_file(const char *filename, const char *target, int isloo
         char *read_ptr = line;
         char *pos;
 
+        // printf("%s", line);
+        
         while ((pos = strstr(read_ptr, target)) != NULL) {
             if (isloop == 0 && removed_once) {
                 break; // Stop removing further if isloop == 0 and one removal is done
@@ -43,6 +46,6 @@ void remove_string_from_file(const char *filename, const char *target, int isloo
     fclose(temp);
 
     // Replace original file with modified one
-    remove(filename);
-    rename("tempfile.txt", filename);
+    if (remove(filename) != 0) __pc_error__("Error while removing the file named %s", filename);
+    if (rename("tempfile.txt", filename) != 0) __pc_error__("Error while renaming the file named tempfile.txt to %s", filename);
 }

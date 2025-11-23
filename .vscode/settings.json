@@ -31,6 +31,9 @@
         "c_constant.h": "c",
         "fileh.h": "c",
         "lexh.h": "c",
-        "lexstate.h": "c"
+        "lexstate.h": "c",
+        "string": "c",
+        "strh.h": "c",
+        "filename.h": "c"
     }
 }

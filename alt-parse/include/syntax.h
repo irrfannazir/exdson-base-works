@@ -4,8 +4,8 @@
 #include <string.h>
 
 
-static const char *syntax_dir = "grammar/syntax.txt";
-static const char *method_dir = "grammar/method.txt";
+#define SYNTAX_DIRECTORY "grammar/syntax.txt"
+#define METHOD_DIRECTORY "grammar/method.txt"
 
 
 char *tokenize_white_space(const char *input, int n);

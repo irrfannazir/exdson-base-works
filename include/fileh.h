@@ -11,7 +11,7 @@
 #define MAX_LINE_LENGTH MAX_WORD_LENGTH*10
 
 void insert_before_target(const char *filename, const char *new_content, const char *target_string);
-char* get_nth_line(const char* filename, int n, const char *keyword, int countcolon);
+char* get_nth_line(const char* filename, int n, const char *keyword);
 
 static inline bool file_exists(const char* filename) {
     struct stat st;

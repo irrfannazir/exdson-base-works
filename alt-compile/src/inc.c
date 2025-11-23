@@ -8,8 +8,8 @@ void add_the_header(const char *filename, const char *headername){
     int i = 1;
     int flag = 0;
     sprintf(temp, "#include <%s>\n", headername);
-    while(get_nth_line(PGM_EXATED_FILE_NAME, i, NULL, 0)){
-        if(strcmp(get_nth_line(PGM_EXATED_FILE_NAME, i, NULL, 0), temp) == 0){
+    while(get_nth_line(PGM_EXATED_FILE_NAME, i, NULL)){
+        if(strcmp(get_nth_line(PGM_EXATED_FILE_NAME, i, NULL), temp) == 0){
             flag = 1;
             break;
         }

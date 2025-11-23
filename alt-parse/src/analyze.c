@@ -81,13 +81,13 @@ int check_line(struct Node *ptr, char *syn_line){
 int analyze_expression(struct Node *ptr){
     // Go through each line from syntax.txt
     int ln = 0;
-    char *syn_line = get_nth_line(syntax_dir, ln, ptr -> format, 0);
+    char *syn_line = get_nth_line(SYNTAX_DIRECTORY, ln, ptr -> format);
     ln++;
     while(syn_line != NULL){
         int status;
         status = check_line(ptr, syn_line);
         if(status){
-            syn_line = get_nth_line(syntax_dir, ln, ptr -> format, 0);
+            syn_line = get_nth_line(SYNTAX_DIRECTORY, ln, ptr -> format);
             ln++;
         }else{
             free(syn_line);
