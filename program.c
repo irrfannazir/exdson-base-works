@@ -1,1 +1,2 @@
- int main(){int a = 3;return 0;}
+#include <stdio.h>
+ int main(){printf("%d", 3+4);return 0;}
