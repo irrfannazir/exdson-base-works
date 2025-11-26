@@ -31,9 +31,6 @@ char* get_nth_colon_line(int n) {
         // Check if line ends with ':'
         if (len > 0 && line[len - 1] == ':') {
             count++;
-            #ifdef P_TREE_MODE
-             printf("Found %s at count %d\n", line, count);
-            #endif
             if (count == n) {
                 line[len - 1] = '\0'; // Remove the colon
                 fclose(file);

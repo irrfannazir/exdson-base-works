@@ -15,7 +15,7 @@ void print_statement(int *arr, int count){
     // insert_newline_before_target(PGM_EXATED_FILE_NAME, INCLUDE_CURSOR);
     for(int i = arr[1]; i < arr[2]; i++){
         if(strcmp(get_token(i), ",") == 0){
-            continue;
+            flag = NO;
         }else if(get_type(i) == TOKEN_STRING){
             strcat(format, get_token(i));
         }else if(get_type(i) == TOKEN_IDENTIFIER || get_type(i) == TOKEN_INTEGER){
