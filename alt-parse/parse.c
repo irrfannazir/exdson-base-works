@@ -14,6 +14,7 @@ int isparsing = 1;
 void parsef(){
     printf("Alternative parsing.\n");
     create_file(PARSING_HANDLING_FILE_NAME, NULL);
+    create_file(DEFINED_IDENTIFIER_FILE_NAME, "VARIABLE:\n\nFUNCTION:\n");
     int mln = 0;
     int mtn = 0;
     while(1){

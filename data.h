@@ -24,6 +24,7 @@
 
 #define DIRECTORY_MAX_SIZE 1024
 #define PARSING_HANDLING_FILE_NAME "parse.txt"
+#define DEFINED_IDENTIFIER_FILE_NAME "identifier.txt"
 #define PGM_EXATED_FILE_NAME "program.c"
 
 

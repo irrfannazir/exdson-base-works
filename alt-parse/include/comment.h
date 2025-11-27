@@ -11,5 +11,6 @@ static inline int is_inline_function(const char *str){
 
 
 #define SYNTAX_COMMENT_TOKEN "//"
+#define SYNTAX_FUNCTION_TOKEN "$$"
 
 #endif

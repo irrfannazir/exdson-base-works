@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include "../include/constants.h"
+#include "../data.h"
 
 
 #ifdef DELETE_UNWANTED_FILES
-  static const char *unwanted_filenames[] = {"lex.txt", "parse.txt", "program.c"};
+  static const char *unwanted_filenames[] = {"lex.txt", "parse.txt", "program.c", DEFINED_IDENTIFIER_FILE_NAME };
 #endif
 
 

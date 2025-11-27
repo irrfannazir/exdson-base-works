@@ -22,6 +22,5 @@ int parsing_tree_analysis(char *format, int start, int size){
         ptr = find_next_expression(root);
         endloop++;
     }
-    display_tree();
     return 0;
 }
