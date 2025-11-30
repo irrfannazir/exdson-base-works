@@ -3,6 +3,6 @@
 
 //preprocessor conditions
 
-// #define DELETE_UNWANTED_FILES
+#define DELETE_UNWANTED_FILES
 
 #endif

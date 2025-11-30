@@ -2,6 +2,7 @@
 #define DATA_H
 #include "lex/include/filename.h"
 #include "include/p_error.h"
+#include "include/constants.h"
 /*
     This is the file where all the data which is commonly used for lex, parse, compile.
 */
@@ -21,10 +22,12 @@
 #define FUNCTION_MAX 500
 #define PARAMETRE_PROGRAM_TEMP_MAX 500
 #define PROGRAM_TEMP_MAX 4*PARAMETRE_PROGRAM_TEMP_MAX
-
 #define DIRECTORY_MAX_SIZE 1024
+#define NAME_STRLEN 1024
+
+
 #define PARSING_HANDLING_FILE_NAME "parse.txt"
-#define DEFINED_IDENTIFIER_FILE_NAME "identifier.txt"
+#define DEFINED_IDENTIFIER_FILE_NAME "name_identifier.txt"
 #define PGM_EXATED_FILE_NAME "program.c"
 
 
@@ -36,6 +39,16 @@
 #define PARSE_DATATYPE_LIST_FILE_NAME "grammar/t_stat.txt"
 
 
+// flush
+#ifdef DELETE_UNWANTED_FILES
+  static const char *unwanted_filenames[] = {
+    "lex.txt",
+    PARSING_HANDLING_FILE_NAME,
+    PGM_EXATED_FILE_NAME,
+    DEFINED_IDENTIFIER_FILE_NAME,
+    DEFINED_FUNCTION_FILE_NAME
+};
+#endif
 
 
 

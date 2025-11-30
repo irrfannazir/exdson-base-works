@@ -6,6 +6,7 @@
 #include "../data.h"
 #include "../lex/include/clearf.h"
 #include "../lex/include/append_fh.h"
+#include "../alt-parse/include/comment.h"
 
 #define MAX_WORD_LENGTH 256
 #define MAX_LINE_LENGTH MAX_WORD_LENGTH*10
@@ -45,6 +46,27 @@ static inline void print_file_content(const char* filename) {
         }
         fclose(file);
     }
+}
+
+static inline char *read_nth_content_from_file(const char *filename, int n){
+    FILE *file = fopen(filename, "r");
+    char *temp = malloc(1024 * sizeof( char ));
+    if(!file){
+        __pc_error__("Error while reading file named %s\n", filename);
+        return NULL;
+    }
+
+    while(fgets(temp, 1024, file)) {
+        if(is_inline_comment(temp)){
+            continue;
+        }
+        n--;
+
+        if (n < 0) break;
+    }
+
+    fclose(file);
+    return temp;
 }
 
 #endif

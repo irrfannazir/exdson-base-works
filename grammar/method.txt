@@ -1,5 +1,6 @@
 //Declaration
-TOKEN_DATATYPE TOKEN_ID = EXPRESSION $$DECLARE
+TOKEN_DATATYPE TOKEN_ID = EXPRESSION $$DECLARE(ID)
+TOKEN_DATATYPE TOKEN_ID $$DECLARE(ID)
 //Errors in declaration
 TOKEN_DATATYPE TOKEN_ID = // expecting expression after '='
 //Conditional

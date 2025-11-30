@@ -3,6 +3,8 @@
 #include <string.h>
 #include "parseh.h"
 #include "pdebug.h"
+#include "comment.h"
+#include "syntax.h"
 #include "../data.h"
 #include "../include/p_error.h"
 #include "../include/fileh.h"
@@ -11,10 +13,13 @@
 
 int isparsing = 1;
 
+char working_identifier[NAME_STRLEN] = "";
+
+
 void parsef(){
     printf("Alternative parsing.\n");
     create_file(PARSING_HANDLING_FILE_NAME, NULL);
-    create_file(DEFINED_IDENTIFIER_FILE_NAME, "VARIABLE:\n\nFUNCTION:\n");
+    create_file(DEFINED_IDENTIFIER_FILE_NAME, "");
     int mln = 0;
     int mtn = 0;
     while(1){
@@ -42,7 +47,9 @@ void parsef(){
             continue;
         }else if (index == -1 || word == NULL){
             if(word == NULL){
-                push_error("Unexpected token found");
+                char temp[1024];
+                sprintf(temp, "%s is unexpected", get_token(index));
+                push_error(temp);
                 isparsing++;
                 next_line(&mln, &mtn);
                 continue;
@@ -75,6 +82,10 @@ void parsef(){
             continue;
         }
 
+        // save identifier fordeclaration purpose
+        if (get_type(index) == TOKEN_IDENTIFIER && contains_function(read_nth_content_from_file(METHOD_DIRECTORY, mln))){
+            strcpy(working_identifier, get_token(index));
+        }
 
         if( check_the_type(word, get_type(index)) ){
             #ifdef P_PARSE_DEBUG_MODE

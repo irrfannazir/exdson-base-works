@@ -4,6 +4,7 @@
 #include "../data.h"
 #include "syntax.h"
 #include "comment.h"
+#include "function.h"
 
 #define MAX_LINE_LEN 1024
 
@@ -68,13 +69,13 @@ char *get_function_name_from_method(int line_number) {
     int current_line = 0;
 
     while (fgets(line, sizeof(line), file)) {
-        if(is_inline_function(line)){
+        if(is_inline_comment(line)){
             continue;
         }
         if (current_line == line_number) {
             fclose(file);
 
-            // Look for '//'
+            // Look for '$$'
             char *comment_start = strstr(line, SYNTAX_FUNCTION_TOKEN);
             if (!comment_start) {
                 return NULL;

@@ -37,7 +37,7 @@ void check_datatype(char *token, t_type *type){
     /* Race condition potential with global 'isnew'
      * - If called concurrently, may get corrupted state */
     if(isnew == 1){
-        append_datatype_in_stat(token);
+        append_name_to_file(PARSE_DATATYPE_LIST_FILE_NAME, token);
         *type = TOKEN_DATATYPE;
         isnew = 0;
         return;
@@ -47,7 +47,7 @@ void check_datatype(char *token, t_type *type){
      * - get_datatype_from_stat() may allocate memory
      * - No cleanup shown for 'datatype' values */
     int i = 0;
-    char *datatype = get_datatype_from_stat(i);
+    char *datatype = get_name_from_file(PARSE_DATATYPE_LIST_FILE_NAME, i);
     i++;
     while(datatype != NULL){
         if(strcmp(token, datatype) == 0){

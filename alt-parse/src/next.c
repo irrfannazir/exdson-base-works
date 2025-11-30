@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "../data.h"
 #include "parseh.h"
+#include "inlinef.h"
 
 int lsn = 0;
 int ltn = 0;
@@ -24,8 +25,9 @@ int next_line(int *mln, int *mtn){
         push_error(error_message);
     }
     free(error_message);
+    method_inline_function(*mln);
     if(error != NULL){
-        printf("Error (%d): ", num_lines(lsn) + 1);
+        printf("Error (%d): ", num_lines(lsn));
         dont_compile = 1;
     }else{
         append_token_details(*mln);

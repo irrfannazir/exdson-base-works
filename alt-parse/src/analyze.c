@@ -1,10 +1,10 @@
 #include "tree.h"
 #include "syntax.h"
 #include "parseh.h"
+#include "strh.h"
 #include <stdio.h>
 #include <string.h>
 #include "../data.h"
-#include "strh.h"
 #include "../include/fileh.h"
 
 
@@ -82,6 +82,7 @@ int analyze_expression(struct Node *ptr){
     // Go through each line from syntax.txt
     int ln = 0;
     char *syn_line = get_nth_line(SYNTAX_DIRECTORY, ln, ptr -> format);
+    char *inline_function = strdup("");
     ln++;
     while(syn_line != NULL){
         int status;

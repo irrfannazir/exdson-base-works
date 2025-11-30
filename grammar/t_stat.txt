@@ -1,3 +1,2 @@
-TOKEN_DATATYPE:
-	single
-	array
+single
+array
