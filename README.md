@@ -1,6 +1,6 @@
 # Ex-DSON S2S Compiler
 
-I have seen lots of people who have been working hard on labs and studying programming langs. This compiler implements C program with simpler syntax ever.. Here's the compiler built for student who are working hard on c programming language.
+The S2S compiler which dynamically changes the syntax of the program throughout while programming. This compiler implements C program with simpler syntax. Here's the compiler built for student who are working hard on c programming language.
 
 ## Updates
 
