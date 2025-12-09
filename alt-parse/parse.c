@@ -82,7 +82,7 @@ void parsef(){
             continue;
         }
 
-        // save identifier fordeclaration purpose
+        // save identifier for declaration purpose
         if (get_type(index) == TOKEN_IDENTIFIER && contains_function(read_nth_content_from_file(METHOD_DIRECTORY, mln))){
             strcpy(working_identifier, get_token(index));
         }

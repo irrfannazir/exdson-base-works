@@ -17,6 +17,5 @@ void add_the_header(const char *filename, const char *headername){
     }
     if(!flag){
         insert_before_target(PGM_EXATED_FILE_NAME, temp, INCLUDE_CURSOR);
-        printf("Insert_before_target worked");
     }
 }

@@ -29,6 +29,9 @@ static inline int method_inline_function(int mln){
             push_error(temp);
             return 1;
         }
+        if(get_function_name_from_method(mln) == NULL){
+            return 0;
+        }
         if(strcmp(get_function_name_from_method(mln), "DECLARE(ID)") == 0){
             append_name_to_file(DEFINED_IDENTIFIER_FILE_NAME, working_identifier);
         }else if(strcmp(get_function_name_from_method(mln), "DECLARE(FUNC)") == 0){

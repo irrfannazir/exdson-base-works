@@ -19,6 +19,7 @@ void print_statement(int *arr, int count){
         }else if(get_type(i) == TOKEN_STRING){
             strcat(format, get_token(i));
         }else if(get_type(i) == TOKEN_IDENTIFIER || get_type(i) == TOKEN_INTEGER){
+            if( strcmp(para, "") == 0 ) strcat(para, ",");
             switch(flag){
                 case NO:
                     strcat(format, "%d");
@@ -43,6 +44,6 @@ void print_statement(int *arr, int count){
             flag = TO;
         }
     }
-    sprintf(temp, "printf(\"%s\", %s);", format, para);
+    sprintf(temp, "printf(\"%s\"%s);", format, para);
     insert_before_target(PGM_EXATED_FILE_NAME, temp, PGM_CURSOR);
 }
