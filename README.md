@@ -4,6 +4,9 @@ I have seen lots of people who have been working hard on labs and studying progr
 
 ## Updates
 
+**v2.2.0**
+- Added inline functions in method.txt
+
 **v2.1.0**   
 - Can compile the program using the compiler which is not MSVC version
 - Now we can alter the syntax in order to our will manually or with prompt. You need to install node.js before using prompt.
