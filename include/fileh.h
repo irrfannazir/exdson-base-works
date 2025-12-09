@@ -21,12 +21,12 @@ static inline bool file_exists(const char* filename) {
 
 static inline void create_file(const char *filename, const char *content) {
     FILE *file = fopen(filename, "w");
-    if (file == NULL) {
+    if ( !file ) {
         __pc_error__("Error creating file named %s", filename);
         return;
     }
     
-    if (content != NULL) {
+    if (content) {
         if (fputs(content, file) == EOF) {
             __pc_error__("Error writing content to file %s", filename);
         }

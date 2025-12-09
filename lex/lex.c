@@ -168,7 +168,7 @@ int lexf(const int8_t isinput, const char *ex_filename){
         char *com;
         int i = 0;
         com = (char*)malloc(INLINE_PROGRAM_MAX_SIZE);
-        if(com == NULL){
+        if( !com ){
             printf("%s:%d: The memory allocation failed.\n", __FILE__, __LINE__);
         }
         scanf("%[^#]s", com);          // TODO: Replace with safer input method

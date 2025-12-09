@@ -5,7 +5,7 @@
 
 int get_indentation(int index){
     FILE *file = fopen(LEX_HANDLING_FILE_NAME, "r");
-    if (file == NULL) {
+    if ( !file ) {
         __pc_error__("Error while opening lex file named %s", LEX_HANDLING_FILE_NAME);
         return -1;
     }
@@ -33,7 +33,7 @@ int get_indentation(int index){
 
 char *get_token(int index) {
     FILE *file = fopen(LEX_HANDLING_FILE_NAME, "r");
-    if (file == NULL) {
+    if ( !file ) {
         __pc_error__("Error while opening lex file named %s", LEX_HANDLING_FILE_NAME);
         return NULL;
     }
@@ -63,7 +63,7 @@ char *get_token(int index) {
 
 t_type get_type(int index){
     FILE *file = fopen(LEX_HANDLING_FILE_NAME, "r");
-    if (file == NULL) {
+    if ( !file ) {
         __pc_error__("Error while opening lex file named %s", LEX_HANDLING_FILE_NAME);
         return TOKEN_NULL;
     }
@@ -95,7 +95,7 @@ t_type get_type(int index){
 
 void get_type_token(int index, t_type *type, char *str){
     FILE *file = fopen(LEX_HANDLING_FILE_NAME, "r");
-    if (file == NULL) {
+    if ( !file ) {
         __pc_error__("Error while opening lex file named %s", LEX_HANDLING_FILE_NAME);
         return;
     }

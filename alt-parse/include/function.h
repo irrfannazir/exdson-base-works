@@ -3,7 +3,7 @@
 #include <string.h>
 
 int contains_function(const char *str) {
-    if (str == NULL) return 0;
+    if (!str) return 0;
     return strstr(str, "$$") != NULL;
 }
 

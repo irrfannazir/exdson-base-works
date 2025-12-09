@@ -9,7 +9,7 @@
 
 void init_stat() {
     FILE *fp = fopen(PARSE_DATATYPE_LIST_FILE_NAME, "w");
-    if (fp == NULL) {
+    if ( !fp ) {
         __pc_error__("Error while initiating datatype list file named %s", PARSE_DATATYPE_LIST_FILE_NAME);
         return;
     }
@@ -19,7 +19,7 @@ void init_stat() {
 
 void append_name_to_file(const char *filename, const char *datatype) {
     FILE *fp = fopen(filename, "a");
-    if (fp == NULL) {
+    if ( !fp) {
         __pc_error__("Error while appending datatype to list file named %s", PARSE_DATATYPE_LIST_FILE_NAME);
         return;
     }
@@ -29,7 +29,7 @@ void append_name_to_file(const char *filename, const char *datatype) {
 
 char* get_name_from_file(const char *filename, int n) {
     FILE *fp = fopen(filename, "r");
-    if (fp == NULL) {
+    if ( !fp) {
         __pc_error__("Error while retrieving datatype from list file named %s", PARSE_DATATYPE_LIST_FILE_NAME);
         return NULL;
     }
@@ -54,7 +54,7 @@ char* get_name_from_file(const char *filename, int n) {
 
 char* get_datatype_from_stat(int n) {
     FILE *fp = fopen(PARSE_DATATYPE_LIST_FILE_NAME, "r");
-    if (fp == NULL) {
+    if (!fp) {
         __pc_error__("Error while retrieving datatype from list file named %s", PARSE_DATATYPE_LIST_FILE_NAME);
         return NULL;
     }

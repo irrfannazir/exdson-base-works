@@ -29,7 +29,7 @@ static inline int method_inline_function(int mln){
             push_error(temp);
             return 1;
         }
-        if(get_function_name_from_method(mln) == NULL){
+        if( !get_function_name_from_method(mln) ){
             return 0;
         }
         if(strcmp(get_function_name_from_method(mln), "DECLARE(ID)") == 0){

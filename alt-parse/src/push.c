@@ -10,7 +10,7 @@ int append_token_details(int mln){
         return 0;
     }
     FILE *file = fopen(PARSING_HANDLING_FILE_NAME, "a");
-    if(file == NULL){
+    if( !file ){
         __pc_error__("Error while appending the parsed data to file named %s", PARSING_HANDLING_FILE_NAME);
         return 1;
     }

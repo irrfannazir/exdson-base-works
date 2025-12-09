@@ -26,8 +26,8 @@ void parsef(){
         char *word = get_word_from_method(mln, mtn);
         int index = get_index_from_lex(1);
         #ifdef P_PARSE_DEBUG_MODE
-          if(word == NULL){
-              printf(";\n");
+          if(!word){
+              printf("The word is null\n");
           }
         #endif
         #ifdef P_PARSE_DEBUG_MODE
@@ -38,7 +38,7 @@ void parsef(){
             #ifdef P_PARSE_DEBUG_MODE
             printf("\tSkipping to next line.\n");
             #endif
-            if (get_token(get_index_from_lex(0)) == NULL) {
+            if ( !get_token(get_index_from_lex(0)) ) {
                 #ifdef P_PARSE_DEBUG_MODE
                  printf("End of parsing\n");
                 #endif
@@ -46,7 +46,7 @@ void parsef(){
             }
             continue;
         }else if (index == -1 || word == NULL){
-            if(word == NULL){
+            if( !word ){
                 char temp[1024];
                 sprintf(temp, "%s is unexpected", get_token(index));
                 push_error(temp);
@@ -106,7 +106,7 @@ void parsef(){
             int size;
             next_token(&mtn);
             char *end = get_word_from_method(mln, mtn);
-            if(end == NULL){
+            if( !end ){
                 int prev;
                 while(index != -1){
                     prev = index;

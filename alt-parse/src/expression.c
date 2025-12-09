@@ -47,7 +47,7 @@ int is_unidentified(struct Node *ptr){
 
 struct Node *find_next_expression(struct Node* root) {
     int index = 0;
-    if (root == NULL) return NULL;
+    if ( !root ) return NULL;
     if (root -> data == 0 && root -> size > 1 && root -> right == NULL && root -> left == NULL) return root;
     int arr[500];
 
