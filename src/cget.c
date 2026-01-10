@@ -1,5 +1,6 @@
-#include "fileh.h"
 #include "../alt-parse/include/strh.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 char *get_nth_line(const char* filename, int n, const char *keyword){
     

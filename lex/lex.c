@@ -25,7 +25,6 @@ typedef enum{
 const char delimiter = ';';
 
 
-int token_len = 0;       // TODO: Debug usage scope
 int is_eof = 0;          // TODO: Debug EOF logic dependency
 
 #define CHAR_ANAL_STATE(MSG) if(c == 's'){puts(MSG);}

@@ -24,7 +24,7 @@ int is_variable_redefining(){
 static inline int method_inline_function(int mln){
     if(working_identifier[0] != '\0'){
         if(is_variable_redefining()){
-            char temp[1024];
+            char temp[1024 + NAME_STRLEN];
             sprintf(temp, "Redefinition of %s", working_identifier);
             push_error(temp);
             return 1;

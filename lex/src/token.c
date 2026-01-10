@@ -7,7 +7,7 @@
 
 //from lexh.h
 extern int is_eof;
-extern int token_len;
+int token_len;
 extern int isstring;
 
 

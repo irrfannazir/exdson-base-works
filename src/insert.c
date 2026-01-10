@@ -1,6 +1,7 @@
-#include "fileh.h"
 #include <sys/stat.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define TEMP_FILE "temp_file.tmp"
 

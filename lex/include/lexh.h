@@ -36,7 +36,6 @@ void newline();
 
 //token.c
 extern int is_eof;
-extern int token_len;
 
 
 void new_token(char c);
