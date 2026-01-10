@@ -38,8 +38,8 @@ void newline();
 extern int is_eof;
 
 
-void new_token(char c);
-void append(char c);
+void new_token(char c, int *current_token_length);
+void append(char c, int *current_token_length);
 void error_found();
 int last_in();
 void next_type(int next);

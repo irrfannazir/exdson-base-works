@@ -16,6 +16,7 @@ struct lexState {
     int iscurly;
     c_type prev;
     int space_count;
+    int current_token_length;
 };
 
 static inline struct lexState initLexState() {
@@ -26,6 +27,7 @@ static inline struct lexState initLexState() {
     state.iscurly = 0;
     state.prev = CTYPE_PUNCT;
     state.space_count = 0;
+    state.current_token_length = 0;
     return state;
 }
 

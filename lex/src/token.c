@@ -7,7 +7,6 @@
 
 //from lexh.h
 extern int is_eof;
-int token_len;
 extern int isstring;
 
 
@@ -18,21 +17,21 @@ char current_token[TOKEN_STRING_MAX];
 int a = 0;
 
 //Append the character to the token
-void append(char c){
-    current_token[token_len] = c;
-    token_len++;
-    if(token_len >= TOKEN_SIZE_MAX){
+void append(char c, int *current_token_length){
+    current_token[*current_token_length] = c;
+    (*current_token_length)++;
+    if(*current_token_length >= TOKEN_SIZE_MAX){
         printf("The TOKEN_SIZE_MAX in (data.h) is less than you need.\n");
         exit(0);
     }
 }
 
 //Move the cursor to new token
-void new_token(char c){
+void new_token(char c, int *current_token_length){
     //Checks whether end of file is repeating
     if(!is_eof || temp != TOKEN_EOF){
         type[token_size] = temp;
-        current_token[token_len] = '\0';
+        current_token[*current_token_length] = '\0';
         //Put a flag whether a end of file is appended
         if(temp == TOKEN_EOF){
             is_eof = 1;
@@ -40,28 +39,28 @@ void new_token(char c){
             is_eof = 0;
         }
         // Checks whether the token is not empty
-        if(token_len != 0){
+        if(*current_token_length != 0){
             check_datatype(current_token, &type[token_size]);
             append_token_to_file(LEX_HANDLING_FILE_NAME, type[token_size], current_token);
-            token_len = 0;
+            *current_token_length = 0;
             token_size++;
         }else if(type[token_size] == TOKEN_EOF){
             check_datatype(current_token, &type[token_size]);
             append_token_to_file(LEX_HANDLING_FILE_NAME, type[token_size], current_token);
-            token_len = 0;
+            *current_token_length = 0;
             token_size++;
         }
         if(c != '\0'){
             //Check whether the c is not a null
-            current_token[token_len] = c;
+            current_token[*current_token_length] = c;
             temp = TOKEN_EOF;
-            token_len = 1;
+            *current_token_length = 1;
         }
     }else if(c != '\0'){
         //Check whether the c is not a null
-        current_token[token_len] = c;
+        current_token[*current_token_length] = c;
         temp = TOKEN_EOF;
-        token_len = 1;
+        *current_token_length = 1;
         is_eof = 0;
     }
 }
