@@ -7,7 +7,8 @@ The S2S compiler for LOPS >> language oriented programming system.
 ## Application
 
 - Robotics: A new simple programming language can be created for robot mechanism, instead of programming multiple lines at once
-- Backend Development: 
+- Software Development: Organize multiple programs as a customized syntax.
+
 
 ## Updates
 
@@ -27,7 +28,7 @@ node tools/undo_method.js
 
 
 ## More about it
-Ex-red is a programming language simple programming language syntax to understand the compiler. By analyzing this open-source compiler, you can understand how the common compiler are working. 
+Ex-c is a programming language simple programming language syntax to understand the compiler. By analyzing this open-source compiler, you can understand how the common compiler are working. 
 
 *The Ex-DSON Compiler is lightwieght.*  
 The syntax is primitive. So, it is simple and lightwieght.
@@ -50,7 +51,7 @@ Consider n as the number of tokens in the program, m as the maximum length of th
    ```
 
 ### Compiling & Running
-1. Write your Ex-red program as input in main.ex file.
+1. Write your Ex-c program as input in main.ex file.
    An example program for declaring a variable.
    ```sh
    single a = 3+5*3;
