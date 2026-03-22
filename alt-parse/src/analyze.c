@@ -8,24 +8,25 @@
 #include "../include/fileh.h"
 
 
-int count_nos(char *line){
+int count_tree_needed_words(char *line){
     int count = 0;
-    int tn = 0;
-    char *st = tokenize_white_space(line, tn);
-    tn++;
-    while(st != NULL){
-        if(does_tree_needed(st)){
+    char *copy = strdup(line);
+    if (!copy) return 0;
+    
+    char *token = strtok(copy, " \t\n");
+    while(token != NULL){
+        if(does_tree_needed(token)){
             count++;
         }
-        st = tokenize_white_space(line, tn);
-        tn++;
-    }
+        token = strtok(NULL, " \t\n");
+    }    
+    free(copy);
     return count;
 }
 
 int check_line(struct Node *ptr, char *syn_line){
     int tn = 0;
-    int nos = count_nos(syn_line);
+    int nos = count_tree_needed_words(syn_line);
     int ci = ptr->start;
     char *word = tokenize_white_space(syn_line, tn++);
     while(word != NULL){
