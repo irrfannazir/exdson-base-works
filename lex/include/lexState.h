@@ -17,9 +17,10 @@ struct lexState {
     c_type prev;
     int space_count;
     int current_token_length;
+    const char *lhfn;
 };
 
-static inline struct lexState initLexState() {
+static inline struct lexState initLexState(const char *dest_filename) {
     struct lexState state;
     state.isstring = 0;
     state.isenter = 0;
@@ -28,6 +29,7 @@ static inline struct lexState initLexState() {
     state.prev = CTYPE_PUNCT;
     state.space_count = 0;
     state.current_token_length = 0;
+    state.lhfn = dest_filename;
     return state;
 }
 

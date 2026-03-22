@@ -27,7 +27,7 @@ void append(char c, int *current_token_length){
 }
 
 //Move the cursor to new token
-void new_token(char c, int *current_token_length){
+void new_token(const char *lhfn, char c, int *current_token_length){
     //Checks whether end of file is repeating
     if(!is_eof || temp != TOKEN_EOF){
         type[token_size] = temp;
@@ -41,12 +41,12 @@ void new_token(char c, int *current_token_length){
         // Checks whether the token is not empty
         if(*current_token_length != 0){
             check_datatype(current_token, &type[token_size]);
-            append_token_to_file(LEX_HANDLING_FILE_NAME, type[token_size], current_token);
+            append_token_to_file(lhfn, type[token_size], current_token);
             *current_token_length = 0;
             token_size++;
         }else if(type[token_size] == TOKEN_EOF){
             check_datatype(current_token, &type[token_size]);
-            append_token_to_file(LEX_HANDLING_FILE_NAME, type[token_size], current_token);
+            append_token_to_file(lhfn, type[token_size], current_token);
             *current_token_length = 0;
             token_size++;
         }

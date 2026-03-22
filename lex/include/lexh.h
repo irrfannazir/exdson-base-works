@@ -38,7 +38,7 @@ void newline();
 extern int is_eof;
 
 
-void new_token(char c, int *current_token_length);
+void new_token(const char *lhfn, char c, int *current_token_length);
 void append(char c, int *current_token_length);
 void error_found();
 int last_in();
