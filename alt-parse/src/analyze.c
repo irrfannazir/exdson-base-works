@@ -40,8 +40,8 @@ int check_line(struct Node *ptr, char *syn_line){
                 }
                 if(nos == 3){
                     if(ptr -> right != NULL){
-                        ptr -> right -> left = createNode(strdup(word), EXPRESSION, ptr->start, ci - ptr->start);
-                        ptr -> right -> right = createNode(NULL, EXPRESSION, ci + 1, -1);
+                        ptr -> right -> right = createNode(strdup(word), EXPRESSION, ptr->start, ci - ptr->start);
+                        ptr -> right -> left = createNode(NULL, EXPRESSION, ci + 1, -1);
                     }else{
                         ptr -> left = createNode(strdup(word), EXPRESSION, ptr -> start, ci - ptr -> start);
                         ptr -> right = createNode(NULL, BINARY_EXPRESSION, -1, -1);
@@ -51,17 +51,17 @@ int check_line(struct Node *ptr, char *syn_line){
                 else if(nos == 2){
                     ptr->left = createNode(NULL, OPERATOR, ci, 1);
                     ptr->right = createNode(NULL, BINARY_EXPRESSION, -1, -1);
-                    ptr->right->left = createNode(strdup(word), EXPRESSION, ptr->start, ci - ptr->start);
-                    ptr->right->right = createNode(NULL, EXPRESSION, ci + 1, (ptr->start + ptr->size) - (ci + 1));
+                    ptr->right->right = createNode(strdup(word), EXPRESSION, ptr->start, ci - ptr->start);
+                    ptr->right->left = createNode(NULL, EXPRESSION, ci + 1, (ptr->start + ptr->size) - (ci + 1));
                 }
             } else {
                 if(ptr->right && ptr->right->right){
                     if(nos == 3){
-                        ptr -> right -> right -> format = strdup(word);
-                        ptr -> right -> right -> size = (ptr->start + ptr->size) - ptr -> right -> right -> start;
+                        ptr -> right -> left -> format = strdup(word);
+                        ptr -> right -> left -> size = (ptr->start + ptr->size) - ptr -> right -> left -> start;
                     }else if(nos == 2){
-                        ptr->right->right->format = strdup(word);
-                        ptr->right->right->size = (ptr->start + ptr->size) - ptr->right->right->start;
+                        ptr->right->left->format = strdup(word);
+                        ptr->right->left->size = (ptr->start + ptr->size) - ptr->right->left->start;
                     }
                 }
                 
