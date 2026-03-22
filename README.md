@@ -1,6 +1,14 @@
 # Ex-DSON S2S Compiler
 
-The S2S compiler which dynamically changes the syntax of the program throughout while programming. This compiler implements C program with simpler syntax. Here's the compiler built for student who are working hard on c programming language.
+The S2S compiler for LOPS >> language oriented programming system.   
+- It dynamically changes the syntax of the program throughout while programming.
+- This compiler implements C program with simpler syntax.
+
+## Application
+
+- Robotics: A new simple programming language can be created for robot mechanism, instead of programming multiple lines at once
+- Software Development: Organize multiple programs as a customized syntax.
+
 
 ## Updates
 
@@ -19,12 +27,8 @@ node tools/undo_method.js
 
 
 
-## Overview
-Ex-DSON is a programming language simple programming language syntax to understand the compiler. By analyzing this open-source compiler, you can understand how the common compiler are working. 
-
-
-*How it's working?*  
-This S2S Compiler translates the programming language written inside the compiler program into C, compiles it.
+## More about it
+Ex-c is a programming language simple programming language syntax to understand the compiler. By analyzing this open-source compiler, you can understand how the common compiler are working. 
 
 *The Ex-DSON Compiler is lightwieght.*  
 The syntax is primitive. So, it is simple and lightwieght.
@@ -47,7 +51,7 @@ Consider n as the number of tokens in the program, m as the maximum length of th
    ```
 
 ### Compiling & Running
-1. Write your Exdson program as input in main.ex file.
+1. Write your Ex-c program as input in main.ex file.
    An example program for declaring a variable.
    ```sh
    single a = 3+5*3;
