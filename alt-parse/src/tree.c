@@ -3,22 +3,22 @@
 #include "../data.h"
 #include "pdebug.h"
 
-void displayStartAndSize(struct Node *root) {
-    if (root == NULL) {
-        return;
-    }
+// void displayStartAndSize(struct Node *root) {
+//     if (root == NULL) {
+//         return;
+//     }
     
-    if(root -> left == NULL && root -> right == NULL){
-        for(int i = root -> start ; i < root -> start + root -> size; i++){
-            printf("%s ", get_token(i));
-        }
-        printf("\n");
-    }
+//     if(root -> left == NULL && root -> right == NULL){
+//         for(int i = root -> start ; i < root -> start + root -> size; i++){
+//             printf("%s ", get_token(i));
+//         }
+//         printf("\n");
+//     }
 
-    // Recursively display left and right children
-    displayStartAndSize(root->right);
-    displayStartAndSize(root->left);
-}
+//     // Recursively display left and right children
+//     displayStartAndSize(root->right);
+//     displayStartAndSize(root->left);
+// }
 
 /*It is the where parsing tree in implemented*/
 int parsing_tree_analysis(char *format, int start, int size){
@@ -31,7 +31,7 @@ int parsing_tree_analysis(char *format, int start, int size){
          printf("to %s\n", get_token(ptr -> start + ptr -> size));
         #endif
         int status = analyze_expression(ptr);
-        displayStartAndSize(root);
+        // displayStartAndSize(root);
         printf("\n\n");
         if(status){
             printf("Invalid Expression.\n");
