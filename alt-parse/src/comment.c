@@ -69,24 +69,19 @@ char *get_function_name_from_method(int line_number) {
     int current_line = 0;
 
     while (fgets(line, sizeof(line), file)) {
-        if(is_inline_comment(line)){
-            continue;
-        }
+        if(is_inline_comment(line)) continue;
+        
         if (current_line == line_number) {
             fclose(file);
 
             // Look for '$$'
             char *comment_start = strstr(line, SYNTAX_FUNCTION_TOKEN);
-            if (!comment_start) {
-                return NULL;
-            }
+            if (!comment_start) return NULL;
 
             comment_start += 2;
 
             // Skip whitespace
-            while (*comment_start == ' ' || *comment_start == '\t') {
-                comment_start++;
-            }
+            while (*comment_start == ' ' || *comment_start == '\t') comment_start++;
 
             // Remove trailing newline
             char *newline = strchr(comment_start, '\n');
