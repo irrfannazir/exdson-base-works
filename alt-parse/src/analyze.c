@@ -67,21 +67,27 @@ int find_matching_token(int ci, struct Node *ptr, char *end) {
 }
 
 int check_line(struct Node *ptr, char *syn_line) {
-    int tn = 0;
     int nos = count_tree_needed_words(syn_line);
     int ci = ptr->start;
 
-    char *word = tokenize_white_space(syn_line, tn++);
+    char *copy = strdup(syn_line);
+    if (!copy) return 1;
+
+    char *word = strtok(copy, " \t\n");
 
     while (word != NULL) {
-
         if (does_tree_needed(word)) {
-            char *end = tokenize_white_space(syn_line, tn++);
-            if (end != NULL) {
+            char *end = strtok(NULL, " \t\n");
 
+            if (end != NULL) {
                 ci = find_matching_token(ci, ptr, end);
-                if (ci == ptr->start + ptr->size) return 1;
-                switch (nos){
+
+                if (ci == ptr->start + ptr->size) {
+                    free(copy);
+                    return 1;
+                }
+
+                switch (nos) {
                     case 3:
                         ci = handle_tertiary_op(ptr, word, ci);
                         break;
@@ -89,18 +95,20 @@ int check_line(struct Node *ptr, char *syn_line) {
                         handle_binary_op(ptr, word, ci);
                         break;
                 }
-
             } else {
                 assign_last_word(ptr, word, nos);
             }
-        } else if (!compare_the_word(word, get_token(ci))) {
+        } 
+        else if (!compare_the_word(word, get_token(ci))) {
+            free(copy);
             return 1;
         }
 
-        word = tokenize_white_space(syn_line, tn++);
+        word = strtok(NULL, " \t\n");
         ci++;
     }
 
+    free(copy);
     return 0;
 }
 
