@@ -76,27 +76,23 @@ int check_line(struct Node *ptr, char *syn_line) {
     while (word != NULL) {
 
         if (does_tree_needed(word)) {
-
             char *end = tokenize_white_space(syn_line, tn++);
-
             if (end != NULL) {
 
                 ci = find_matching_token(ci, ptr, end);
-
-                if (ci == ptr->start + ptr->size) {
-                    return 1;
-                }
-
-                if (nos == 3) {
-                    ci = handle_tertiary_op(ptr, word, ci);
-                } else if (nos == 2) {
-                    handle_binary_op(ptr, word, ci);
+                if (ci == ptr->start + ptr->size) return 1;
+                switch (nos){
+                    case 3:
+                        ci = handle_tertiary_op(ptr, word, ci);
+                        break;
+                    case 2:
+                        handle_binary_op(ptr, word, ci);
+                        break;
                 }
 
             } else {
                 assign_last_word(ptr, word, nos);
             }
-
         } else if (!compare_the_word(word, get_token(ci))) {
             return 1;
         }
