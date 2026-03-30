@@ -9,6 +9,27 @@ The S2S compiler for LOPS >> language oriented programming system.
 - Robotics: A new simple programming language can be created for robot mechanism, instead of programming multiple lines at once
 - Software Development: Organize multiple programs as a customized syntax.
 
+### Compiling & Running
+1. Write your Ex-c program as input in main.ex file.
+   An example program for declaring a variable.
+   ```sh
+   single a = 3+5*3;
+   print{
+      "The number is ",
+      a,
+      "\n"
+   }
+   ```
+
+2. Run the Main Bat file which includes every compilation commands.
+   ```sh
+   # In Linux
+      bash linux.bat
+   # In Windows
+      .\win.bat
+   ```
+3. It shows the c program which has been executed and shows the details of the compilation.
+
 
 ## Updates
 
@@ -49,28 +70,6 @@ Consider n as the number of tokens in the program, m as the maximum length of th
    ```sh
    ./main.exe
    ```
-
-### Compiling & Running
-1. Write your Ex-c program as input in main.ex file.
-   An example program for declaring a variable.
-   ```sh
-   single a = 3+5*3;
-   print{
-      "The number is ",
-      a,
-      "\n"
-   }
-   ```
-
-2. Run the Main Bat file which includes every compilation commands.
-   ```sh
-   # In Linux
-      bash linux.bat
-   # In Windows
-      .\win.bat
-   ```
-3. It shows the c program which has been executed and shows the details of the compilation.
-
 
 ## Features
 1. To activate interactive mode, Just type "ex-c".
