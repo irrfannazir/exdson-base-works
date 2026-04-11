@@ -28,6 +28,93 @@ const char delimiter = ';';
 int is_eof = 0;          // TODO: Debug EOF logic dependency
 
 #define CHAR_ANAL_STATE(MSG) if(c == 's'){puts(MSG);}
+#define DFA_FILENAME "dfa_lex.txt"
+
+
+int dfa_char_analysis(char c, int *s){
+    switch(*s){
+        case 0: // Start State
+            if(is_string_introduced(c)){
+                *s = 1;
+            }else if(is_char(c)){
+                *s = 2;
+            }else if(is_digit(c)){
+                *s = 3;
+            }else if(is_oper(c)){
+                *s = 4;
+            }
+            if(c != ' ' && c != '\n' && c != delimiter){
+                dfa_string_conc(DFA_FILENAME, c);
+            }
+            break;
+        case 1: // String introduced
+            dfa_string_conc(DFA_FILENAME, c);
+            if(is_string_introduced(c)){
+                dfa_new_token(DFA_FILENAME, TOKEN_STRING);
+                *s = 0;
+            }
+            break;
+        case 2: // Identifier found
+            if(c == ' '){
+                dfa_new_token(DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
+                *s = 0;
+            }else if(c == '\n' || c == delimiter){
+                dfa_new_token(DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
+                *s = 0;
+            }else if(is_char(c) || is_digit(c)){
+                dfa_string_conc(DFA_FILENAME, c);
+            }else if(is_oper(c)){
+                dfa_new_token(DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
+                dfa_string_conc(DFA_FILENAME, c);
+                *s = 4;
+            }else{
+                *s = -1;
+            }
+            break;
+        case 3: // Digit found
+            if(c == ' '){
+                dfa_new_token(DFA_FILENAME, TOKEN_INTEGER);
+                *s = 0;
+            }else if(c == '\n' || c == delimiter){
+                dfa_new_token(DFA_FILENAME, TOKEN_INTEGER);
+                *s = 0;
+            }else if(is_punct(c)){
+                dfa_new_token(DFA_FILENAME, TOKEN_INTEGER);
+                dfa_string_conc(DFA_FILENAME, c);
+                *s = 4;
+            }else if(is_digit(c)){
+                dfa_string_conc(DFA_FILENAME, c);
+            }else{
+                *s = -1;
+            }
+            break;
+        case 4: // Operator found
+            if(c == ' '){
+                dfa_new_token(DFA_FILENAME, TOKEN_OPERATOR);
+                *s = 0;
+            }else if(c == '\n' || c == delimiter){
+                dfa_new_token(DFA_FILENAME, TOKEN_OPERATOR);
+                *s = 0;
+            }else if(is_oper(c)){
+                dfa_string_conc(DFA_FILENAME, c);
+                *s = 4;
+            }else if(is_char(c)){
+                dfa_new_token(DFA_FILENAME, TOKEN_OPERATOR);
+                dfa_string_conc(DFA_FILENAME, c);
+                *s = 2;
+            }else if(is_digit(c)){
+                dfa_new_token(DFA_FILENAME, TOKEN_OPERATOR);
+                dfa_string_conc(DFA_FILENAME, c);
+                *s = 3;
+            }else{
+                *s = -1;
+            }
+            break;
+        case -1:
+            puts("Error found!");
+            break;
+    }
+}
 
 int char_analysis(char c, struct lexState *s){
     if(s -> isstring){
@@ -159,7 +246,9 @@ int char_analysis(char c, struct lexState *s){
 int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filename){
     char c;
     int cec = 0;
+    int state = 0;
     clear_file(dest_filename);
+    clear_file(DFA_FILENAME);
     newline();
     init_stat();
     struct lexState s = initLexState(dest_filename);
@@ -173,6 +262,9 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
         scanf("%[^#]s", com);          // TODO: Replace with safer input method
         while(com[i] != '\0'){
             int status = char_analysis(com[i], &s);
+            // printf("%c: %d -> ", com[i], state);
+            dfa_char_analysis(com[i], &state);
+            // printf("%d\n", state);
             i++;
 	        if (status) cec++;
 	        if (cec > 3) break;
@@ -187,6 +279,7 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
         }
         while((c = fgetc(file)) != (signed int)0xffffffff){
             int status = char_analysis(c, &s);
+            dfa_char_analysis(c, &state);
 	        if (status) cec++;
 	        if (cec > 3) break;
         }
@@ -194,6 +287,8 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
         fclose(file);
     }
     printf("\nTokenizing the command.\n");
+
+    dfa_char_analysis('\n', &state);
 
     if(c != ' ' && c != '\n' && c != delimiter){
         new_token( s.lhfn, '\0', &(s.current_token_length));

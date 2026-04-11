@@ -2,6 +2,10 @@
 #define LEXH_H
 #define INLINE_PROGRAM_MAX_SIZE 500
 
+static inline int is_string_introduced(char c){
+    return (c == '"') || (c == '`');
+}
+
 static inline int is_char(char c) {
     return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
@@ -47,6 +51,13 @@ int size();
 int prev_type();
 int num_lines(int size);
 void display_token();
+
+//dfa
+
+
+int lexeme_of_last_line(const char *filename);
+int dfa_new_token(const char *filename, t_type value);
+int dfa_string_conc(const char *filename, char c);
 
 
 #endif
