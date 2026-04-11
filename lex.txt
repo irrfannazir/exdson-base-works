@@ -1,7 +1,14 @@
+<<<<<<< Updated upstream
 0 
 -1 0
 6 single
 1 a
 4 =
+2 4
+4 *
 2 3
+4 +
+2 2
 0 
+=======
+>>>>>>> Stashed changes
