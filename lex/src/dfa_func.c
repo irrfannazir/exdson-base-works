@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "../data.h"
 
 int dfa_new_token(const char *filename, t_type value){
     FILE *fp = fopen(filename, "a");
