@@ -14,3 +14,4 @@ typedef enum{
 int lexeme_of_last_line(const char *filename);
 int dfa_new_token(const char *filename, t_type value);
 int dfa_string_conc(const char *filename, char c);
+int dfa_new_line(const char *filename, int indent);
