@@ -28,7 +28,7 @@ int check_the_type(char *word, t_type type);
 int append_token_details(int mln); //Saves the index in a file for parsing
 int does_tree_needed(char *word); //Is word contains in tree.txt ending with ':'
 int parsing_tree_analysis(char *format, int start, int size); //Here is the function for parsing
-void append_name_to_file(const char *filename, const char *datatype); //Append name into the filename
+int fputs_with_newl(const char *filename, const char *str); //Append string into the filename
 
 void push_error(const char *temp);
 int print_error();
