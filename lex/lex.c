@@ -1,6 +1,6 @@
 #include "include/lexh.h"
 #include "include/clearf.h"
-#include "include/lexState.h"
+#include "include/lexInfo.h"
 #include "include/dfah.h"
 #include "filename.h"
 #include "d_fh.h"
@@ -20,15 +20,13 @@ int is_eof = 0;          // TODO: Debug EOF logic dependency
 #define DFA_LEXEME_FILENAME "dfa_lexeme.txt"
 #define DFA_TOKEN_FILENAME "dfa_token.txt"
 
-int indent = 0;
-int ignore_newline = 0;
-const int sitc = 2;
 
-int dfa_char_analysis(char c, int *s){
+
+int dfa_char_analysis(char c, int *s, struct lexInfo *li){
     switch(*s){
         case 0: // Start State: After newline
             if(c == ' '){
-                indent++;
+                (li -> indent)++;
             }else if(is_string_introduced(c)){
                 *s = 2;
             }else if(is_char(c)){
@@ -42,14 +40,14 @@ int dfa_char_analysis(char c, int *s){
             }
     
             if(c != ' ' && c != '\n' && c != delimiter){
-                if (!ignore_newline) dfa_new_line(DFA_TOKEN_FILENAME, indent / sitc);
+                if (!(li -> ignore_newline)) dfa_new_line(DFA_TOKEN_FILENAME, (li -> indent) / sitc);
                 dfa_string_conc(DFA_LEXEME_FILENAME, c);
             }
             break;
         case 1: //Space found
             if(c == '\n' || c == delimiter){
                 *s = 0;
-                indent = 0;
+                (li -> indent) = 0;
             }else if(is_string_introduced(c)){
                 *s = 2;
             }else if(is_char(c)){
@@ -79,7 +77,7 @@ int dfa_char_analysis(char c, int *s){
                 *s = 1;
             }else if(c == '\n' || c == delimiter){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, lexeme_of_last_line(DFA_LEXEME_FILENAME));
-                indent = 0;
+                (li -> indent) = 0;
                 *s = 0;
             }else if(is_string_introduced(c)){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, lexeme_of_last_line(DFA_LEXEME_FILENAME));
@@ -105,7 +103,7 @@ int dfa_char_analysis(char c, int *s){
                 *s = 1;
             }else if(c == '\n' || c == delimiter){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
-                indent = 0;
+                (li -> indent) = 0;
                 *s = 0;
             }else if(is_string_introduced(c)){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
@@ -131,7 +129,7 @@ int dfa_char_analysis(char c, int *s){
                 *s = 1;
             }else if(c == '\n' || c == delimiter){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_OPERATOR);
-                indent = 0;
+                (li -> indent) = 0;
                 *s = 0;
             }else if(is_string_introduced(c)){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_OPERATOR);
@@ -162,7 +160,7 @@ int dfa_char_analysis(char c, int *s){
                 *s = 1;
             }else if(c == '\n' || c == delimiter){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_PUNCTUATION);
-                indent = 0;
+                (li -> indent) = 0;
                 *s = 0;
             }else if(is_string_introduced(c)){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_PUNCTUATION);
@@ -191,8 +189,8 @@ int dfa_char_analysis(char c, int *s){
             *s = 0;
             break;
     }
-    if (c == '{' || c == '(') ignore_newline = 1;
-    if ( ignore_newline && (c == '}' || c == ')')) ignore_newline = 0;
+    if (c == '{' || c == '(') (li -> ignore_newline) = 1;
+    if ( (li -> ignore_newline) && (c == '}' || c == ')')) (li -> ignore_newline) = 0;
     if (*s == -1) return 1;
     return 0;
 }
@@ -201,6 +199,7 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
     char c;
     int cec = 0;
     int state = 0;
+    struct lexInfo li = initLexInfo();
     clear_file(dest_filename);
     clear_file(DFA_LEXEME_FILENAME);
     clear_file(DFA_TOKEN_FILENAME);
@@ -214,7 +213,7 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
         }
         scanf("%[^#]s", com);          // TODO: Replace with safer input method
         while(com[i] != '\0'){
-            int status = dfa_char_analysis(com[i], &state);
+            int status = dfa_char_analysis(com[i], &state, &li);
             i++;
 	        if (status) cec++;
 	        if (cec > 3) break;
@@ -228,7 +227,7 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
             return 1;
         }
         while((c = fgetc(file)) != (signed int)0xffffffff){
-            int status = dfa_char_analysis(c, &state);
+            int status = dfa_char_analysis(c, &state, &li);
             if (status) cec++;
 	        if (cec > 3) break;
         }
@@ -237,7 +236,7 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
     }
     printf("\nTokenizing the command.\n");
 
-    dfa_char_analysis('\n', &state);
+    dfa_char_analysis('\n', &state, &li);
     change_to_form(dest_filename, DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME);
     return 0;
 }
