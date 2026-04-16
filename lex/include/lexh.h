@@ -38,12 +38,6 @@ static inline int is_oper(char c) {
 
 
 //token.c
-// extern int is_eof;
-
-
-void error_found();
-int last_in();
-int size();
 int num_lines(int size);
 void display_token();
 
