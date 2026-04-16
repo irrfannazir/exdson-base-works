@@ -1,14 +1,17 @@
 #include <stdio.h>
 #include "../data.h"
 
-int dfa_new_token(const char *filename, t_type value){
-    FILE *fp = fopen(filename, "a");
-    if (fp == NULL) {
+int dfa_new_token(const char *fn1, const char *fn2, t_type value){
+    FILE *fp1 = fopen(fn1, "a");
+    FILE *fp2 = fopen(fn2, "a");
+    if (fp1 == NULL) {
         printf("Error opening file for concatenation.\n");
         return 1;
     }
-    fprintf(fp, " %d\n", value);
-    fclose(fp);
+    fprintf(fp1, "0 %d\n", value);
+    fputc('\n', fp2);
+    fclose(fp1);
+    fclose(fp2);
 }
 
 int dfa_string_conc(const char *filename, char c){
@@ -27,8 +30,6 @@ int dfa_new_line(const char *filename, int indent){
         printf("Error opening file for concatenation.\n");
         return 1;
     }
-    fputc('0', fp);
-    fputc('\n', fp);
-    fprintf(fp, "-1 %d\n", indent);
+    fprintf(fp, "1 %d\n", indent);
     fclose(fp);
 }

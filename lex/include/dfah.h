@@ -1,4 +1,6 @@
 //dfa
+
+
 typedef enum{
     TOKEN_EOF,          // 0 End Of File
     TOKEN_IDENTIFIER,   // 1 Identifiers (variables, function names, etc.)
@@ -11,7 +13,8 @@ typedef enum{
     TOKEN_STRING        // 8 String literals (e.g., "Hello")
 } t_type;
 
-int lexeme_of_last_line(const char *filename);
-int dfa_new_token(const char *filename, t_type value);
+t_type lexeme_of_last_line(const char *filename);
+int dfa_new_token(const char *fn1, const char *fn2, t_type value);
 int dfa_string_conc(const char *filename, char c);
 int dfa_new_line(const char *filename, int indent);
+int change_to_form(const char *fnw, const char *fn1, const char *fn2);

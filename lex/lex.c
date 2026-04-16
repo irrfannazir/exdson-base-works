@@ -17,7 +17,9 @@ const char delimiter = ';';
 int is_eof = 0;          // TODO: Debug EOF logic dependency
 
 #define CHAR_ANAL_STATE(MSG) if(c == 's'){puts(MSG);}
-#define DFA_FILENAME "dfa_lex.txt"
+#define DFA_FILENAME "dfa_n_lex.txt"
+#define DFA_T_FILENAME "dfa_token.txt"
+#define DFA_FINAL_FILENAME "lex.txt"
 
 int indent = 0;
 int ignore_newline = 0;
@@ -41,7 +43,7 @@ int dfa_char_analysis(char c, int *s){
             }
     
             if(c != ' ' && c != '\n' && c != delimiter){
-                if (!ignore_newline) dfa_new_line(DFA_FILENAME, indent / sitc);
+                if (!ignore_newline) dfa_new_line(DFA_T_FILENAME, indent / sitc);
                 dfa_string_conc(DFA_FILENAME, c);
             }
             break;
@@ -68,30 +70,30 @@ int dfa_char_analysis(char c, int *s){
         case 2: // String introduced
             dfa_string_conc(DFA_FILENAME, c);
             if(is_string_introduced(c)){
-                dfa_new_token(DFA_FILENAME, TOKEN_STRING);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_STRING);
                 *s = 0;
             }
             break;
         case 3: // Identifier found
             if(c == ' '){
-                dfa_new_token(DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
                 *s = 1;
             }else if(c == '\n' || c == delimiter){
-                dfa_new_token(DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
                 indent = 0;
                 *s = 0;
             }else if(is_string_introduced(c)){
-                dfa_new_token(DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 2;
             }else if(is_char(c) || is_digit(c)){
                 dfa_string_conc(DFA_FILENAME, c);
             }else if(is_oper(c)){
-                dfa_new_token(DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 5;
             }else if(is_punct(c)){
-                dfa_new_token(DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, lexeme_of_last_line(DFA_FILENAME));
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 6;
             }else{
@@ -100,24 +102,24 @@ int dfa_char_analysis(char c, int *s){
             break;
         case 4: // Digit found
             if(c == ' '){
-                dfa_new_token(DFA_FILENAME, TOKEN_INTEGER);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_INTEGER);
                 *s = 1;
             }else if(c == '\n' || c == delimiter){
-                dfa_new_token(DFA_FILENAME, TOKEN_INTEGER);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_INTEGER);
                 indent = 0;
                 *s = 0;
             }else if(is_string_introduced(c)){
-                dfa_new_token(DFA_FILENAME, TOKEN_INTEGER);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_INTEGER);
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 2;
             }else if(is_oper(c)){
-                dfa_new_token(DFA_FILENAME, TOKEN_INTEGER);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_INTEGER);
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 5;
             }else if(is_digit(c)){
                 dfa_string_conc(DFA_FILENAME, c);
             }else if(is_punct(c)){
-                dfa_new_token(DFA_FILENAME, TOKEN_INTEGER);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_INTEGER);
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 6;
             }else{
@@ -126,29 +128,29 @@ int dfa_char_analysis(char c, int *s){
             break;
         case 5: // Operator found
             if(c == ' '){
-                dfa_new_token(DFA_FILENAME, TOKEN_OPERATOR);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_OPERATOR);
                 *s = 1;
             }else if(c == '\n' || c == delimiter){
-                dfa_new_token(DFA_FILENAME, TOKEN_OPERATOR);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_OPERATOR);
                 indent = 0;
                 *s = 0;
             }else if(is_string_introduced(c)){
-                dfa_new_token(DFA_FILENAME, TOKEN_OPERATOR);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_OPERATOR);
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 2;
             }else if(is_oper(c)){
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 5;
             }else if(is_char(c)){
-                dfa_new_token(DFA_FILENAME, TOKEN_OPERATOR);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_OPERATOR);
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 3;
             }else if(is_digit(c)){
-                dfa_new_token(DFA_FILENAME, TOKEN_OPERATOR);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_OPERATOR);
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 4;
             }else if(is_punct(c)){
-                dfa_new_token(DFA_FILENAME, TOKEN_OPERATOR);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_OPERATOR);
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 6;
             }else{
@@ -157,29 +159,29 @@ int dfa_char_analysis(char c, int *s){
             break;
         case 6: // Punctuator
             if(c == ' '){
-                dfa_new_token(DFA_FILENAME, TOKEN_PUNCTUATION);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_PUNCTUATION);
                 *s = 1;
             }else if(c == '\n' || c == delimiter){
-                dfa_new_token(DFA_FILENAME, TOKEN_PUNCTUATION);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_PUNCTUATION);
                 indent = 0;
                 *s = 0;
             }else if(is_string_introduced(c)){
-                dfa_new_token(DFA_FILENAME, TOKEN_PUNCTUATION);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_PUNCTUATION);
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 2;
             }else if(is_oper(c)){
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 5;
             }else if(is_char(c)){
-                dfa_new_token(DFA_FILENAME, TOKEN_PUNCTUATION);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_PUNCTUATION);
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 3;
             }else if(is_digit(c)){
-                dfa_new_token(DFA_FILENAME, TOKEN_PUNCTUATION);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_PUNCTUATION);
                 dfa_string_conc(DFA_FILENAME, c);
                 *s = 4;
             }else if(is_punct(c)){
-                dfa_new_token(DFA_FILENAME, TOKEN_PUNCTUATION);
+                dfa_new_token(DFA_T_FILENAME, DFA_FILENAME, TOKEN_PUNCTUATION);
                 dfa_string_conc(DFA_FILENAME, c);
             }else{
                 *s = -1;
@@ -327,6 +329,7 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
     int state = 0;
     clear_file(dest_filename);
     clear_file(DFA_FILENAME);
+    clear_file(DFA_T_FILENAME);
     newline();
     init_stat();
     struct lexState s = initLexState(dest_filename);
@@ -369,6 +372,8 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
     printf("\nTokenizing the command.\n");
 
     dfa_char_analysis('\n', &state);
+    clear_file(DFA_FINAL_FILENAME);
+    change_to_form(DFA_FINAL_FILENAME, DFA_T_FILENAME, DFA_FILENAME);
 
     if(c != ' ' && c != '\n' && c != delimiter){
         new_token( s.lhfn, '\0', &(s.current_token_length));
