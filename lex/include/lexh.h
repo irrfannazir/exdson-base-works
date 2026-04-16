@@ -35,22 +35,15 @@ static inline int is_oper(char c) {
 }
 
 
-//indent.c
-void check_indent(int *space_count);
-void append_indent(int *space_count);
-void newline();
+
 
 //token.c
-extern int is_eof;
+// extern int is_eof;
 
 
-void new_token(const char *lhfn, char c, int *current_token_length);
-void append(char c, int *current_token_length);
 void error_found();
 int last_in();
-void next_type(int next);
 int size();
-int prev_type();
 int num_lines(int size);
 void display_token();
 

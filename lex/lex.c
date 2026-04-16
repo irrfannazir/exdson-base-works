@@ -204,9 +204,7 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
     clear_file(dest_filename);
     clear_file(DFA_LEXEME_FILENAME);
     clear_file(DFA_TOKEN_FILENAME);
-    newline();
     init_stat();
-    struct lexState s = initLexState(dest_filename);
     if(isinput){
         char *com;
         int i = 0;
@@ -241,13 +239,5 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
 
     dfa_char_analysis('\n', &state);
     change_to_form(dest_filename, DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME);
-
-    if(c != ' ' && c != '\n' && c != delimiter){
-        new_token( s.lhfn, '\0', &(s.current_token_length));
-    }
-    if(last_in() != TOKEN_EOF){
-        next_type(TOKEN_EOF);
-        new_token( s.lhfn, '\0', &(s.current_token_length));
-    }
     return 0;
 }

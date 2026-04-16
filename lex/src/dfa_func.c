@@ -12,6 +12,7 @@ int dfa_new_token(const char *fn1, const char *fn2, t_type value){
     fputc('\n', fp2);
     fclose(fp1);
     fclose(fp2);
+    return 0;
 }
 
 int dfa_string_conc(const char *filename, char c){
@@ -22,6 +23,7 @@ int dfa_string_conc(const char *filename, char c){
     }
     fputc(c, fp);
     fclose(fp);
+    return 0;
 }
 
 int dfa_new_line(const char *filename, int indent){
@@ -32,4 +34,5 @@ int dfa_new_line(const char *filename, int indent){
     }
     fprintf(fp, "1 %d\n", indent);
     fclose(fp);
+    return 0;
 }
