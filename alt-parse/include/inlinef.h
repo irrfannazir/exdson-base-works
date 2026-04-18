@@ -5,7 +5,6 @@
 #include "strh.h"
 
 
-static inline int push_string();
 
 int is_variable_redefining(){
     FILE *file = fopen(DEFINED_IDENTIFIER_FILE_NAME, "r");

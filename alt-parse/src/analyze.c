@@ -116,7 +116,7 @@ int analyze_expression(struct Node *ptr){
     // Go through each line from syntax.txt
     int ln = 0;
     char *syn_line = get_nth_line(SYNTAX_DIRECTORY, ln, ptr -> format);
-    char *inline_function = strdup("");
+    
     ln++;
     while(syn_line != NULL){
         int status;

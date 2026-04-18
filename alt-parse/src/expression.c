@@ -49,7 +49,6 @@ struct Node *find_next_expression(struct Node* root) {
     int index = 0;
     if ( !root ) return NULL;
     if (root -> data == 0 && root -> size > 1 && root -> right == NULL && root -> left == NULL) return root;
-    int arr[500];
 
     // Create an auxiliary queue for level order traversal
     struct Node* queue[100];  // Assuming a max tree size of 100 for simplicity
@@ -61,7 +60,6 @@ struct Node *find_next_expression(struct Node* root) {
         struct Node* current = queue[front++];
 
         // Add the current node's value to the array
-        arr[index] = current->data;
 
         if(
             current -> data == EXPRESSION
