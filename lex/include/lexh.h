@@ -34,12 +34,4 @@ static inline int is_oper(char c) {
     return 0;
 }
 
-
-
-
-//token.c
-int num_lines(int size);
-void display_token();
-
-
 #endif

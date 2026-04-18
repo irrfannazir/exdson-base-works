@@ -88,7 +88,6 @@ extern int ismath;
 
 //functions
 int num_lines(int size);
-void display_token();
 int get_indentation(int index);
 char *get_token(int index);
 t_type get_type(int index);

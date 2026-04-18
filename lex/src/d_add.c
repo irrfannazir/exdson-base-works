@@ -3,7 +3,7 @@
 #include <string.h>
 #include "../data.h"
 
-#define TOKEN_BLOCK "TOKEN_DATATYPE:"
+
 #define DEFAULT_TEXT "single\narray\n"
 
 

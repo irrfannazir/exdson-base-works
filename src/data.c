@@ -30,7 +30,3 @@ int num_lines(int size){
     }
     return res;
 }
-
-void display_token(){
-    ;
-}
