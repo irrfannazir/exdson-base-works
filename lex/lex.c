@@ -1,5 +1,5 @@
 #include "include/lexh.h"
-#include "include/clearf.h"
+#include "include/lfh.h"
 #include "include/lexInfo.h"
 #include "include/dfah.h"
 #include "filename.h"

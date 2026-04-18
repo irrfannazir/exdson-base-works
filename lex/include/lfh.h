@@ -1,7 +1,6 @@
-#ifndef CLEARF_H
-#define CLEARF_H
+#ifndef LFH_H
+#define LFH_H
 
-//appendf.c
 void clear_file(const char *filename);
 
 

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "cfh.h"
 #include "../data.h"
 #include "include/compileh.h"
 #include "../include/fileh.h"
