@@ -11,7 +11,6 @@
 
 #define DEFAULT_ERROR_MESSAGE "Invalid Syntax"
 
-int isparsing = 1;
 
 char working_identifier[NAME_STRLEN] = "";
 
@@ -25,23 +24,30 @@ void parsef(){
     while(1){
         char *word = get_word_from_method(mln, mtn);
         int index = get_index_from_lex(1);
+
         #ifdef P_PARSE_DEBUG_MODE
           if(!word){
               printf("The word is null\n");
           }
         #endif
+        
         #ifdef P_PARSE_DEBUG_MODE
         printf("Analyzing %s and %s\n", word, get_token(index));
         #endif
+        
         if (get_token(index) == NULL && word == NULL) {
             next_line(&mln, &mtn);
+        
             #ifdef P_PARSE_DEBUG_MODE
             printf("\tSkipping to next line.\n");
             #endif
+        
             if ( !get_token(get_index_from_lex(0)) ) {
+        
                 #ifdef P_PARSE_DEBUG_MODE
                  printf("End of parsing\n");
                 #endif
+        
                 return;
             }
             continue;
@@ -50,13 +56,14 @@ void parsef(){
                 char temp[1024];
                 sprintf(temp, "%s is unexpected", get_token(index));
                 push_error(temp);
-                isparsing++;
                 next_line(&mln, &mtn);
                 continue;
             }
+        
             #ifdef P_PARSE_DEBUG_MODE
              printf("\tSkipping to next method\n");
             #endif
+        
             next_method(&mln, &mtn);
             continue;
         }
@@ -88,20 +95,26 @@ void parsef(){
         }
 
         if( check_the_type(word, get_type(index)) ){
+        
             #ifdef P_PARSE_DEBUG_MODE
              printf("\tSimiliar type found\n");
             #endif
+        
             push_to_parse_string(index);
             next_token(&mtn);
         }else if( compare_the_word(word, get_token(index))){
+        
             #ifdef P_PARSE_DEBUG_MODE
              printf("\tSimiliar word found\n");
             #endif
+        
             next_token(&mtn);
         }else if( does_tree_needed(word) ){
+        
             #ifdef P_PARSE_DEBUG_MODE
              printf("\tA syntax tree found.\n");
             #endif
+        
             int start = lsn + ltn - 1;
             int size;
             next_token(&mtn);
@@ -145,6 +158,5 @@ void parsef(){
             #endif
             next_method(&mln, &mtn);
         }
-        isparsing++;
     }
 }

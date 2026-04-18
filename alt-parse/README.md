@@ -8,12 +8,11 @@ syntax is valid and to prepare for further compilation or interpretation.
 
 Here’s what happens:
 The file starts by including headers for data handling, parser utilities, debugging,
-and error reporting. It defines a default error message "Invalid Syntax" and a
-global flag isparsing to keep track of parsing state. The main function, parsef,
+and error reporting. It defines a default error msg "Invalid Syntax". The function parsef
 begins by printing a message and initializing the parser with create_the_parser_file().
-It then sets up two counters, mln and mtn, which represent the current method line
-number and token number inside that method. The parser enters an infinite loop that
-continues until all tokens have been processed.
+It then sets up two counters, mln and mtn, which represent the current method line number
+and token number inside that method. The parser enters an infinite loop that continues
+until all tokens have been processed.
 
 Inside the loop, the parser retrieves the next expected word from the parsing rules
 (get_word_from_method) and the current token index from the lexer

@@ -6,7 +6,6 @@
 #define PARSE_DETAILS_MAX DIGIT*10
 #define PARSE_ERROR_MESSAGE_SIZE 100
 
-extern int isparsing;
 extern char parsed_token[PARSE_DETAILS_MAX];
 extern int error_priority;
 extern int current_error_priority;

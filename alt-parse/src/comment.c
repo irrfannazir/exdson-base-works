@@ -4,7 +4,6 @@
 #include "../data.h"
 #include "syntax.h"
 #include "comment.h"
-#include "function.h"
 
 #define MAX_LINE_LEN 1024
 
