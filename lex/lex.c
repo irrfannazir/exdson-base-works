@@ -238,5 +238,7 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
 
     dfa_char_analysis('\n', &state, &li);
     change_to_form(dest_filename, DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME);
+    delete_file(DFA_TOKEN_FILENAME);
+    delete_file(DFA_LEXEME_FILENAME);
     return 0;
 }

@@ -14,3 +14,12 @@ int clear_file(const char *filename){
     return 0;
 }
 
+
+int delete_file(const char *filename){
+    if(remove(filename) != 0){
+        perror("Error on real-time data alteration");
+        return 1;
+    }
+    return 0;
+}
+
