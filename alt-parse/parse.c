@@ -2,15 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parseh.h"
-#include "pdebug.h"
 #include "comment.h"
 #include "syntax.h"
+#include "perror.h"
 #include "../data.h"
-#include "../include/p_error.h"
+#include "../include/pc_error.h"
 #include "../include/fileh.h"
 
 #define DEFAULT_ERROR_MESSAGE "Invalid Syntax"
-
 
 char working_identifier[NAME_STRLEN] = "";
 
@@ -25,29 +24,16 @@ void parsef(const char *src_filename, const char *dest_filename){
         char *word = get_word_from_method(mln, mtn);
         int index = get_index_from_lex(1);
 
-        #ifdef P_PARSE_DEBUG_MODE
-          if(!word){
-              printf("The word is null\n");
-          }
-        #endif
-        
-        #ifdef P_PARSE_DEBUG_MODE
-        printf("Comparing %s and %s\n", word, get_token(index));
-        #endif
+        log_debug("Analysing %s and %s\n", word, get_token(index));
         
         if (get_token(index) == NULL && word == NULL) {
             next_line(&mln, &mtn);
         
-            #ifdef P_PARSE_DEBUG_MODE
-            printf("\tSkipping to next line.\n");
-            #endif
+            log_debug("\tSkipping to next line.\n");
         
             if ( !get_token(get_index_from_lex(0)) ) {
-        
-                #ifdef P_PARSE_DEBUG_MODE
-                 printf("End of parsing\n");
-                #endif
-        
+                
+                log_debug("End of parsing\n");
                 return;
             }
             continue;
@@ -60,10 +46,7 @@ void parsef(const char *src_filename, const char *dest_filename){
                 continue;
             }
         
-            #ifdef P_PARSE_DEBUG_MODE
-             printf("\tSkipping to next method\n");
-            #endif
-        
+            log_debug("\tSkipping to next method\n");
             next_method(&mln, &mtn);
             continue;
         }
@@ -95,30 +78,24 @@ void parsef(const char *src_filename, const char *dest_filename){
         }
 
         if( check_the_type(word, get_type(index)) ){
-        
-            #ifdef P_PARSE_DEBUG_MODE
-             printf("\tSimiliar type found\n");
-            #endif
-        
+            
+            log_debug("\tSimiliar type found\n");
             push_to_parse_string(index);
             next_token(&mtn);
+
         }else if( compare_the_word(word, get_token(index))){
-        
-            #ifdef P_PARSE_DEBUG_MODE
-             printf("\tSimiliar word found\n");
-            #endif
-        
+            
+            log_debug("\tSimiliar word found\n");        
             next_token(&mtn);
+
         }else if( does_tree_needed(word) ){
-        
-            #ifdef P_PARSE_DEBUG_MODE
-             printf("\tA syntax tree found.\n");
-            #endif
         
             int start = lsn + ltn - 1;
             int size;
             next_token(&mtn);
             char *end = get_word_from_method(mln, mtn);
+            log_debug("\tA syntax tree found.\n");
+            
             if( !end ){
                 int prev;
                 while(index != -1){
@@ -153,9 +130,7 @@ void parsef(const char *src_filename, const char *dest_filename){
             }
         }
         else{
-            #ifdef P_PARSE_DEBUG_MODE
-             printf("\tNot this syntax\n");
-            #endif
+            log_debug("\tNot this syntax\n");
             next_method(&mln, &mtn);
         }
     }

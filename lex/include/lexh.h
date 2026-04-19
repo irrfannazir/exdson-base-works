@@ -1,9 +1,14 @@
 #ifndef LEXH_H
 #define LEXH_H
-#define INLINE_PROGRAM_MAX_SIZE 500
 
+#define INLINE_PROGRAM_MAX_SIZE 500
 #define DFA_LEXEME_FILENAME "dfa_lexeme.txt"
 #define DFA_TOKEN_FILENAME "dfa_token.txt"
+
+
+int iskeyword(const char *str);
+int isdatatype(const char *str);
+
 
 static inline int is_string_introduced(char c){
     return (c == '"') || (c == '`');
@@ -34,9 +39,6 @@ static inline int is_oper(char c) {
     }
     return 0;
 }
-
-int iskeyword(const char *str);
-int isdatatype(const char *str);
 
 
 #endif

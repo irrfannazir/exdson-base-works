@@ -5,8 +5,9 @@
 #include "include/lastl.h"
 #include "include/filename.h"
 #include "include/d_fh.h"
+#include "include/lerror.h"
 #include "../include/constants.h"
-#include "../include/p_error.h"
+#include "../include/pc_error.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
