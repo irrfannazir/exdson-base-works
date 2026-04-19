@@ -205,8 +205,7 @@ int dfa_char_analysis(char c, int *s, struct lexInfo *li){
             return 1;
     }
     if (c == '{' || c == '(') (li -> ignore_newline) = 1;
-    if ( (li -> ignore_newline) && (c == '}' || c == ')')) (li -> ignore_newline) = 0;
-    if (*s == -1) return 1;
+    if ( (li -> ignore_newline) && (c == '}' || c == ')') ) (li -> ignore_newline) = 0;
     return 0;
 }
 
@@ -223,8 +222,6 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
         int i = 0;
         com = (char*)malloc(INLINE_PROGRAM_MAX_SIZE);
         if( !com ) printf("%s:%d: The memory allocation failed.\n", __FILE__, __LINE__);
-        
-
         scanf("%[^#]s", com);          // TODO: Replace with safer input method
         while(com[i] != '\0'){
             int status = dfa_char_analysis(com[i], &state, &li);
