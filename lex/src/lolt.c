@@ -3,8 +3,6 @@
 #include "lexh.h"
 #include "dfah.h"
 
-#define MAX_WORD_SIZE 256
-
 int size_of_last_line(const char *filename){
     FILE *fp = fopen(filename, "r");
     if (fp == NULL) {
