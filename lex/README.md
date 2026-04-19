@@ -18,12 +18,6 @@ EOF token. Overall, the program scans source code and converts it into a sequenc
 structured tokens that later compiler stages (like parsing) can use.
 
 
-
-Edit the functions:
-    void append(char c, int *current_token_length)
-    void new_token(char c, int *current_token_length)
-
-
 Algorithm: DFA
     case 0 (Start State)
         If QUOTE:

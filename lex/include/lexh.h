@@ -2,7 +2,8 @@
 #define LEXH_H
 #define INLINE_PROGRAM_MAX_SIZE 500
 
-
+#define DFA_LEXEME_FILENAME "dfa_lexeme.txt"
+#define DFA_TOKEN_FILENAME "dfa_token.txt"
 
 static inline int is_string_introduced(char c){
     return (c == '"') || (c == '`');

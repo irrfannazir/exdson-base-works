@@ -20,7 +20,6 @@ char *get_error_message_from_method(int line_number);
 char *get_function_name_from_method(int line_number);
 int get_index_from_lex(int cl); //Returns -1 if the type is EOF
 int next_line(int *mln, int *mtn); // Moves to next line in lex
-int is_eof_lex(); // return 1 if eof occurs in lex
 int next_token(int *mln); // Moves to next token for both
 int next_method(int *mln, int *mtn); // Moves to next method checking
 int check_the_type(char *word, t_type type);

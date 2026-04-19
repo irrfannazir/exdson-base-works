@@ -15,9 +15,9 @@
 char working_identifier[NAME_STRLEN] = "";
 
 
-void parsef(){
+void parsef(const char *src_filename, const char *dest_filename){
     printf("Alternative parsing.\n");
-    create_file(PARSING_HANDLING_FILE_NAME, NULL);
+    create_file(dest_filename, NULL);
     create_file(DEFINED_IDENTIFIER_FILE_NAME, "");
     int mln = 0;
     int mtn = 0;

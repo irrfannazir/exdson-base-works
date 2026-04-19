@@ -32,9 +32,9 @@ void process_parametres(int *arr, int count){
     }
 }
 
-void add_the_program(){
+void add_the_program(const char *pfn){
     int i = 0;
-    char *parsed_data = get_nth_line(PARSING_HANDLING_FILE_NAME, i, NULL);
+    char *parsed_data = get_nth_line(pfn, i, NULL);
     int indent_tab_number = 0;
     i++;
     while(parsed_data != NULL){
@@ -58,11 +58,11 @@ void add_the_program(){
     }
 }
 
-int compilef(){
+int compilef(const char *src_filename, const char *dest_filename){
     if(dont_compile) return 1;
     printf("Compiling the program.\n");
     create_file(PGM_EXATED_FILE_NAME, DEFAULT_PROGRAM);
-    add_the_program();
+    add_the_program(src_filename);
     printf("********The output program implemented in C programming Language********\n\n");
     remove_string_from_file(PGM_EXATED_FILE_NAME, PGM_CURSOR, 1);
     remove_string_from_file(PGM_EXATED_FILE_NAME, FUNCTION_CURSOR, 1);

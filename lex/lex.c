@@ -2,31 +2,24 @@
 #include "include/lfh.h"
 #include "include/lexInfo.h"
 #include "include/dfah.h"
-#include "filename.h"
-#include "d_fh.h"
+#include "include/lastl.h"
+#include "include/filename.h"
+#include "include/d_fh.h"
 #include "../include/constants.h"
 #include "../include/p_error.h"
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
 
 const char delimiter = ';';
 
-
-int is_eof = 0;          // TODO: Debug EOF logic dependency
-
-#define CHAR_ANAL_STATE(MSG) if(c == 's'){puts(MSG);}
-#define DFA_LEXEME_FILENAME "dfa_lexeme.txt"
-#define DFA_TOKEN_FILENAME "dfa_token.txt"
-
-
-
 int dfa_char_analysis(char c, int *s, struct lexInfo *li){
     switch(*s){
         case 0: // Start State: After newline
             if(c == ' '){
                 (li -> indent)++;
+            }else if(c == '\n' || c == delimiter){
+                ;
             }else if(is_string_introduced(c)){
                 *s = 2;
             }else if(is_char(c)){
@@ -37,6 +30,9 @@ int dfa_char_analysis(char c, int *s, struct lexInfo *li){
                 *s = 5;
             }else if(is_punct(c)){
                 *s = 6;
+            }else{
+                charerror(c);
+                return 1;
             }
     
             if(c != ' ' && c != '\n' && c != delimiter){
@@ -45,7 +41,9 @@ int dfa_char_analysis(char c, int *s, struct lexInfo *li){
             }
             break;
         case 1: //Space found
-            if(c == '\n' || c == delimiter){
+            if(c == ' '){
+                ;
+            }else if(c == '\n' || c == delimiter){
                 *s = 0;
                 (li -> indent) = 0;
             }else if(is_string_introduced(c)){
@@ -58,6 +56,9 @@ int dfa_char_analysis(char c, int *s, struct lexInfo *li){
                 *s = 5;
             }else if(is_punct(c)){
                 *s = 6;
+            }else{
+                charerror(c);
+                return 1;
             }
     
             if(c != ' ' && c != '\n' && c != delimiter){
@@ -94,7 +95,8 @@ int dfa_char_analysis(char c, int *s, struct lexInfo *li){
                 dfa_string_conc(DFA_LEXEME_FILENAME, c);
                 *s = 6;
             }else{
-                *s = -1;
+                charerror(c);
+                return 1;
             }
             break;
         case 4: // Digit found
@@ -109,18 +111,30 @@ int dfa_char_analysis(char c, int *s, struct lexInfo *li){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
                 dfa_string_conc(DFA_LEXEME_FILENAME, c);
                 *s = 2;
+            }else if(is_char(c)){
+                dfa_string_conc(DFA_LEXEME_FILENAME, c);
+                int size = size_of_last_line(DFA_LEXEME_FILENAME);
+                char last_token[size + 1];
+                fget_last_line(DFA_LEXEME_FILENAME, last_token, size + 1);
+                const char *text = "Identifier %.*s is recognized as invalid";
+                size_t msg_len = snprintf(NULL, 0, text, size, last_token) + 1;
+                char error_msg[msg_len];
+                snprintf(error_msg, msg_len, text, size, last_token);
+                lexerror(error_msg);
+                *s = 0;
+            }else if(is_digit(c)){
+                dfa_string_conc(DFA_LEXEME_FILENAME, c);
             }else if(is_oper(c)){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
                 dfa_string_conc(DFA_LEXEME_FILENAME, c);
                 *s = 5;
-            }else if(is_digit(c)){
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
             }else if(is_punct(c)){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
                 dfa_string_conc(DFA_LEXEME_FILENAME, c);
                 *s = 6;
             }else{
-                *s = -1;
+                charerror(c);
+                return 1;
             }
             break;
         case 5: // Operator found
@@ -151,7 +165,8 @@ int dfa_char_analysis(char c, int *s, struct lexInfo *li){
                 dfa_string_conc(DFA_LEXEME_FILENAME, c);
                 *s = 6;
             }else{
-                *s = -1;
+                charerror(c);
+                return 1;
             }
             break;
         case 6: // Punctuator
@@ -181,11 +196,12 @@ int dfa_char_analysis(char c, int *s, struct lexInfo *li){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_PUNCTUATION);
                 dfa_string_conc(DFA_LEXEME_FILENAME, c);
             }else{
-                *s = -1;
+                charerror(c);
+                return 1;
             }
             break;
         case -1:
-            puts("Error found!");
+            puts("Lex Terminated!");
             return 1;
     }
     if (c == '{' || c == '(') (li -> ignore_newline) = 1;
@@ -196,7 +212,6 @@ int dfa_char_analysis(char c, int *s, struct lexInfo *li){
 
 int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filename){
     char c;
-    int cec = 0;
     int state = 0;
     struct lexInfo li = initLexInfo();
     clear_file(dest_filename);
@@ -207,15 +222,14 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
         char *com;
         int i = 0;
         com = (char*)malloc(INLINE_PROGRAM_MAX_SIZE);
-        if( !com ){
-            printf("%s:%d: The memory allocation failed.\n", __FILE__, __LINE__);
-        }
+        if( !com ) printf("%s:%d: The memory allocation failed.\n", __FILE__, __LINE__);
+        
+
         scanf("%[^#]s", com);          // TODO: Replace with safer input method
         while(com[i] != '\0'){
             int status = dfa_char_analysis(com[i], &state, &li);
             i++;
-	        if (status) cec++;
-	        if (cec > 3) break;
+	        if (status) break;
         }
         puts("");
         c = com[i];
@@ -227,8 +241,7 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
         }
         while((c = fgetc(file)) != -1){
             int status = dfa_char_analysis(c, &state, &li);
-            if (status) cec++;
-	        if (cec > 3) break;
+            if (status) break;
         }
 	puts("");
         fclose(file);
