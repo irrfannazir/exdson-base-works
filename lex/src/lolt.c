@@ -1,45 +1,59 @@
 #include <stdio.h>
 #include <string.h>
-#include "../data.h"
+#include "lexh.h"
+#include "dfah.h"
 
-t_type lexeme_of_last_line(const char *filename) {
+#define MAX_WORD_SIZE 256
+
+int size_of_last_line(const char *filename){
     FILE *fp = fopen(filename, "r");
     if (fp == NULL) {
         printf("Error opening file.\n");
-        return TOKEN_IDENTIFIER;
+        return 0;
     }
 
-    char line[256];
-    char last_line[256];
-
-    while (fgets(line, sizeof(line), fp)) {
-        strcpy(last_line, line);
+    char c;
+    int size;
+    while ((c = fgetc(fp)) != -1) {
+        if (c == '\n'){
+            size = 0;
+        }else{
+            size++;
+        }
     }
+
     fclose(fp);
+    return size + 2;
+}
 
-    last_line[strcspn(last_line, "\n")] = '\0';
-
-    const char *keywords[] = {"if", "else", "elif", "new"};
-    for (int i = 0; i < sizeof(keywords)/ sizeof(keywords[0]); i++) {
-        if (strcmp(keywords[i], last_line) == 0)
-            return TOKEN_KEYWORD;
-    }
-
-    fp = fopen(PARSE_DATATYPE_LIST_FILE_NAME, "r");
+int fget_last_line(const char *filename, char *last_line, int size){
+    FILE *fp = fopen(filename, "r");
     if (fp == NULL) {
         printf("Error opening file.\n");
-        return TOKEN_IDENTIFIER;
+        return 1;
     }
+
+    char line[size];
     
-    char name[256];
-    
-    while (fgets(name, sizeof(name), fp)) {
-        name[strcspn(name, "\n")] = '\0';
-        
-        if (strcmp(name, last_line) == 0)
-            return TOKEN_DATATYPE;
+    while (fgets(line, size, fp)) {
+        strcpy(last_line, line);
     }
 
     fclose(fp);
+    last_line[strcspn(last_line, "\n")] = '\0';
+
+    return 0;
+}
+
+t_type lexeme_of_last_line(const char *filename) {
+
+    int size = size_of_last_line(filename);
+    if (size == 0) return TOKEN_EOF;
+    char last_line[size];
+    if (!fget_last_line(filename, last_line, size)){
+        if (iskeyword(last_line)) return TOKEN_KEYWORD;
+        if (isdatatype(last_line)) return TOKEN_DATATYPE;
+    }
+
     return TOKEN_IDENTIFIER;
 }

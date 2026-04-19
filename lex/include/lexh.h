@@ -34,4 +34,8 @@ static inline int is_oper(char c) {
     return 0;
 }
 
+int iskeyword(const char *str);
+int isdatatype(const char *str);
+
+
 #endif

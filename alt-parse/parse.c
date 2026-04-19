@@ -32,7 +32,7 @@ void parsef(){
         #endif
         
         #ifdef P_PARSE_DEBUG_MODE
-        printf("Analyzing %s and %s\n", word, get_token(index));
+        printf("Comparing %s and %s\n", word, get_token(index));
         #endif
         
         if (get_token(index) == NULL && word == NULL) {

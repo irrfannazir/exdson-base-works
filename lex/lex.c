@@ -186,8 +186,7 @@ int dfa_char_analysis(char c, int *s, struct lexInfo *li){
             break;
         case -1:
             puts("Error found!");
-            *s = 0;
-            break;
+            return 1;
     }
     if (c == '{' || c == '(') (li -> ignore_newline) = 1;
     if ( (li -> ignore_newline) && (c == '}' || c == ')')) (li -> ignore_newline) = 0;
@@ -226,7 +225,7 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
             __pc_error__("Error while retrieving program from file named %s", ex_filename);
             return 1;
         }
-        while((c = fgetc(file)) != (signed int)0xffffffff){
+        while((c = fgetc(file)) != -1){
             int status = dfa_char_analysis(c, &state, &li);
             if (status) cec++;
 	        if (cec > 3) break;
