@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../data.h"
+#include "getf.h"
 
 int get_indentation(int index){
     FILE *file = fopen(LEX_HANDLING_FILE_NAME, "r");

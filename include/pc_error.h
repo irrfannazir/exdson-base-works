@@ -1,8 +1,6 @@
 #ifndef PC_ERROR_H
 #define PC_ERROR_H
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <stdarg.h>
 
 

@@ -1,10 +1,13 @@
 #ifndef PARSEH_H
 #define PARSEH_H
-#include "../data.h"
 #include <string.h>
+#include "../data.h"
 
 #define PARSE_DETAILS_MAX DIGIT*10
 #define PARSE_ERROR_MESSAGE_SIZE 100
+
+#define DEFAULT_ERROR_MESSAGE "Invalid Syntax"
+
 
 extern char parsed_token[PARSE_DETAILS_MAX];
 extern int error_priority;
@@ -19,9 +22,9 @@ char *get_word_from_method(int line_number, int token_number); //Returns NULL if
 char *get_error_message_from_method(int line_number);
 char *get_function_name_from_method(int line_number);
 int get_index_from_lex(int cl); //Returns -1 if the type is EOF
-int next_line(int *mln, int *mtn); // Moves to next line in lex
+int skip_to_next_line(int *mln, int *mtn); // Moves to next line in lex
 int next_token(int *mln); // Moves to next token for both
-int next_method(int *mln, int *mtn); // Moves to next method checking
+int skip_to_next_method(int *mln, int *mtn); // Moves to next method checking
 int check_the_type(char *word, t_type type);
 int append_token_details(int mln); //Saves the index in a file for parsing
 int does_tree_needed(char *word); //Is word contains in tree.txt ending with ':'
@@ -30,6 +33,13 @@ int fputs_with_newl(const char *filename, const char *str); //Append string into
 
 void push_error(const char *temp);
 int print_error();
+
+void report_method_error(int method_line_num);
+int handle_missing_word_or_token(const char *word, int index, int *method_line_num, int *method_token_num);
+void handle_identifier_declaration(int index, int method_line_num);
+int try_match_type(char *word, int index, int *method_token_num);
+int try_match_word(char *word, int index, int *method_token_num);
+int handle_syntax_tree(char *word, int index, int *method_line_num, int *method_token_num);
 
 static inline int compare_the_word(char *word, char *token){
     return strcmp(word, token) == 0;

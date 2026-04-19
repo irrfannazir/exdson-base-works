@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "cfh.h"
 #include "compileh.h"
 #include "../include/fileh.h"

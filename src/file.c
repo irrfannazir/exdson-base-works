@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <sys/stat.h>
+#include <stdlib.h>
 #include "fileh.h"
 #include "../data.h"
 #include "../alt-parse/include/comment.h"

@@ -1,8 +1,10 @@
 #include <string.h>
 #include <stdio.h>
-#include "../data.h"
+#include <stdlib.h>
 #include "parseh.h"
 #include "inlinef.h"
+#include "perror.h"
+#include "../data.h"
 
 int lsn = 0;
 int ltn = 0;
@@ -19,7 +21,7 @@ int get_index_from_lex(int cl){
     }
 }
 
-int next_line(int *mln, int *mtn){
+int skip_to_next_line(int *mln, int *mtn){
     char *error_message = get_error_message_from_method(*mln);
     if(error_message != NULL){
         push_error(error_message);
@@ -55,7 +57,7 @@ int next_token(int *mtn){
 
 
 
-int next_method(int *mln, int *mtn){
+int skip_to_next_method(int *mln, int *mtn){
     ltn = 0;
     (*mln)++;
     *mtn = 0;

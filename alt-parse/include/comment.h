@@ -1,6 +1,8 @@
 #ifndef SYNTAX_COMMENT_H
 #define SYNTAX_COMMENT_H
 
+#include <string.h>
+
 #define SYNTAX_COMMENT_TOKEN "//"
 #define SYNTAX_FUNCTION_TOKEN "$$"
 

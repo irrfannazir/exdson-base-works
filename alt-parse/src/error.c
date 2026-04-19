@@ -32,4 +32,3 @@ void print_error(){
     }
     error = NULL;
 }
-

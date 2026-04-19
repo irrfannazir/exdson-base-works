@@ -2,136 +2,85 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parseh.h"
-#include "comment.h"
-#include "syntax.h"
 #include "perror.h"
-#include "../data.h"
-#include "../include/pc_error.h"
 #include "../include/fileh.h"
-
-#define DEFAULT_ERROR_MESSAGE "Invalid Syntax"
+#include "../data.h"
 
 char working_identifier[NAME_STRLEN] = "";
 
 
-void parsef(const char *src_filename, const char *dest_filename){
+void parsef(const char *src_filename, const char *dest_filename) {
     printf("Alternative parsing.\n");
     create_file(dest_filename, NULL);
     create_file(DEFINED_IDENTIFIER_FILE_NAME, "");
-    int mln = 0;
-    int mtn = 0;
-    while(1){
-        char *word = get_word_from_method(mln, mtn);
+
+    int method_line_num = 0;
+    int method_token_num = 0;
+
+    while (1) {
+        char *word = get_word_from_method(method_line_num, method_token_num);
         int index = get_index_from_lex(1);
 
         log_debug("Analysing %s and %s\n", word, get_token(index));
-        
+
+        // Case: no token and no word -> end of line or file
         if (get_token(index) == NULL && word == NULL) {
-            next_line(&mln, &mtn);
-        
+            skip_to_next_line(&method_line_num, &method_token_num);
             log_debug("\tSkipping to next line.\n");
-        
-            if ( !get_token(get_index_from_lex(0)) ) {
-                
+
+            // If there is no token at the start of the new line, parsing is done
+            if (!get_token(get_index_from_lex(0))) {
                 log_debug("End of parsing\n");
                 return;
             }
             continue;
-        }else if (index == -1 || word == NULL){
-            if( !word ){
-                char temp[1024];
-                sprintf(temp, "%s is unexpected", get_token(index));
-                push_error(temp);
-                next_line(&mln, &mtn);
-                continue;
+        }
+
+        // Case: invalid index or missing word
+        if (index == -1 || word == NULL) {
+            if (handle_missing_word_or_token(word, index, &method_line_num, &method_token_num)) {
+                continue; // error already reported, continue parsing
             }
-        
             log_debug("\tSkipping to next method\n");
-            next_method(&mln, &mtn);
+            skip_to_next_method(&method_line_num, &method_token_num);
             continue;
         }
 
-        if (word == NULL && (index == -1 || mtn == 0)) {
-            const char *msg = get_error_message_from_method(mln);
-            if (msg != NULL) {
-                printf("Error (%d): %s\n", num_lines(lsn) + 1, msg);
-            } else {
-                printf("Error (%d): %s\n", num_lines(lsn) + 1, DEFAULT_ERROR_MESSAGE);
-            }
+        // Case: word is NULL and (invalid index or first token in method)
+        if (word == NULL && (index == -1 || method_token_num == 0)) {
+            report_method_error(method_line_num);
             dont_compile = 1;
 
-            if (next_line(&mln, &mtn)) {
-                // End of file
-                break;
+            if (skip_to_next_line(&method_line_num, &method_token_num)) {
+                break; // end of file
             }
             continue;
         }
 
+        // Case: index invalid or token missing -> skip method
         if (index == -1 || get_token(index) == NULL) {
-            next_method(&mln, &mtn);
+            skip_to_next_method(&method_line_num, &method_token_num);
             continue;
         }
 
-        // save identifier for declaration purpose
-        if (get_type(index) == TOKEN_IDENTIFIER && contains_function(read_nth_content_from_file(METHOD_DIRECTORY, mln))){
-            strcpy(working_identifier, get_token(index));
+        // Save identifier for declaration purposes
+        handle_identifier_declaration(index, method_line_num);
+
+        // Attempt to match type, word, or syntax tree
+        if (try_match_type(word, index, &method_token_num)) {
+            continue;
         }
-
-        if( check_the_type(word, get_type(index)) ){
-            
-            log_debug("\tSimiliar type found\n");
-            push_to_parse_string(index);
-            next_token(&mtn);
-
-        }else if( compare_the_word(word, get_token(index))){
-            
-            log_debug("\tSimiliar word found\n");        
-            next_token(&mtn);
-
-        }else if( does_tree_needed(word) ){
-        
-            int start = lsn + ltn - 1;
-            int size;
-            next_token(&mtn);
-            char *end = get_word_from_method(mln, mtn);
-            log_debug("\tA syntax tree found.\n");
-            
-            if( !end ){
-                int prev;
-                while(index != -1){
-                    prev = index;
-                    index = get_index_from_lex(1);
-                }
-                size = prev - start + 1;
-            }else{
-                while( index != -1 ){
-                    index = get_index_from_lex(1);
-                    __if_it_is_null__(get_token(index), printf("Error (%d): %s\n", num_lines(lsn), DEFAULT_ERROR_MESSAGE);dont_compile = 1;return, "Doesn't found an keyword named %s\n", end);
-                    if( compare_the_word(end, get_token(index)) ){
-                        break;
-                    }
-                }
-                if(index == -1){
-                    push_error("Expected an operator.");
-                    next_method(&mln, &mtn);
-                    continue;
-                }
-                mtn++;
-                size = index - start;
-            }
-            push_to_parse_string(start);
-            push_to_parse_string(start+size);
-            int status = parsing_tree_analysis(word, start, size);
-            if(status){
-                next_method(&mln, &mtn);
-            }
-            if(end == NULL){
-                next_line(&mln, &mtn); 
-            }
+        if (try_match_word(word, index, &method_token_num)) {
+            continue;
         }
-        else{
+        if (does_tree_needed(word)) {
+            if (handle_syntax_tree(word, index, &method_line_num, &method_token_num)) {
+                continue;
+            }
+        } else {
             log_debug("\tNot this syntax\n");
-            next_method(&mln, &mtn);
+            skip_to_next_method(&method_line_num, &method_token_num);
         }
     }
 }
+
