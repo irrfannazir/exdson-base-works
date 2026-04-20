@@ -3,7 +3,7 @@
 #include <string.h>
 #include "pdebug.h"
 #include "syntax.h"
-#include "../data.h"
+#include "../include/pc_error.h"
 
 int ssn;
 

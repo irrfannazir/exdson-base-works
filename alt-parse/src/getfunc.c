@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../data.h"
 #include "syntax.h"
 #include "comment.h"
+#include "../include/pc_error.h"
 
 #define MAX_LINE_LEN 1024
 

@@ -1,5 +1,5 @@
-#include "../data.h"
 #include <stdio.h>
+#include "../include/pc_error.h"
 
 int clear_file(const char *filename){
     FILE *file = fopen(filename, "w");

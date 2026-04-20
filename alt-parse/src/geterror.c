@@ -5,7 +5,6 @@
 #include "comment.h"
 #include "perror.h"
 #include "parseh.h"
-#include "../data.h"
 
 #define MAX_LINE_LEN 1024
 

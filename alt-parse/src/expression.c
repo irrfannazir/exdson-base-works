@@ -1,7 +1,6 @@
 #include "node.h"
 #include "parseh.h"
 #include "strh.h"
-#include "../data.h"
 #include <stdio.h>
 #include <stdlib.h>
 

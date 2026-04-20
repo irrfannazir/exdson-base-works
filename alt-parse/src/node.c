@@ -1,5 +1,4 @@
 #include "tree.h"
-#include "../data.h"
 #include <stdlib.h>
 #include <stdio.h>
 

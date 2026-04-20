@@ -2,7 +2,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include "fileh.h"
-#include "../data.h"
+#include "../include/pc_error.h"
 #include "../alt-parse/include/comment.h"
 
 #define MAX_WORD_LENGTH 256

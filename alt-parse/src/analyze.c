@@ -4,7 +4,6 @@
 #include "strh.h"
 #include <stdio.h>
 #include <string.h>
-#include "../data.h"
 #include "../include/fileh.h"
 
 

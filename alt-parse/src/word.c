@@ -4,7 +4,7 @@
 #include <string.h>
 #include "comment.h"
 #include "syntax.h"
-#include "../data.h"
+#include "../include/pc_error.h"
 
 #define MAX_LINE_LENGTH 1024
 

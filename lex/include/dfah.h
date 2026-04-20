@@ -8,9 +8,10 @@ typedef enum{
     TOKEN_KEYWORD,      // 3 Keywords (e.g., if, for, while, etc.)
     TOKEN_OPERATOR,     // 4 Operators (e.g., +, -, *, /, ==)
     TOKEN_PUNCTUATION,  // 5 Punctuation (e.g., (, ), {, }, ;, ,)
-    TOKEN_DATATYPE,     // 6 Datatypes (e.g., single, float)
+    TOKEN_DATATYPE,     // 6 Datatypes (e.g., single, array)
     TOKEN_EXPRESSION,   // 7 Expressions (e.g., arithmetic, logical)
-    TOKEN_STRING        // 8 String literals (e.g., "Hello")
+    TOKEN_STRING,       // 8 String literals (e.g., "Hello")
+    TOKEN_NULL          // 9 Null Terminator
 } t_type;
 
 t_type lexeme_of_last_line(const char *filename);

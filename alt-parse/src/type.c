@@ -1,5 +1,5 @@
 #include <string.h>
-#include "../data.h"
+#include "../lex/include/dfah.h"
 
 
 int token_to_type(char *syn){
