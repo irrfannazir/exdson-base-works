@@ -3,7 +3,7 @@
 #include "include/lexInfo.h"
 #include "include/dfah.h"
 #include "include/lastl.h"
-#include "include/filename.h"
+#include "include/lfn.h"
 #include "include/d_fh.h"
 #include "include/lerror.h"
 #include "../include/constants.h"

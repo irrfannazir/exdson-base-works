@@ -1,7 +1,7 @@
 #ifndef DATA_H
 #define DATA_H
 #include "lex/include/dfah.h"
-#include "lex/include/filename.h"
+#include "lex/include/lfn.h"
 #include "include/constants.h"
 /*
     This is the file where all the global data which is commonly used for lex, parse, compile.
