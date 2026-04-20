@@ -5,6 +5,7 @@
 #include "comment.h"
 #include "perror.h"
 #include "parseh.h"
+#include "../include/pc_error.h"
 
 #define MAX_LINE_LEN 1024
 

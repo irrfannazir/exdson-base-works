@@ -4,6 +4,7 @@
 #include "parseh.h"
 #include "inlinef.h"
 #include "perror.h"
+
 #include "../data.h"
 
 int lsn = 0;
@@ -66,9 +67,6 @@ int skip_to_next_method(int *mln, int *mtn){
 
 //To count number of lines
 int num_lines(int size){
-    if(size == -1){
-        size = token_size;
-    }
     int res = 0;
     for(int i = 0;i < size; i++){
         if(get_type(i) == TOKEN_EOF){

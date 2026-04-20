@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../include/pc_error.h"
 #include "../data.h"
 
 void remove_string_from_file(const char *filename, const char *target, int isloop) {

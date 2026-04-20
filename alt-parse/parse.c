@@ -7,7 +7,7 @@
 #include "../data.h"
 
 char working_identifier[NAME_STRLEN] = "";
-
+int dont_compile = 0;
 
 void parsef(const char *src_filename, const char *dest_filename) {
     printf("Parsing the tokens.\n");

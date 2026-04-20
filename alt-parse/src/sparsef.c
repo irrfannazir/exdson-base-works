@@ -5,6 +5,7 @@
 #include "comment.h"
 #include "fileh.h"
 #include "syntax.h"
+#include "../include/pc_error.h"
 #include "../data.h"
 
 

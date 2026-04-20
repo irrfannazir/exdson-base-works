@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "parseh.h"
+#include "../include/pc_error.h"
 #include "../data.h"
 
 char parsed_token[PARSE_DETAILS_MAX];
