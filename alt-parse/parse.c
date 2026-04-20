@@ -10,7 +10,7 @@ char working_identifier[NAME_STRLEN] = "";
 
 
 void parsef(const char *src_filename, const char *dest_filename) {
-    printf("Alternative parsing.\n");
+    printf("Parsing the tokens.\n");
     create_file(dest_filename, NULL);
     create_file(DEFINED_IDENTIFIER_FILE_NAME, "");
 
@@ -23,12 +23,10 @@ void parsef(const char *src_filename, const char *dest_filename) {
 
         log_debug("Analysing %s and %s\n", word, get_token(index));
 
-        // Case: no token and no word -> end of line or file
         if (get_token(index) == NULL && word == NULL) {
             skip_to_next_line(&method_line_num, &method_token_num);
             log_debug("\tSkipping to next line.\n");
 
-            // If there is no token at the start of the new line, parsing is done
             if (!get_token(get_index_from_lex(0))) {
                 log_debug("End of parsing\n");
                 return;
@@ -36,7 +34,6 @@ void parsef(const char *src_filename, const char *dest_filename) {
             continue;
         }
 
-        // Case: invalid index or missing word
         if (index == -1 || word == NULL) {
             if (handle_missing_word_or_token(word, index, &method_line_num, &method_token_num)) {
                 continue; // error already reported, continue parsing
@@ -46,27 +43,24 @@ void parsef(const char *src_filename, const char *dest_filename) {
             continue;
         }
 
-        // Case: word is NULL and (invalid index or first token in method)
         if (word == NULL && (index == -1 || method_token_num == 0)) {
             report_method_error(method_line_num);
             dont_compile = 1;
 
             if (skip_to_next_line(&method_line_num, &method_token_num)) {
-                break; // end of file
+                log_debug("End of file.\n");
+                break;
             }
             continue;
         }
 
-        // Case: index invalid or token missing -> skip method
         if (index == -1 || get_token(index) == NULL) {
             skip_to_next_method(&method_line_num, &method_token_num);
             continue;
         }
 
-        // Save identifier for declaration purposes
         handle_identifier_declaration(index, method_line_num);
 
-        // Attempt to match type, word, or syntax tree
         if (try_match_type(word, index, &method_token_num)) {
             continue;
         }

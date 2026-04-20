@@ -1,39 +1,77 @@
 # Parsing Algorithm
 
 This program is part of a parser, the stage of a compiler or interpreter that
-comes after lexing. While the lexer breaks raw text into tokens, the parser
-tries to match those tokens against grammatical rules to ensure the program’s
-syntax is valid and to prepare for further compilation or interpretation.
+comes after lexing. While the lexer is responsible for decomposing raw source text into discrete tokens, this parser evaluates those tokens against predefined grammatical rules. Its primary objective is to validate the program’s syntax. 
+
+The execution begins within the **parsef** function. Two primary counters: `method_line_num` and `method_token_num`, track the current position within the grammar rules. The engine iterates until every token from the program has been successfully evaluated with the method.
 
 
-Here’s what happens:
-The file starts by including headers for data handling, parser utilities, debugging,
-and error reporting. It defines a default error msg "Invalid Syntax". The function parsef
-begins by printing a message and initializing the parser with create_the_parser_file().
-It then sets up two counters, mln and mtn, which represent the current method line number
-and token number inside that method. The parser enters an infinite loop that continues
-until all tokens have been processed.
+The Algorithm:
+```sh
+FUNCTION parsef(src_filename, dest_filename):
+    
+    INITIALIZE output files (dest_filename and identifier storage)
+    
+    SET method_line_num = 0
+    SET method_token_num = 0
+    
+    LOOP indefinitely:
+        
+        // Fetchs current rule and current token index from lex
+        word = get_word_from_method(method_line_num, method_token_num)
+        index = get_index_from_lex(current_offset = 1)
+        current_token = get_token(index)
 
-Inside the loop, the parser retrieves the next expected word from the parsing rules
-(get_word_from_method) and the current token index from the lexer
-(get_index_from_lex). It then compares the parsing rule with the actual token.
 
-Depending on the situation, several cases occur:
+        // Handle End of Line / End of File
+        IF current_token is NULL AND word is NULL:
+            SKIP_TO_NEXT_LINE(method_line_num, method_token_num)
+            
+            // Check if more tokens exist at the start of the new line
+            IF get_token(get_index_from_lex(0)) is NULL:
+                LOG_DEBUG "End of parsing"
+                RETURN
+            ELSE:
+                CONTINUE loop
 
-1. If both the word and token are NULL, it moves to the next line, possibly ending
-parsing if no tokens remain.
-2. If the word is NULL but tokens remain, it raises an error, skips the line, and
-continues.
-3. If tokens don’t match the expected word, it tries the next parsing method.
-4. If the expected word matches either by type (check_the_type) or exact spelling
-(compare_the_word), the parser consumes the token (next_token).
-5. If a syntax tree is needed (does_tree_needed), the parser collects a range of
-tokens, pushes them into a parse buffer, and calls parsing_tree_analysis to analyze
-that fragment of syntax.
-6. Otherwise, if nothing matches, it skips ahead to try another parsing method.
+        // Handle missing data or invalid indices
+        IF index is -1 OR word is NULL:
+            IF handle_missing_word_or_token(word, index, method_line_num, method_token_num):
+                CONTINUE loop
+            ELSE:
+                SKIP_TO_NEXT_METHOD(method_line_num, method_token_num)
+                CONTINUE loop
 
-At every stage, errors are handled: if unexpected or missing tokens are found,
-error messages are printed using either the parser’s own method error messages
-or the default syntax error message. The loop continues until all tokens are
-processed or the end of the file is reached. Debugging information (guarded
-by P_PARSE_DEBUG_MODE) can print detailed traces of the parser’s decisions.
+        // Handle errors specifically at the start of a method
+        IF word is NULL AND (index is -1 OR method_token_num is 0):
+            REPORT_METHOD_ERROR(method_line_num)
+            SET dont_compile = 1
+            IF SKIP_TO_NEXT_LINE(method_line_num, method_token_num):
+                BREAK loop (End of File)
+            CONTINUE loop
+
+        // Save Identifier Context
+        // (Used for tracking declarations before matching)
+        handle_identifier_declaration(index, method_line_num)
+
+        // Match by Type (e.g., INT_LITERAL, IDENTIFIER)
+        IF try_match_type(word, index, method_token_num):
+            CONTINUE loop
+
+        // Match by Exact Word (e.g., "if", "while", "{")
+        IF try_match_word(word, index, method_token_num):
+            CONTINUE loop
+
+        // Structural Analysis (Syntax Trees)
+        IF does_tree_needed(word):
+            IF handle_syntax_tree(word, index, method_line_num, method_token_num):
+                CONTINUE loop
+        ELSE:
+            // No match found in this method path, try the next alternative
+            LOG_DEBUG "Not this syntax"
+            SKIP_TO_NEXT_METHOD(method_line_num, method_token_num)
+    END LOOP
+END FUNCTION
+```
+
+The engine have a weak error checking system.
