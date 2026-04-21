@@ -21,9 +21,6 @@
 
 
 
-
-
-
 // flush
 #ifdef DELETE_UNWANTED_FILES
   static const char *unwanted_filenames[] = {
@@ -32,10 +29,11 @@
     PGM_EXATED_FILE_NAME,
     DEFINED_IDENTIFIER_FILE_NAME
   };
-  #endif
+#endif
   
   
-  extern int dont_compile;
+
+extern int dont_compile;
 
 
 //functions

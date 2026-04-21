@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <stdlib.h>
-#include "fileh.h"
+#include "../include/fileh.h"
 #include "../include/pc_error.h"
 #include "../alt-parse/include/comment.h"
 

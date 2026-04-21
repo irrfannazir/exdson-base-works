@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "getf.h"
+#include "../include/getf.h"
 #include "../include/pc_error.h"
 #include "../data.h"
 

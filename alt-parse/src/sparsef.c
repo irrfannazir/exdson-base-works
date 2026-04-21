@@ -3,14 +3,12 @@
 #include "perror.h"
 #include "parseh.h"
 #include "comment.h"
-#include "fileh.h"
 #include "syntax.h"
+#include "../include/fileh.h"
 #include "../include/pc_error.h"
 #include "../data.h"
 
 
-// Returns 1 if an error was handled and we should continue (skip to next line),
-// returns 0 if no error (skip to next method).
 int handle_missing_word_or_token(const char *word, int index,
                                         int *method_line_num, int *method_token_num) {
     if (!word) {
