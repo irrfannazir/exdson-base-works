@@ -3,7 +3,7 @@
 #include "../data.h"
 
 int iskeyword(const char *str){
-    const char *keywords[] = {"if", "else", "elif", "new"};
+    const char *keywords[] = {"if", "else", "new", "for", "while", "print"};
     for (int i = 0; i < sizeof(keywords)/ sizeof(keywords[0]); i++) {
         if (strcmp(keywords[i], str) == 0)
             return 1;

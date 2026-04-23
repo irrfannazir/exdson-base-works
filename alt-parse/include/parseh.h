@@ -40,6 +40,7 @@ void handle_identifier_declaration(int index, int method_line_num);
 int try_match_type(char *word, int index, int *method_token_num);
 int try_match_word(char *word, int index, int *method_token_num);
 int handle_syntax_tree(char *word, int index, int *method_line_num, int *method_token_num);
+void clear_identifier_buffer();
 
 static inline int compare_the_word(char *word, char *token){
     return strcmp(word, token) == 0;

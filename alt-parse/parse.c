@@ -74,6 +74,8 @@ void parsef(const char *src_filename, const char *dest_filename) {
             log_debug("\tNot this syntax\n");
             skip_to_next_method(&method_line_num, &method_token_num);
         }
+
+        clear_identifier_buffer();
     }
 }
 

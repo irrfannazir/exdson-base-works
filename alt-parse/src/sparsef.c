@@ -28,6 +28,11 @@ void handle_identifier_declaration(int index, int method_line_num) {
     }
 }
 
+void clear_identifier_buffer(){
+    working_identifier[0] = '\0';
+}
+
+
 int try_match_type(char *word, int index, int *method_token_num) {
     if (check_the_type(word, get_type(index))) {
         log_debug("\tSimiliar type found\n");
