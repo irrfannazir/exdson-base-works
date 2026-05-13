@@ -8,7 +8,7 @@ struct lexInfo {
     int ignore_newline;
 };
 
-static inline struct lexInfo initLexInfo() {
+static inline struct lexInfo init_lexInfo() {
     struct lexInfo li;
     li.indent = 0;
     li.ignore_newline = 0; 

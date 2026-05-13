@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "parseState.h"
 #include "parseh.h"
 #include "perror.h"
 #include "../include/fileh.h"
@@ -13,6 +14,7 @@ void parsef(const char *src_filename, const char *dest_filename) {
     create_file(dest_filename, NULL);
     create_file(DEFINED_IDENTIFIER_FILE_NAME, "");
 
+    struct parseState ps = init_parseState(NULL);
     int method_line_num = 0;
     int method_token_num = 0;
 

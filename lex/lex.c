@@ -215,7 +215,7 @@ int dfa_char_analysis(char c, int *s, struct lexInfo *li){
 int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filename){
     char c;
     int state = 0;
-    struct lexInfo li = initLexInfo();
+    struct lexInfo li = init_lexInfo();
     clear_file(dest_filename);
     clear_file(DFA_LEXEME_FILENAME);
     clear_file(DFA_TOKEN_FILENAME);
