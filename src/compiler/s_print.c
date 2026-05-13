@@ -6,6 +6,20 @@ typedef enum {
     TO
 }p_prev;
 
+static char *trim_the_string_qoutes(char *line) {
+    size_t len = strlen(line);
+    if (len > 0 && (
+        (line[len - 1] == '"' && line[0] == '"' )||
+        (line[len - 1] == '\'' && line[0] == '\'' )||
+        (line[len - 1] == '`' && line[0] == '`' )
+    )) {
+        memmove(line, line + 1, len - 2);
+        line[len - 2] = '\0';
+        len -= 2;
+    }
+    return line;
+}
+
 void print_statement(int *arr, int count){
     static char format[C_PROGRAM_MAX] = "";
     static char para[C_PROGRAM_MAX] = "";
@@ -17,7 +31,7 @@ void print_statement(int *arr, int count){
         if(strcmp(get_token(i), ",") == 0){
             flag = NO;
         }else if(get_type(i) == TOKEN_STRING){
-            strcat(format, get_token(i));
+            strcat(format, trim_the_string_qoutes(get_token(i)));
         }else if(get_type(i) == TOKEN_IDENTIFIER || get_type(i) == TOKEN_INTEGER){
             if( strcmp(para, "") == 0 ) strcat(para, ",");
             switch(flag){

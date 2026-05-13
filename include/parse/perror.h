@@ -2,6 +2,11 @@
 #define PERROR_H
 #include "pdebug.h"
 
+#ifdef P_PARSE_DEBUG_MODE
+#include <stdarg.h>
+#endif
+
+
 int append_error_message(const char *msg);
 int num_lines(int size);
 
