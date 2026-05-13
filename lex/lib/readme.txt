@@ -1,1 +1,0 @@
-This is ot store compiled libraries.

@@ -5,27 +5,19 @@ CC = gcc
 TARGET = ex-c
 
 # Include directories
-INCLUDES = -I lex \
-           -I alt-parse \
-           -I alt-compile \
-           -I lex/include \
-           -I alt-parse/include \
-           -I alt-compile/include \
-           -I include
+INCLUDES = -I include
 
 # Source files
 SRC = main.c \
-      src/* \
-      lex/lex.c \
-      lex/src/* \
-      alt-parse/parse.c \
-      alt-parse/src/* \
-      alt-compile/compile.c \
-      alt-compile/src/*
+      $(wildcard src/*.c) \
+      $(wildcard src/compiler/*.c) \
+      $(wildcard src/core/*.c) \
+      $(wildcard src/lexer/*.c) \
+      $(wildcard src/parser/*.c)
 
 # Compiler flags
-CFLAGS = $(INCLUDES) \
-         -g -Wunused-function -Wall -Wextra
+CFLAGS = $(INCLUDES) -g 
+# -Wunused-function -Wall -Wextra
 
 # Default target
 all:

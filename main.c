@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include "lex/lex.h"
-#include "alt-parse/parse.h"
-#include "alt-compile/compile.h"
-#include "include/constants.h"
+#include "lex.h"
+#include "parse.h"
+#include "compile.h"
+#include "common/constants.h"
 
 #define LEX_HANDLING_FILENAME "lex.txt"
 #define PARSE_HANDLING_FILENAME "parse.txt"
