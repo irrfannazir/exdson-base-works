@@ -54,6 +54,5 @@ endif
 
 clean:
 	$(RM) $(OBJDIR)
-	$(RM) $(TARGET)$(EXE)
 
 .PHONY: all clean

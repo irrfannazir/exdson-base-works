@@ -7,3 +7,6 @@
 #ifndef P_CHECKING_WORD
 //   #define P_CHECKING_WORD
 #endif
+#ifndef DISPLAY_TREE
+    // #define DISPLAY_TREE
+#endif
