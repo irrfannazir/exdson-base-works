@@ -47,7 +47,7 @@ int is_unidentified(struct Node *ptr){
 struct Node *find_next_expression(struct Node* root) {
     int index = 0;
     if ( !root ) return NULL;
-    if (root -> data == 0 && root -> size > 1 && root -> right == NULL && root -> left == NULL) return root;
+    if (root -> type == EXPRESSION && root -> size > 1 && root -> right == NULL && root -> left == NULL) return root;
 
     // Create an auxiliary queue for level order traversal
     struct Node* queue[100];  // Assuming a max tree size of 100 for simplicity
@@ -61,7 +61,7 @@ struct Node *find_next_expression(struct Node* root) {
         // Add the current node's value to the array
 
         if(
-            current -> data == EXPRESSION
+            current -> type == EXPRESSION
                 &&
             is_unidentified(current)
                 &&

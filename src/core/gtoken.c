@@ -11,7 +11,7 @@ char *get_token(int index) {
         return NULL;
     }
 
-    char *str = malloc(100 * sizeof( char )); 
+    char *str = malloc(TOKEN_STRING_MAX * sizeof( char )); 
     char line[256];
     int num;
     int count = 0;

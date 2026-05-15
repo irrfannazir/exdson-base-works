@@ -1,13 +1,15 @@
-#define EXPRESSION 0
-#define OPERATOR 1
-#define BINARY_EXPRESSION 2
-#define TERT_EXPRESSION 3
+typedef enum{
+    EXPRESSION,         // 0
+    OPERATOR,           // 1
+    BINARY_EXPRESSION,  // 2
+    TERT_EXPRESSION,    // 3
+} NodeType;
 
 struct Node{
-    char *format;
-    int data;
+    NodeType type;
     int start;
     int size;
+    char *format;
     struct Node *left;
     struct Node *right;
 };
