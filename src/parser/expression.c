@@ -6,7 +6,7 @@
 
 
 int is_declared_variable(int index){
-    FILE *file = fopen(DEFINED_IDENTIFIER_FILE_NAME, "r");
+    FILE *file = fopen(SYMBOL_TABLE_FILE_NAME, "r");
     char name[NAME_STRLEN];
     while(fgets(name, NAME_STRLEN, file)){
         trim_newline(name);

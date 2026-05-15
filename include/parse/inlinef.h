@@ -7,7 +7,7 @@
 
 
 int is_variable_redefining(){
-    FILE *file = fopen(DEFINED_IDENTIFIER_FILE_NAME, "r");
+    FILE *file = fopen(SYMBOL_TABLE_FILE_NAME, "r");
     char name[NAME_STRLEN];
     while(fgets(name, NAME_STRLEN, file)){
         trim_newline(name);
@@ -32,7 +32,7 @@ static inline int method_inline_function(int mln){
             return 0;
         }
         if(strcmp(get_function_name_from_method(mln), "DECLARE(ID)") == 0){
-            fputs_with_newl(DEFINED_IDENTIFIER_FILE_NAME, working_identifier);
+            fputs_with_newl(SYMBOL_TABLE_FILE_NAME, working_identifier);
         }else if(strcmp(get_function_name_from_method(mln), "DECLARE(FUNC)") == 0){
             // put function name in syntax.txt
         }
