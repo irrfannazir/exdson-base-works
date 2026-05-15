@@ -1,6 +1,5 @@
 #include "lex/lexh.h"
 #include "lex/dfah.h"
-#include "lex/lastl.h"
 
 t_type lexeme_of_last_line(const char *filename) {
 

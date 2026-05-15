@@ -2,7 +2,6 @@
 #include "lex/lfh.h"
 #include "lex/lexInfo.h"
 #include "lex/dfah.h"
-#include "lex/lastl.h"
 #include "lex/lfn.h"
 #include "lex/d_fh.h"
 #include "lex/lerror.h"

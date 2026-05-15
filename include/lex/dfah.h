@@ -19,3 +19,6 @@ int dfa_new_token(const char *fn1, const char *fn2, t_type value);
 int dfa_string_conc(const char *filename, char c);
 int dfa_new_line(const char *filename, int indent);
 int change_to_form(const char *fnw, const char *fn1, const char *fn2);
+
+int size_of_last_line(const char *filename);
+int fget_last_line(const char *filename, char *last_line, int size);
