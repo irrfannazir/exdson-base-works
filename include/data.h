@@ -14,11 +14,12 @@
 #define DIGIT 20
 
 //filename
-#define PARSING_HANDLING_FILE_NAME "parse.txt"
-#define PGM_EXATED_FILE_NAME "program.c"
-#define SYMBOL_TABLE_FILE_NAME "symtab.txt"
+#define PARSING_HANDLING_FILE_NAME    "parse.txt"
+#define PGM_EXATED_FILE_NAME          "program.c"
+#define SYMBOL_TABLE_FILE_NAME        "symtab.txt"
 #define PARSE_DATATYPE_LIST_FILE_NAME "grammar/t_stat.txt"
-
+#define IC_SEMANTIC_FILENAME          "grammar/ic.txt"
+#define IC_FILENAME                   "ic.orgex"
 
 
 // flush
@@ -27,7 +28,7 @@
     "lex.txt",
     PARSING_HANDLING_FILE_NAME,
     PGM_EXATED_FILE_NAME,
-    SYMBOL_TABLE_FILE_NAME
+    SYMBOL_TABLE_FILE_NAME,
   };
 #endif
   

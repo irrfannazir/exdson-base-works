@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 char *error = NULL;
 int error_priority = 0;
 int current_error_priority = 0;

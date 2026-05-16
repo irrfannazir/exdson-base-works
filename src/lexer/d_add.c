@@ -19,6 +19,7 @@ void init_stat() {
 }
 
 int fputs_with_newl(const char *filename, const char *str) {
+    if (str == NULL || str[0] == '\0') return 0;
     FILE *fp = fopen(filename, "a");
     if ( !fp) {
         __pc_error__("Error while appending datatype to list file named %s", PARSE_DATATYPE_LIST_FILE_NAME);

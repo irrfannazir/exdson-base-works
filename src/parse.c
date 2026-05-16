@@ -18,9 +18,14 @@ void parsef(const char *src_filename, const char *dest_filename) {
     int method_line_num = 0;
     int method_token_num = 0;
 
+    char *word;
+    int index;
+
+    if(get_type(get_index_from_lex(1)) == TOKEN_NULL) skip_to_next_line(&method_line_num, &method_token_num);
+
     while (1) {
-        char *word = get_word_from_method(method_line_num, method_token_num);
-        int index = get_index_from_lex(1);
+        word = get_word_from_method(method_line_num, method_token_num);
+        index = get_index_from_lex(1);
 
         log_debug("Analysing %s and %s\n", word, get_token(index));
 

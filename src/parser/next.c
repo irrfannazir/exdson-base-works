@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "lex/d_fh.h"
 #include "parse/parseh.h"
 #include "parse/inlinef.h"
 #include "parse/perror.h"
@@ -12,12 +13,15 @@ int ltn = 0;
 
 
 int get_index_from_lex(int cl){
+    log_debug("lsn = %d; ltn = %d", lsn, ltn);
     if(get_type(lsn+ltn) == TOKEN_EOF){
+        log_debug("\t==> <%s, %d>\n", get_token(-1), get_type(-1));
         return -1;
     }else{
         if(cl){
             ltn++;
         }
+        log_debug("\t==> <%s, %d>\n", get_token(lsn+ltn-1), get_type(lsn+ltn-1));
         return lsn+ltn-1;
     }
 }
@@ -33,6 +37,7 @@ int skip_to_next_line(int *mln, int *mtn){
         printf("Error (%d): ", num_lines(lsn));
         dont_compile = 1;
     }else{
+        // fputs_with_newl(IC_FILENAME, fgets_by_nth_line(IC_SEMANTIC_FILENAME, mln));
         append_token_details(*mln);
     }
     while(get_type(lsn) != TOKEN_EOF && get_type(lsn) != TOKEN_NULL){
