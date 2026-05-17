@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lex/d_fh.h"
+#include "parse/parseState.h"
 #include "parse/parseh.h"
 #include "parse/inlinef.h"
 #include "parse/perror.h"
@@ -41,20 +42,32 @@ static inline int is_error_found_in_line(int mln){
     return 1;
 }
 
-int skip_to_next_line(int *mln, int *mtn){
+int skip_to_next_method(struct parseState *ps){
+    ltn = 0;
+    (ps -> method_line_number)++;
+    ps -> method_token_number = 0;
+    strcpy(ps -> buffer, "");
+    current_error_priority = error_priority;
+    strcpy(parsed_token, "");
+    return 0;
+}
+
+int skip_to_next_line(struct parseState *ps){
     
-    if(is_error_found_in_line(*mln)){
-        method_inline_handling(*mln);
-        append_token_details(*mln);
+    if(is_error_found_in_line(ps -> method_line_number)){
+        method_inline_handling(*ps);
+        append_token_details(ps -> method_line_number);
     }
     strcpy(parsed_token, "");
 
     while(get_type(lsn) != TOKEN_EOF && get_type(lsn) != TOKEN_NULL)
         lsn++;
+    
     lsn++;
     ltn = 0;
-    *mtn = 0;
-    *mln = 0;
+    ps -> method_token_number = 0;
+    ps -> method_line_number = 0;
+    strcpy(ps -> buffer, "");
     
     if(get_token(lsn) == NULL || get_type(lsn) != TOKEN_NULL) return 1;
     return 0;
@@ -63,15 +76,6 @@ int skip_to_next_line(int *mln, int *mtn){
 int next_token(int *mtn){
     (*mtn)++;
     error_priority++;
-    return 0;
-}
-
-int skip_to_next_method(int *mln, int *mtn){
-    ltn = 0;
-    (*mln)++;
-    *mtn = 0;
-    current_error_priority = error_priority;
-    strcpy(parsed_token, "");
     return 0;
 }
 

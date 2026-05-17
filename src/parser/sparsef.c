@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "parse/parseState.h"
 #include "parse/perror.h"
 #include "parse/parseh.h"
 #include "parse/comment.h"
@@ -9,13 +10,12 @@
 #include "data.h"
 
 
-int handle_missing_word_or_token(const char *word, int index,
-                                        int *method_line_num, int *method_token_num) {
+int handle_missing_word_or_token(const char *word, int index, struct parseState *ps) {
     if (!word) {
         char temp[1024];
         sprintf(temp, "%s is unexpected", get_token(index));
         push_error(temp);
-        skip_to_next_line(method_line_num, method_token_num);
+        skip_to_next_line(ps);
         return 1;
     }
     return 0;
@@ -54,12 +54,11 @@ int try_match_word(char *word, int index, int *method_token_num) {
 
 // Returns 1 if the tree was processed and the loop should continue,
 // returns 0 if the caller should skip to next method.
-int handle_syntax_tree(char *word, int index,
-                              int *method_line_num, int *method_token_num) {
+int handle_syntax_tree(char *word, int index, struct parseState *ps) {
     int start = lsn + ltn - 1;   // global line+token offset
     int size;
-    next_token(method_token_num);
-    char *end = get_word_from_method(*method_line_num, *method_token_num);
+    next_token(&(ps -> method_token_number));
+    char *end = get_word_from_method(*ps);
     log_debug("\tA syntax tree found.\n");
 
     if (!end) {
@@ -85,10 +84,10 @@ int handle_syntax_tree(char *word, int index,
         }
         if (index == -1) {
             push_error("Expected an operator.");
-            skip_to_next_method(method_line_num, method_token_num);
+            skip_to_next_method(ps);
             return 1;   // error handled, continue outer loop
         }
-        (*method_token_num)++;
+        (ps -> method_token_number)++;
         size = index - start;
     }
 
@@ -96,10 +95,10 @@ int handle_syntax_tree(char *word, int index,
     push_to_parse_string(start + size);
     int status = parsing_tree_analysis(word, start, size);
     if (status) {
-        skip_to_next_method(method_line_num, method_token_num);
+        skip_to_next_method(ps);
     }
     if (end == NULL) {
-        skip_to_next_line(method_line_num, method_token_num);
+        skip_to_next_line(ps);
     }
     return 1;   // tree processed, continue loop
 }

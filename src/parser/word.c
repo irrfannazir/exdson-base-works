@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "parse/parseState.h"
 #include "parse/comment.h"
 #include "parse/syntax.h"
 #include "common/pc_error.h"
 
 #define MAX_LINE_LENGTH 1024
 
-char *get_word_from_method(int line_number, int token_number) {
+char *get_word_from_method(struct parseState ps) {
     FILE *file = fopen(METHOD_DIRECTORY, "r");
     if (!file) {
         __pc_error__("Error while retrieving method word from the file named %s", METHOD_DIRECTORY);
@@ -23,7 +24,7 @@ char *get_word_from_method(int line_number, int token_number) {
         if(is_inline_comment(line)) continue;
         if(is_inline_comment(strstr(line, SYNTAX_COMMENT_TOKEN))) continue;
 
-        if (current_line == line_number) {
+        if (current_line == ps.method_line_number) {
             fclose(file);
 
             // Tokenize the line by space
@@ -31,7 +32,7 @@ char *get_word_from_method(int line_number, int token_number) {
             int current_token = 0;
 
             while (token) {
-                if (current_token == token_number) {
+                if (current_token == ps.method_token_number) {
                     // Allocate memory and return a copy of the token
                     char *result = malloc(strlen(token) + 1);
                     if (result) {

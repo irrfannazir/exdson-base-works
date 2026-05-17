@@ -1,6 +1,7 @@
 #ifndef PARSEH_H
 #define PARSEH_H
 #include <string.h>
+#include "parse/parseState.h"
 #include "data.h"
 
 #define PARSE_DETAILS_MAX DIGIT*10
@@ -18,13 +19,13 @@ extern int lsn;
 extern int ltn;
 
 void push_to_parse_string(int index);
-char *get_word_from_method(int line_number, int token_number); //Returns NULL if the line of method ends
+char *get_word_from_method(struct parseState ps); //Returns NULL if the line of method ends
 char *get_error_message_from_method(int line_number);
 char *get_meaning_from_method(int line_number);
 int get_index_from_lex(int cl); //Returns -1 if the type is EOF
-int skip_to_next_line(int *mln, int *mtn); // Moves to next line in lex
 int next_token(int *mln); // Moves to next token for both
-int skip_to_next_method(int *mln, int *mtn); // Moves to next method checking
+int skip_to_next_method(struct parseState *ps); // Moves to next method checking
+int skip_to_next_line(struct parseState *ps); // Moves to next line in lex
 int check_the_type(char *word, t_type type);
 int append_token_details(int mln); //Saves the index in a file for parsing
 int does_tree_needed(char *word); //Is word contains in tree.txt ending with ':'
@@ -35,17 +36,24 @@ void push_error(const char *temp);
 int print_error();
 
 void report_method_error(int method_line_num);
-int handle_missing_word_or_token(const char *word, int index, int *method_line_num, int *method_token_num);
+int handle_missing_word_or_token(const char *word, int index, struct parseState *ps);
 void handle_identifier_declaration(int index, int method_line_num);
 int try_match_type(char *word, int index, int *method_token_num);
 int try_match_word(char *word, int index, int *method_token_num);
-int handle_syntax_tree(char *word, int index, int *method_line_num, int *method_token_num);
+int handle_syntax_tree(char *word, int index, struct parseState *ps);
 void clear_identifier_buffer();
 
 static inline int compare_the_word(char *word, char *token){
     return strcmp(word, token) == 0;
 }
 
+static inline int save_in_buffer(char *buffer, int index){
+    const char *token = get_token(index);
+    if(strlen(buffer) + strlen(token) + 2 >= BUFFER_MAX) return 1;
+    strcat(buffer, token);
+    strcat(buffer, "|");
+    return 0;
+}
 
 static inline void reverse(char str[], int length) {
     int start = 0;

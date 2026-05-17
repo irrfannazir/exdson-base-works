@@ -24,11 +24,12 @@ char *get_meaning_from_method(int line_number) {
         if (current_line == line_number) {
             fclose(file);
 
-            // Look for '$$'
-            char *comment_start = strstr(line, SYNTAX_FUNCTION_TOKEN);
+            char *comment_start = line;
+            // Looking for TOKEN
+            // char *comment_start = strstr(line, SYNTAX_FUNCTION_TOKEN);
             if (!comment_start) return NULL;
 
-            comment_start += 2;
+            // comment_start += 2;
 
             // Skip whitespace
             while (*comment_start == ' ' || *comment_start == '\t') comment_start++;

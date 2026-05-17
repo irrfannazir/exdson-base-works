@@ -35,6 +35,6 @@ static inline int handling_declaration(int mln){
     return 0;
 }
 
-int method_inline_handling(int mln);
+int method_inline_handling(struct parseState ps);
 
 #endif
