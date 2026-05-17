@@ -32,12 +32,12 @@ int skip_to_next_line(int *mln, int *mtn){
         push_error(error_message);
     }
     free(error_message);
-    method_inline_generation(*mln);
+    method_inline_handling(*mln);
     if(error != NULL){
         printf("Error (%d): ", num_lines(lsn));
         dont_compile = 1;
     }else{
-        fputs_with_newl(IC_FILENAME, fgets_by_nth_line(IC_SEMANTIC_FILENAME, *mln));
+        fputs_with_newl(IC_FILENAME, get_meaning_from_method(*mln));
         append_token_details(*mln);
     }
     while(get_type(lsn) != TOKEN_EOF && get_type(lsn) != TOKEN_NULL){

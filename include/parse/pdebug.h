@@ -1,5 +1,5 @@
 #ifndef P_PARSE_DEBUG_MODE
- #define P_PARSE_DEBUG_MODE
+//  #define P_PARSE_DEBUG_MODE
 #endif
 #ifndef P_TREE_MODE
 //  #define P_TREE_MODE

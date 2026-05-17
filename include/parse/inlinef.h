@@ -5,8 +5,7 @@
 #include "strh.h"
 
 
-
-int is_variable_redefining(){
+static inline int is_variable_redefining(){
     FILE *file = fopen(SYMBOL_TABLE_FILE_NAME, "r");
     char name[NAME_STRLEN];
     while(fgets(name, NAME_STRLEN, file)){
@@ -20,25 +19,22 @@ int is_variable_redefining(){
     return 0;
 }
 
-// static inline int handling_declaration(int mln){
-// }
-
-static inline int method_inline_generation(int mln){
-    if(working_identifier[0] != '\0'){
+static inline int handling_declaration(int mln){
+    if(
+        working_identifier[0] != '\0' &&
+        strstr(get_meaning_from_method(mln), "declare") != NULL
+    ){
         if(is_variable_redefining()){
             char temp[1024 + NAME_STRLEN];
             sprintf(temp, "Redefinition of %s", working_identifier);
             push_error(temp);
             return 1;
         }
-        if( !get_meaning_from_method(mln) ){
-            return 0;
-        }
-        if(strstr(get_meaning_from_method(mln), "declare") != NULL){
-            fputs_with_newl(SYMBOL_TABLE_FILE_NAME, working_identifier);
-        }
+        fputs_with_newl(SYMBOL_TABLE_FILE_NAME, working_identifier);
     }
     return 0;
 }
+
+int method_inline_handling(int mln);
 
 #endif

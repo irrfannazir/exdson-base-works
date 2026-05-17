@@ -22,7 +22,7 @@ int fputs_with_newl(const char *filename, const char *str) {
     if (str == NULL || str[0] == '\0') return 0;
     FILE *fp = fopen(filename, "a");
     if ( !fp) {
-        __pc_error__("Error while appending datatype to list file named %s", PARSE_DATATYPE_LIST_FILE_NAME);
+        __pc_error__("Error while appending datatype to list file named %s", filename);
         return 1;
     }
     fprintf(fp, "%s\n", str);
@@ -33,7 +33,7 @@ int fputs_with_newl(const char *filename, const char *str) {
 char* fgets_by_nth_line(const char *filename, int n){
     FILE *fp = fopen(filename, "r");
     if ( !fp) {
-        __pc_error__("Error while retrieving datatype from list file named %s", PARSE_DATATYPE_LIST_FILE_NAME);
+        __pc_error__("Error while retrieving datatype from list file named %s", filename);
         return NULL;
     }
 
