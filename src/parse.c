@@ -13,6 +13,7 @@ void parsef(const char *src_filename, const char *dest_filename) {
     printf("Parsing the tokens.\n");
     create_file(dest_filename, NULL);
     create_file(SYMBOL_TABLE_FILE_NAME, "");
+    create_file(IC_FILENAME, "");
 
     struct parseState ps = init_parseState(NULL);
     int method_line_num = 0;

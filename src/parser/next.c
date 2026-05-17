@@ -26,32 +26,37 @@ int get_index_from_lex(int cl){
     }
 }
 
-int skip_to_next_line(int *mln, int *mtn){
-    char *error_message = get_error_message_from_method(*mln);
+static inline int is_error_found_in_line(int mln){
+    char *error_message = get_error_message_from_method(mln);
     if(error_message != NULL){
         push_error(error_message);
     }
     free(error_message);
-    method_inline_handling(*mln);
-    if(error != NULL){
+    if( error ){
         printf("Error (%d): ", num_lines(lsn));
         dont_compile = 1;
-    }else{
-        fputs_with_newl(IC_FILENAME, get_meaning_from_method(*mln));
+        print_error();
+        return 0;
+    }
+    return 1;
+}
+
+int skip_to_next_line(int *mln, int *mtn){
+    
+    if(is_error_found_in_line(*mln)){
+        method_inline_handling(*mln);
         append_token_details(*mln);
     }
-    while(get_type(lsn) != TOKEN_EOF && get_type(lsn) != TOKEN_NULL){
+    strcpy(parsed_token, "");
+
+    while(get_type(lsn) != TOKEN_EOF && get_type(lsn) != TOKEN_NULL)
         lsn++;
-    }
     lsn++;
     ltn = 0;
     *mtn = 0;
     *mln = 0;
-    print_error();
-    strcpy(parsed_token, "");
-    if(get_token(lsn) == NULL || get_type(lsn) != TOKEN_NULL){
-        return 1;
-    }
+    
+    if(get_token(lsn) == NULL || get_type(lsn) != TOKEN_NULL) return 1;
     return 0;
 }
 
