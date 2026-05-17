@@ -7,7 +7,7 @@
 
 #define MAX_LINE_LEN 1024
 
-char *get_function_name_from_method(int line_number) {
+char *get_meaning_from_method(int line_number) {
     FILE *file = fopen(METHOD_DIRECTORY, "r");
     if (!file) {
         __pc_error__("Error while retrieving error message from file %s", METHOD_DIRECTORY);
@@ -18,7 +18,7 @@ char *get_function_name_from_method(int line_number) {
     int current_line = 0;
 
     while (fgets(line, sizeof(line), file)) {
-                if(is_inline_comment(line)) continue;
+        if(is_inline_comment(line)) continue;
         if(is_inline_comment(strstr(line, SYNTAX_COMMENT_TOKEN))) continue;
         
         if (current_line == line_number) {

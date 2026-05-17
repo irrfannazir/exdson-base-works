@@ -20,7 +20,7 @@ extern int ltn;
 void push_to_parse_string(int index);
 char *get_word_from_method(int line_number, int token_number); //Returns NULL if the line of method ends
 char *get_error_message_from_method(int line_number);
-char *get_function_name_from_method(int line_number);
+char *get_meaning_from_method(int line_number);
 int get_index_from_lex(int cl); //Returns -1 if the type is EOF
 int skip_to_next_line(int *mln, int *mtn); // Moves to next line in lex
 int next_token(int *mln); // Moves to next token for both
