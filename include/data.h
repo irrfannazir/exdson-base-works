@@ -28,7 +28,7 @@
     "lex.txt",
     PARSING_HANDLING_FILE_NAME,
     PGM_EXATED_FILE_NAME,
-    SYMBOL_TABLE_FILE_NAME,
+    SYMBOL_TABLE_FILE_NAME
   };
 #endif
   

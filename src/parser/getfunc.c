@@ -18,7 +18,8 @@ char *get_function_name_from_method(int line_number) {
     int current_line = 0;
 
     while (fgets(line, sizeof(line), file)) {
-        if(is_inline_comment(line)) continue;
+                if(is_inline_comment(line)) continue;
+        if(is_inline_comment(strstr(line, SYNTAX_COMMENT_TOKEN))) continue;
         
         if (current_line == line_number) {
             fclose(file);

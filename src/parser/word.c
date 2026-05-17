@@ -20,9 +20,9 @@ char *get_word_from_method(int line_number, int token_number) {
 
     // Read lines until reaching the desired one
     while (fgets(line, sizeof(line), file)) {
-        if(is_inline_comment(line)){
-            continue;
-        }
+        if(is_inline_comment(line)) continue;
+        if(is_inline_comment(strstr(line, SYNTAX_COMMENT_TOKEN))) continue;
+
         if (current_line == line_number) {
             fclose(file);
 
@@ -36,7 +36,7 @@ char *get_word_from_method(int line_number, int token_number) {
                     char *result = malloc(strlen(token) + 1);
                     if (result) {
                         strcpy(result, token);
-                        if ( is_inline_comment(result) || is_inline_function(result) ){
+                        if ( is_inline_comment(result) || is_inline_comment(strstr(result, SYNTAX_COMMENT_TOKEN)) || is_inline_function(result) ){
                             return NULL;
                         }
                         return result;

@@ -11,22 +11,22 @@ void process_parametres(int *arr, int count){
         case 0:
             declaration_exec(arr, count);
             break;
-        case 3:
+        case 2:
             block_paradigm("if", arr, count);
             break;
-        case 4:
+        case 3:
             block_paradigm("else if", arr, count);    
             break;
-        case 5:
+        case 4:
             else_condition(arr, count);
             break;
-        case 6:
+        case 5:
             for_condition(arr, count);
             break;
-        case 7:
+        case 6:
             block_paradigm("while", arr, count);
             break;
-        case 9:
+        case 7:
             print_statement(arr, count);
             break;
     }

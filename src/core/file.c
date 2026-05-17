@@ -46,9 +46,9 @@ char *read_nth_content_from_file(const char *filename, int n){
     }
 
     while(fgets(temp, 1024, file)) {
-        if(is_inline_comment(temp)){
-            continue;
-        }
+        if(is_inline_comment(temp)) continue;
+        if(is_inline_comment(strstr(temp, SYNTAX_COMMENT_TOKEN))) continue;
+
         n--;
 
         if (n < 0) break;
