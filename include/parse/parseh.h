@@ -47,7 +47,7 @@ static inline int compare_the_word(char *word, char *token){
     return strcmp(word, token) == 0;
 }
 
-static inline int save_in_buffer(char *buffer, int index){
+static inline int save_type_in_buffer(char *buffer, int index){
     const char *token = get_token(index);
     if(strlen(buffer) + strlen(token) + 2 >= BUFFER_MAX) return 1;
     strcat(buffer, token);

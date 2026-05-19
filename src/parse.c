@@ -66,11 +66,12 @@ void parsef(const char *src_filename, const char *dest_filename) {
         }
 
         handle_identifier_declaration(index, ps.method_line_number);
-        if(save_in_buffer(ps.buffer, index)){
-            __pc_error__("Buffer overflow while parsing");
-        }
+        
 
         if (try_match_type( word, index, &(ps.method_token_number) )) {
+            if(save_type_in_buffer(ps.buffer, index)){
+            __pc_error__("Buffer overflow while parsing");
+            }
             continue;
         }
         if (try_match_word( word, index, &(ps.method_token_number) )) {

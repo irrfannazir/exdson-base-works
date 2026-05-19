@@ -1,6 +1,5 @@
-if ( EXPRESSION ) :                     => comp 0 %; jump if;
-TOKEN_DATATYPE TOKEN_ID = EXPRESSION    => declare %% %; %% = t%%%;
-TOKEN_DATATYPE TOKEN_ID = EXPRESSION    => declare %% %; %% = t%%%;
-for ( TOKEN_DATATYPE TOKEN_ID from EXPRESSION to EXPRESSION ) : => declare %%;
-TOKEN_DATATYPE TOKEN_ID = EXPRESSION    => declare %% %; %% = t%%%;
-print { ARGUMENT }                       
+comp 0 %; jump if;
+declare %% %; %% = t%%%;
+declare %% %; %% = t%%%;
+declare %%;
+declare %% %; %% = t%%%;
