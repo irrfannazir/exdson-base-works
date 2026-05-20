@@ -1,5 +1,7 @@
-comp 0 %; jump if;
-declare %% %; %% = t%%%;
-declare %% %; %% = t%%%;
-declare %%;
-declare %% %; %% = t%%%;
+t1 = 3 + 5 ;
+t2 = 42 + t1 ;
+comp 0 t3; jump if;
+declare single b; b = t1;
+declare single c; c = t1;
+declare a;
+declare single d; d = t1;

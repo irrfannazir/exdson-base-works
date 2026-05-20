@@ -29,7 +29,7 @@ int skip_to_next_line(struct parseState *ps); // Moves to next line in lex
 int check_the_type(char *word, t_type type);
 int append_token_details(int mln); //Saves the index in a file for parsing
 int does_tree_needed(char *word); //Is word contains in tree.txt ending with ':'
-int parsing_tree_analysis(char *format, int start, int size); //Here is the function for parsing
+int parsing_tree_analysis(struct parseState *ps, char *format, int start, int size); //Here is the function for parsing
 int fputs_with_newl(const char *filename, const char *str); //Append string into the filename
 
 void push_error(const char *temp);
@@ -51,7 +51,7 @@ static inline int save_type_in_buffer(char *buffer, int index){
     const char *token = get_token(index);
     if(strlen(buffer) + strlen(token) + 2 >= BUFFER_MAX) return 1;
     strcat(buffer, token);
-    strcat(buffer, "|");
+    strcat(buffer, "|\0");
     return 0;
 }
 

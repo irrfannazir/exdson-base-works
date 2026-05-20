@@ -16,8 +16,8 @@ void parsef(const char *src_filename, const char *dest_filename) {
     create_file(SYMBOL_TABLE_FILE_NAME, "");
     create_file(IC_FILENAME, "");
 
-    struct parseState ps = init_parseState();
-
+    struct parseState ps = init_parseState(); 
+ 
     char *word;
     int index;
 
@@ -43,7 +43,7 @@ void parsef(const char *src_filename, const char *dest_filename) {
         if (index == -1 || word == NULL) {
             if (handle_missing_word_or_token(word, index, &ps)) {
                 continue; // error already reported, continue parsing
-            }
+            } 
             log_debug("\tSkipping to next method\n");
             skip_to_next_method(&ps);
             continue;

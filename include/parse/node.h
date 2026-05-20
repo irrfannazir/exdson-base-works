@@ -5,11 +5,14 @@ typedef enum{
     TERT_EXPRESSION,    // 3
 } NodeType;
 
+#define VAR_MAX 1024
+
 struct Node{
     NodeType type;
     int start;
     int size;
     char *format;
+    char *var;
     struct Node *left;
     struct Node *right;
 };
