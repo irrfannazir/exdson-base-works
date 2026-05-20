@@ -15,7 +15,7 @@ static inline struct parseState init_parseState(){
     ps.method_line_number= 0;
     ps.method_token_number = 0;
     ps.reg_avail = 0;
-    strcpy(ps.buffer, "");
+    ps.buffer[0] = '\0';
     return ps;
 }
 

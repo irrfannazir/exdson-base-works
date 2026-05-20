@@ -43,7 +43,6 @@ int method_inline_handling(struct parseState ps){
         }
     }
     ic_pgm[ic_len++] = '\0';
-    puts("\n");
     fputs_with_newl(IC_FILENAME, ic_pgm);
     free(ic_pgm);
     free(meaning);
