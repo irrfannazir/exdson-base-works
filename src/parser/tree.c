@@ -91,8 +91,8 @@ int parsing_tree_analysis(struct parseState *ps, char *format, int start, int si
         #endif
         int status = analyze_expression(ptr);
         #ifdef DISPLAY_TREE
-            // displayTree(root); 
-            // printf("\n\n");
+            displayTree(root); 
+            printf("\n\n");
         #endif
         if(status){
             printf("Invalid Expression.\n");
@@ -107,9 +107,5 @@ int parsing_tree_analysis(struct parseState *ps, char *format, int start, int si
     sprintf(var, "t%d|\0", rg);
     ps -> reg_avail = rg;
     strcat(ps -> buffer, var);
-    #ifdef DISPLAY_TREE
-        displayTree(root); 
-        printf(";\n");
-    #endif
     return 0;
 }

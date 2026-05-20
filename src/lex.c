@@ -235,6 +235,8 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
     }else if(ex_filename != NULL){
         FILE *file = fopen(ex_filename, "r");
         if (!file) {
+            delete_file(DFA_TOKEN_FILENAME);
+            delete_file(DFA_LEXEME_FILENAME);
             __pc_error__("Error while retrieving program from file named %s", ex_filename);
             return 1;
         }
