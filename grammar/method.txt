@@ -8,7 +8,7 @@ if ( EXPRESSION ) :                     => comp 0 %; jump if;
 else if ( EXPRESSION ) :                => comp 0 %; jump elseif;
 else :                                  => jump else;
 //Loop
-for ( TOKEN_DATATYPE TOKEN_ID from EXPRESSION to EXPRESSION ) : => declare %%;
+for ( TOKEN_DATATYPE TOKEN_ID from EXPRESSION to EXPRESSION ) : =>declare % %%; %% = %%%; clt %% %%%%; jump for;
 while ( EXPRESSION ) :                  
 print { }                               // No Arguments are given for print
 print { ARGUMENT }                       

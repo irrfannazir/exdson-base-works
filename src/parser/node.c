@@ -14,3 +14,9 @@ void *createNode(char *value, NodeType data, int start, int size){
     return newNode;
 }
 
+void freeNode(struct Node *root){
+    if(root -> format) free(root -> format);
+    if(root -> var) free(root -> var);
+    if(root -> left) freeNode(root -> left);
+    if(root -> right) freeNode(root -> right);
+}

@@ -47,36 +47,34 @@ static inline void shrink_the_tree(int *reg_avail, struct Node *root){
     if(NODE_RIGHT) shrink_the_tree(reg_avail, root->right);
     if(NODE_LEFT) shrink_the_tree(reg_avail, root->left);
 
-    FILE *fh;
+    if(
+        NODE_LEFT           == NULL ||
+        NODE_RIGHT          == NULL ||
+        NODE_RIGHT_RIGHT    == NULL ||
+        NODE_RIGHT_LEFT     == NULL
+    ) return;
 
     if(
-        NODE_LEFT           != NULL &&
-        NODE_RIGHT          != NULL &&
-        NODE_RIGHT_RIGHT    != NULL &&
-        NODE_RIGHT_LEFT     != NULL &&
         NODE_LEFT -> type           == OPERATOR &&
         NODE_RIGHT -> type          == BINARY_EXPRESSION &&
         NODE_RIGHT_RIGHT -> type    == EXPRESSION &&
         NODE_RIGHT_LEFT  -> type    == EXPRESSION
     ){
-        fh = fopen(IC_FILENAME, "a");
+        FILE *fh = fopen(IC_FILENAME, "a");
         fprintf(fh, "t%d = ", *reg_avail);
         printNode(fh, NODE_RIGHT_RIGHT);
         printNode(fh, NODE_LEFT);
         printNode(fh, NODE_RIGHT_LEFT);
-        fputs(";\n", fh);
+        fputs("; ", fh);
         fclose(fh);
-        root -> var = (char *)malloc(VAR_MAX * sizeof(char));
-        sprintf(root -> var, "t%d", *reg_avail);
-        free(NODE_RIGHT_LEFT);
-        free(NODE_RIGHT_RIGHT);
-        free(NODE_RIGHT);
-        free(NODE_LEFT);
-        NODE_RIGHT = NULL;
-        NODE_LEFT = NULL;
-        (*reg_avail)++;
-        
-    }
+    }else{ return; }
+    
+    freeNode(NODE_RIGHT);
+    freeNode(NODE_LEFT);
+    root -> var = (char *)malloc(VAR_MAX * sizeof(char));
+    sprintf(root -> var, "t%d", *reg_avail);
+    (*reg_avail)++;
+
 }
 
 /*It is the where parsing tree in implemented*/
@@ -101,11 +99,8 @@ int parsing_tree_analysis(struct parseState *ps, char *format, int start, int si
         ptr = find_next_expression(root);
         endloop++;
     }
-    int rg = ps -> reg_avail;
-    shrink_the_tree(&rg, root);
-    char var[VAR_MAX];
-    sprintf(var, "t%d|\0", rg);
-    ps -> reg_avail = rg;
-    strcat(ps -> buffer, var);
+    shrink_the_tree(&(ps -> reg_avail), root);
+    sprintf(ps -> buffer, "%st%d|", ps -> buffer, ps -> reg_avail);
+    ps -> reg_avail++;
     return 0;
 }

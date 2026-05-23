@@ -5,6 +5,7 @@
 extern int ssn;
 
 void *createNode(char *value, NodeType type, int start, int size);
+void freeNode(struct Node *root);
 struct Node *find_next_expression(struct Node* root);
 int analyze_expression(struct Node *root);
 
