@@ -8,5 +8,5 @@
 //   #define P_CHECKING_WORD
 #endif
 #ifndef DISPLAY_TREE
-    // #define wDISPLAY_TREE
+  // #define DISPLAY_TREE
 #endif

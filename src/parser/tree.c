@@ -13,6 +13,10 @@
         }
         
         if(root -> left == NULL && root -> right == NULL){
+            if(root -> var != NULL) {
+                printf("%s ", root -> var);
+                return;
+            }
             for(int i = root -> start ; i < root -> start + root -> size; i++){
                 printf("%s ", get_token(i));
             }
@@ -71,6 +75,8 @@ static inline void shrink_the_tree(int *reg_avail, struct Node *root){
     
     freeNode(NODE_RIGHT);
     freeNode(NODE_LEFT);
+    NODE_RIGHT = NULL;
+    NODE_LEFT = NULL;
     root -> var = (char *)malloc(VAR_MAX * sizeof(char));
     sprintf(root -> var, "t%d", *reg_avail);
     (*reg_avail)++;
@@ -89,8 +95,8 @@ int parsing_tree_analysis(struct parseState *ps, char *format, int start, int si
         #endif
         int status = analyze_expression(ptr);
         #ifdef DISPLAY_TREE
-            displayTree(root); 
-            printf("\n\n");
+            // displayTree(root); 
+            // printf("\n\n");
         #endif
         if(status){
             printf("Invalid Expression.\n");
@@ -99,6 +105,10 @@ int parsing_tree_analysis(struct parseState *ps, char *format, int start, int si
         ptr = find_next_expression(root);
         endloop++;
     }
+    #ifdef DISPLAY_TREE
+        displayTree(root); 
+        printf("\n\n");
+    #endif
     shrink_the_tree(&(ps -> reg_avail), root);
     sprintf(ps -> buffer, "%st%d|", ps -> buffer, ps -> reg_avail);
     ps -> reg_avail++;
