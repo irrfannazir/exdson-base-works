@@ -65,6 +65,7 @@ static inline void shrink_the_tree(int *reg_avail, struct Node *root){
         NODE_RIGHT_LEFT  -> type    == EXPRESSION
     ){
         FILE *fh = fopen(IC_FILENAME, "a");
+        (*reg_avail)++;
         fprintf(fh, "t%d = ", *reg_avail);
         printNode(fh, NODE_RIGHT_RIGHT);
         printNode(fh, NODE_LEFT);
@@ -79,7 +80,6 @@ static inline void shrink_the_tree(int *reg_avail, struct Node *root){
     NODE_LEFT = NULL;
     root -> var = (char *)malloc(VAR_MAX * sizeof(char));
     sprintf(root -> var, "t%d", *reg_avail);
-    (*reg_avail)++;
 
 }
 
@@ -90,8 +90,9 @@ int parsing_tree_analysis(struct parseState *ps, char *format, int start, int si
     int endloop = 0;
     while(ptr != NULL && endloop < 20){
         #ifdef P_TREE_MODE
-         printf("from %s", get_token(ptr -> start));
-         printf("to %s\n", get_token(ptr -> start + ptr -> size));
+            puts("Checking: ");
+            for(int i = ptr -> start; i < ptr -> start + ptr -> size; i++) printf("%s ", get_token(i));
+            puts("\n");
         #endif
         int status = analyze_expression(ptr);
         #ifdef DISPLAY_TREE
@@ -100,17 +101,20 @@ int parsing_tree_analysis(struct parseState *ps, char *format, int start, int si
         #endif
         if(status){
             printf("Invalid Expression.\n");
+            dont_compile = 1;
             return 0;
         }
         ptr = find_next_expression(root);
         endloop++;
     }
     #ifdef DISPLAY_TREE
-        displayTree(root); 
+        displayTree(root);
         printf("\n\n");
     #endif
     shrink_the_tree(&(ps -> reg_avail), root);
-    sprintf(ps -> buffer, "%st%d|", ps -> buffer, ps -> reg_avail);
-    ps -> reg_avail++;
+    if(ps -> buffer > 0) {
+        sprintf(ps -> buffer, "%st%d|", ps -> buffer, ps -> reg_avail);
+        ps -> reg_avail++;
+    }
     return 0;
 }

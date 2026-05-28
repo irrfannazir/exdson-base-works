@@ -4,11 +4,11 @@ TOKEN_DATATYPE TOKEN_ID                 => declare % %%;
 //Errors in declaration
 TOKEN_DATATYPE TOKEN_ID =               // expecting expression after '='
 //Conditional
-if ( EXPRESSION ) :                     => comp 0 %; jump if;
-else if ( EXPRESSION ) :                => comp 0 %; jump elseif;
-else :                                  => jump else;
+if ( EXPRESSION ) :                     => comp 0 %; jump indent if;
+else if ( EXPRESSION ) :                => comp 0 %; jump indent elseif;
+else :                                  => jump indent else;
 //Loop
-for ( TOKEN_DATATYPE TOKEN_ID from EXPRESSION to EXPRESSION ) : =>declare % %%; %% = %%%; clt %% %%%%; jump for;
+for ( TOKEN_DATATYPE TOKEN_ID from EXPRESSION to EXPRESSION ) : =>declare % %%; %% = %%%; clt %% %%%%; jump indent for;
 while ( EXPRESSION ) :                  
 print { }                               // No Arguments are given for print
 print { ARGUMENT }                       

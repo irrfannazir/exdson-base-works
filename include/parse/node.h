@@ -3,6 +3,7 @@ typedef enum{
     OPERATOR,           // 1
     BINARY_EXPRESSION,  // 2
     TERT_EXPRESSION,    // 3
+    TERMINAL            // 4
 } NodeType;
 
 #define VAR_MAX 1024

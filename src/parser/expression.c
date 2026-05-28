@@ -59,7 +59,6 @@ struct Node *find_next_expression(struct Node* root) {
         struct Node* current = queue[front++];
 
         // Add the current node's value to the array
-
         if(
             current -> type == EXPRESSION
                 &&
@@ -74,11 +73,11 @@ struct Node *find_next_expression(struct Node* root) {
         (index)++;
 
         // Enqueue left and right children if they exist
-        if (current->left != NULL) {
-            queue[rear++] = current->left;
-        }
         if (current->right != NULL) {
             queue[rear++] = current->right;
+        }
+        if (current->left != NULL) {
+            queue[rear++] = current->left;
         }
     }
     return NULL;
