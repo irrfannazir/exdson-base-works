@@ -18,7 +18,7 @@ static inline int is_inline_meaning(const char *str){
 
 static inline int contains_meaning(const char *str) {
     if (!str) return 0;
-    return strstr(str, "=>") != NULL;
+    return strstr(str, SYNTAX_FUNCTION_TOKEN) != NULL;
 }
 
 #endif

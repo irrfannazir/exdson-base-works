@@ -4,7 +4,6 @@
 #include "lex/d_fh.h"
 #include "parse/parseState.h"
 #include "parse/parseh.h"
-#include "parse/inlinef.h"
 #include "parse/perror.h"
 #include "data.h"
 
@@ -12,6 +11,7 @@
 int lsn = 0;
 int ltn = 0;
 
+int method_inline_handling(struct parseState ps);
 
 int get_index_from_lex(int cl){
     log_debug("lsn = %d; ltn = %d", lsn, ltn);
