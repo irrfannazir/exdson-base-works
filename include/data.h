@@ -18,7 +18,6 @@
 #define PGM_EXATED_FILE_NAME          "program.c"
 #define SYMBOL_TABLE_FILE_NAME        "symtab.txt"
 #define PARSE_DATATYPE_LIST_FILE_NAME "grammar/t_stat.txt"
-#define IC_SEMANTIC_FILENAME          "grammar/ic.txt"
 #define IC_FILENAME                   "ic.orgex"
 
 

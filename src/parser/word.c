@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,7 +21,7 @@ char *get_word_from_method(struct parseState ps) {
     // Read lines until reaching the desired one
     while (fgets(line, sizeof(line), file)) {
         if(is_inline_comment(line)) continue;
-        if(is_inline_comment(strstr(line, SYNTAX_COMMENT_TOKEN))) continue;
+        // if(is_inline_comment(strstr(line, SYNTAX_COMMENT_TOKEN))) continue;
 
         if (current_line == ps.method_line_number) {
             fclose(file);

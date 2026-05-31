@@ -1,6 +1,5 @@
 #ifndef PARSEH_H
 #define PARSEH_H
-#include <string.h>
 #include "parse/parseState.h"
 #include "data.h"
 
@@ -43,17 +42,9 @@ int try_match_word(char *word, int index, int *method_token_num);
 int handle_syntax_tree(char *word, int index, struct parseState *ps);
 void clear_identifier_buffer();
 
-static inline int compare_the_word(char *word, char *token){
-    return strcmp(word, token) == 0;
-}
+int compare_the_word(char *word, char *token);
+int save_type_in_buffer(char *buffer, int index);
 
-static inline int save_type_in_buffer(char *buffer, int index){
-    const char *token = get_token(index);
-    if(strlen(buffer) + strlen(token) + 2 >= BUFFER_MAX) return 1;
-    strcat(buffer, token);
-    strcat(buffer, "|\0");
-    return 0;
-}
 
 static inline void reverse(char str[], int length) {
     int start = 0;

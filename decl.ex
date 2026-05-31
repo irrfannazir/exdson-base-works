@@ -1,1 +1,1 @@
-single a = 2 + 3;
+single a = 2+3+4;

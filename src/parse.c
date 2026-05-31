@@ -6,6 +6,7 @@
 #include "parse/perror.h"
 #include "common/fileh.h"
 #include "common/pc_error.h"
+#include "common/errorm.h"
 #include "data.h"
 
 char working_identifier[NAME_STRLEN] = "";
@@ -15,9 +16,10 @@ void parsef(const char *src_filename, const char *dest_filename) {
     create_file(dest_filename, NULL);
     create_file(SYMBOL_TABLE_FILE_NAME, "");
     create_file(IC_FILENAME, "");
+    create_file(ERROR_HANDLING_FILENAME, "");
 
     struct parseState ps = init_parseState(); 
- 
+
     char *word;
     int index;
 
@@ -88,5 +90,7 @@ void parsef(const char *src_filename, const char *dest_filename) {
 
         clear_identifier_buffer();
     }
+
+    printError(ERROR_HANDLING_FILENAME);
 }
 
