@@ -5,6 +5,10 @@
 #include "parse/parseState.h"
 #include "parse/parseh.h"
 #include "parse/perror.h"
+#include "parse/syntax.h"
+#include "parse/comment.h"
+#include "common/pc_error.h"
+#include "common/errorm.h"
 #include "data.h"
 
 
@@ -14,15 +18,12 @@ int ltn = 0;
 int method_inline_handling(struct parseState ps);
 
 int get_index_from_lex(int cl){
-    log_debug("lsn = %d; ltn = %d", lsn, ltn);
     if(get_type(lsn+ltn) == TOKEN_EOF){
-        log_debug("\t==> <%s, %d>\n", get_token(-1), get_type(-1));
         return -1;
     }else{
         if(cl){
             ltn++;
         }
-        log_debug("\t==> <%s, %d>\n", get_token(lsn+ltn-1), get_type(lsn+ltn-1));
         return lsn+ltn-1;
     }
 }
@@ -52,11 +53,36 @@ int skip_to_next_method(struct parseState *ps){
     return 0;
 }
 
+#define MAX_LINE_LENGTH 1024
+
+int count_inline_comment_until(int mln){
+    FILE *file = fopen(METHOD_DIRECTORY, "r");
+    if (!file) {
+        __pc_error__("Error while retrieving method word from the file named %s", METHOD_DIRECTORY);
+        return 0;
+    }
+
+    char line[MAX_LINE_LENGTH];
+    int current_line = 0;
+    int inline_comment_count = 0;
+
+    // Read lines until reaching the desired one
+    while (fgets(line, sizeof(line), file)) {
+        if(is_inline_comment(line)) continue;
+        if(is_inline_comment(strstr(line, SYNTAX_COMMENT_TOKEN))) inline_comment_count++;        
+        if (current_line == mln) return inline_comment_count;
+        current_line++;
+    }
+
+    fclose(file);
+    return 0; // Line not found
+}
+
 int skip_to_next_line(struct parseState *ps){
     
     if(is_error_found_in_line(ps -> method_line_number)){
         method_inline_handling(*ps);
-        append_token_details(ps -> method_line_number);
+        append_token_details(ps -> method_line_number - count_inline_comment_until(ps -> method_line_number));
     }
     strcpy(parsed_token, "");
 

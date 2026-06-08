@@ -11,17 +11,6 @@
 #include "data.h"
 
 
-int handle_missing_word_or_token(const char *word, int index, struct parseState *ps) {
-    if (!word) {
-        char temp[1024];
-        sprintf(temp, "%s is unexpected", get_token(index));
-        push_error(temp);
-        skip_to_next_line(ps);
-        return 1;
-    }
-    return 0;
-}
-
 void handle_identifier_declaration(int index, int method_line_num) {
     const char *syntax = read_nth_content_from_file(METHOD_DIRECTORY, method_line_num);
     if (syntax && get_type(index) == TOKEN_IDENTIFIER && strstr(syntax, DECLARATION_INSTRUCTION) != NULL){

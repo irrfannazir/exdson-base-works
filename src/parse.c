@@ -16,7 +16,6 @@ void parsef(const char *src_filename, const char *dest_filename) {
     create_file(dest_filename, NULL);
     create_file(SYMBOL_TABLE_FILE_NAME, "");
     create_file(IC_FILENAME, "");
-    create_file(ERROR_HANDLING_FILENAME, "");
 
     struct parseState ps = init_parseState(); 
 
@@ -29,42 +28,37 @@ void parsef(const char *src_filename, const char *dest_filename) {
         word = get_word_from_method(ps);
         index = get_index_from_lex(1);
 
-        log_debug("Analysing %s and %s\n", word, get_token(index));
+        log_debug("Analysing %s and %s(%d)\n", word, get_token(index), index);
+        uint8_t flag = FLAGS_TO_INT(uint8_t,
+            get_token(index) == NULL,
+            index == -1,
+            word == NULL
+        );
+        // printf("flag: %d%d%d\n",
+        //     get_token(index) == NULL,
+        //     index == -1,
+        //     word == NULL
+        // );
 
-        if (get_token(index) == NULL && word == NULL) {
-            skip_to_next_line(&ps); 
-            log_debug("\tSkipping to next line.\n");
-
-            if (!get_token(get_index_from_lex(0))) {
+        switch(flag){
+            case 0b001:
+                pushError(ERROR_HANDLING_FILENAME, ps.method_line_number, "%s is unexpected", strdup(get_token(index)));
+                if(ps.method_token_number == 0) report_method_error(ps.method_line_number);
+                skip_to_next_line(&ps);
+                continue;
+            case 0b110:
+                log_debug("\tSkipping to next method\n");
+                skip_to_next_method(&ps);
+                continue;
+            case 0b111:
+                log_debug("\tSkipping to next line.\n");
+                report_method_error(ps.method_line_number);
+                skip_to_next_line(&ps);
+                continue;
+            case 0b100:
+            case 0b101:
                 log_debug("End of parsing\n");
                 return;
-            }
-            continue;
-        }
-
-        if (index == -1 || word == NULL) {
-            if (handle_missing_word_or_token(word, index, &ps)) {
-                continue; // error already reported, continue parsing
-            } 
-            log_debug("\tSkipping to next method\n");
-            skip_to_next_method(&ps);
-            continue;
-        }
-
-        if (word == NULL && (index == -1 || ps.method_token_number == 0)) {
-            report_method_error(ps.method_line_number);
-            dont_compile = 1;
-
-            if (skip_to_next_line(&ps)) {
-                log_debug("End of file.\n");
-                break;
-            }
-            continue;
-        }
-
-        if (index == -1 || get_token(index) == NULL) {
-            skip_to_next_method(&ps);
-            continue;
         }
 
         handle_identifier_declaration(index, ps.method_line_number);
@@ -88,9 +82,8 @@ void parsef(const char *src_filename, const char *dest_filename) {
             skip_to_next_method(&ps);
         }
 
-        clear_identifier_buffer();
+        clear_identifier_buffer(); 
     }
 
-    printError(ERROR_HANDLING_FILENAME);
 }
 

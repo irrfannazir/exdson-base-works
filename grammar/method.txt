@@ -1,8 +1,8 @@
+//Errors in declaration
+TOKEN_DATATYPE TOKEN_ID =               // expecting expression after '='
 //Declaration
 TOKEN_DATATYPE TOKEN_ID = EXPRESSION    => declare % %%; %% = %%%;
 TOKEN_DATATYPE TOKEN_ID                 => declare % %%; 
-//Errors in declaration
-TOKEN_DATATYPE TOKEN_ID =               // expecting expression after '='
 //Conditional
 if ( EXPRESSION ) :                     => comp 0 %; jump indent if;
 else if ( EXPRESSION ) :                => comp 0 %; jump indent elseif;
