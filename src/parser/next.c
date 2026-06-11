@@ -9,6 +9,7 @@
 #include "parse/comment.h"
 #include "common/pc_error.h"
 #include "common/errorm.h"
+#include "common/fileh.h"
 #include "data.h"
 
 
@@ -79,8 +80,8 @@ int count_inline_comment_until(int mln){
 }
 
 int skip_to_next_line(struct parseState *ps){
-    
-    if(is_error_found_in_line(ps -> method_line_number)){
+    create_file(ERROR_HANDLING_FILENAME, "");
+    if(ps->found_error == 0){
         method_inline_handling(*ps);
         append_token_details(ps -> method_line_number - count_inline_comment_until(ps -> method_line_number));
     }

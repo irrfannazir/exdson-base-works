@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #include "parse/parseState.h"
 #include "parse/parseh.h"
 #include "parse/perror.h"
@@ -29,30 +30,39 @@ void parsef(const char *src_filename, const char *dest_filename) {
         index = get_index_from_lex(1);
 
         log_debug("Analysing %s and %s(%d)\n", word, get_token(index), index);
+        log_debug("flag: %d%d%d\n",
+            get_token(index) == NULL,
+            index == -1,
+            word == NULL
+        );
+
         uint8_t flag = FLAGS_TO_INT(uint8_t,
             get_token(index) == NULL,
             index == -1,
             word == NULL
         );
-        // printf("flag: %d%d%d\n",
-        //     get_token(index) == NULL,
-        //     index == -1,
-        //     word == NULL
-        // );
-
+        
         switch(flag){
             case 0b001:
-                pushError(ERROR_HANDLING_FILENAME, ps.method_line_number, "%s is unexpected", strdup(get_token(index)));
-                if(ps.method_token_number == 0) report_method_error(ps.method_line_number);
-                skip_to_next_line(&ps);
+                if(ps.method_token_number == 0) {
+                    printError(ERROR_HANDLING_FILENAME,  num_lines(lsn));
+                    skip_to_next_line(&ps);
+                    continue;
+                }
+                report_error_message(ps.method_line_number);
+                skip_to_next_method(&ps);
                 continue;
             case 0b110:
                 log_debug("\tSkipping to next method\n");
+                pushError(ERROR_HANDLING_FILENAME, ps.method_line_number, "%s is expected\n", word);
                 skip_to_next_method(&ps);
                 continue;
             case 0b111:
                 log_debug("\tSkipping to next line.\n");
-                report_method_error(ps.method_line_number);
+                if (report_error_message(ps.method_line_number)) {
+                    printError(ERROR_HANDLING_FILENAME,  num_lines(lsn));
+                    ps.found_error = 1;
+                }
                 skip_to_next_line(&ps);
                 continue;
             case 0b100:

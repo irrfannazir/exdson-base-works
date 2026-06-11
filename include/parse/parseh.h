@@ -34,7 +34,7 @@ int fputs_with_newl(const char *filename, const char *str); //Append string into
 void push_error(const char *temp);
 int print_error();
 
-void report_method_error(int method_line_num);
+int report_error_message(int mln);
 void handle_identifier_declaration(int index, int method_line_num);
 int try_match_type(char *word, int index, int *method_token_num);
 int try_match_word(char *word, int index, int *method_token_num);

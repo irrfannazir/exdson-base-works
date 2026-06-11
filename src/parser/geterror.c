@@ -6,6 +6,7 @@
 #include "parse/perror.h"
 #include "parse/parseh.h"
 #include "common/pc_error.h"
+#include "common/errorm.h"
 
 #define MAX_LINE_LEN 1024
 
@@ -58,11 +59,11 @@ char *get_error_message_from_method(int line_number) {
     return NULL;  // Line not found
 }
 
-void report_method_error(int method_line_num) {
-    const char *msg = get_error_message_from_method(method_line_num);
-    if (msg != NULL) {
-        printf("Error (%d): %s\n", num_lines(lsn), msg);
-    } else {
-        printf("Error (%d): %s\n", num_lines(lsn), DEFAULT_ERROR_MESSAGE);
+int report_error_message(int mln){
+    const char *msg = get_error_message_from_method(mln);
+    if(msg) {
+        pushError(ERROR_HANDLING_FILENAME, mln, "%s\n", msg);
+        return 1;
     }
+    return 0;
 }

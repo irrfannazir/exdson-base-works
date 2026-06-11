@@ -8,6 +8,7 @@
 #include "parse/syntax.h"
 #include "common/fileh.h"
 #include "common/pc_error.h"
+#include "common/errorm.h"
 #include "data.h"
 
 
@@ -47,6 +48,7 @@ int try_match_word(char *word, int index, int *method_token_num) {
 int handle_syntax_tree(char *word, int index, struct parseState *ps) {
     int start = lsn + ltn - 1;   // global line+token offset
     int size;
+    
     next_token(&(ps -> method_token_number));
     char *end = get_word_from_method(*ps);
     log_debug("\tA syntax tree found.\n");
@@ -63,17 +65,18 @@ int handle_syntax_tree(char *word, int index, struct parseState *ps) {
         // Search for the ending keyword
         while (index != -1) {
             index = get_index_from_lex(1);
-            __if_it_is_null__(get_token(index),
-                              printf("Error (%d): %s\n", num_lines(lsn), DEFAULT_ERROR_MESSAGE);
-                              dont_compile = 1;
-                              return 0,
-                              "Doesn't found an keyword named %s\n", end);
+            if(get_token(index) == NULL){
+                pushError(ERROR_HANDLING_FILENAME, ps->method_line_number, "Doesn't found an keyword named %s\n", end);
+                dont_compile = 1;
+                return 0;
+            }
+
             if (compare_the_word(end, get_token(index))) {
                 break;
             }
         }
         if (index == -1) {
-            push_error("Expected an operator.");
+            pushError(ERROR_HANDLING_FILENAME, ps->method_line_number, "Expected an operator %s\n", end);
             skip_to_next_method(ps);
             return 1;   // error handled, continue outer loop
         }

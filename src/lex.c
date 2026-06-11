@@ -1,12 +1,10 @@
 #include "lex/lexh.h"
-#include "lex/lfh.h"
 #include "lex/lexInfo.h"
 #include "lex/dfah.h"
-#include "lex/lfn.h"
 #include "lex/d_fh.h"
 #include "lex/lerror.h"
-#include "common/constants.h"
 #include "common/pc_error.h"
+#include "common/fileh.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -215,9 +213,9 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
     char c;
     int state = 0;
     struct lexInfo li = init_lexInfo();
-    clear_file(dest_filename);
-    clear_file(DFA_LEXEME_FILENAME);
-    clear_file(DFA_TOKEN_FILENAME);
+    create_file(dest_filename, "");
+    create_file(DFA_LEXEME_FILENAME, "");
+    create_file(DFA_TOKEN_FILENAME, "");
     init_stat();
     if(isinput){
         char *com;

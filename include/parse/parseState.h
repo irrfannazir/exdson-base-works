@@ -7,6 +7,7 @@ struct parseState{
     int method_line_number;
     int method_token_number;
     int reg_avail;
+    int found_error;
     char buffer[BUFFER_MAX];
 };
 
@@ -15,6 +16,7 @@ static inline struct parseState init_parseState(){
     ps.method_line_number= 0;
     ps.method_token_number = 0;
     ps.reg_avail = 0;
+    ps.found_error = 0;
     ps.buffer[0] = '\0';
     return ps;
 }

@@ -19,7 +19,7 @@ char *get_meaning_from_method(int line_number) {
 
     while (fgets(line, sizeof(line), file)) {
         if(is_inline_comment(line)) continue;
-        if(is_inline_comment(strstr(line, SYNTAX_COMMENT_TOKEN))) continue;
+        // if(is_inline_comment(strstr(line, SYNTAX_COMMENT_TOKEN))) continue;
         
         if (current_line == line_number) {
             fclose(file);
