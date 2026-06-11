@@ -20,13 +20,13 @@ static char *trim_the_string_qoutes(char *line) {
     return line;
 }
 
-void print_statement(int *arr, int count){
+void print_statement(const char *dfn, int *arr, int count){
     static char format[C_PROGRAM_MAX] = "";
     static char para[C_PROGRAM_MAX] = "";
     static char temp[C_PROGRAM_MAX*100] = "";
     p_prev flag = NO;
-    add_the_header(PGM_EXATED_FILE_NAME, "stdio.h");
-    // insert_newline_before_target(PGM_EXATED_FILE_NAME, INCLUDE_CURSOR);
+    add_the_header(dfn, "stdio.h");
+    // insert_newline_before_target(dfn, INCLUDE_CURSOR);
     for(int i = arr[1]; i < arr[2]; i++){
         if(strcmp(get_token(i), ",") == 0){
             flag = NO;
@@ -54,10 +54,12 @@ void print_statement(int *arr, int count){
                 case TI:
                     strcat(para, get_token(i));
                     break;
+                default:
+                    break;
             }
             flag = TO;
         }
     }
     sprintf(temp, "printf(\"%s\"%s);", format, para);
-    insert_before_target(PGM_EXATED_FILE_NAME, temp, PGM_CURSOR);
+    insert_before_target(dfn, temp, PGM_CURSOR);
 }

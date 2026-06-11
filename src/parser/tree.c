@@ -112,7 +112,7 @@ int parsing_tree_analysis(struct parseState *ps, char *format, int start, int si
         printf("\n\n");
     #endif
     shrink_the_tree(&(ps -> reg_avail), root);
-    if(ps -> buffer > 0) {
+    if(ps -> buffer) {
         sprintf(ps -> buffer, "%st%d|", ps -> buffer, ps -> reg_avail);
         ps -> reg_avail++;
     }

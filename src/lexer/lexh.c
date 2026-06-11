@@ -4,7 +4,7 @@
 
 int iskeyword(const char *str){
     const char *keywords[] = {"if", "else", "new", "for", "from", "to", "while", "print"};
-    for (int i = 0; i < sizeof(keywords)/ sizeof(keywords[0]); i++) {
+    for (unsigned int i = 0; i < sizeof(keywords)/ sizeof(keywords[0]); i++) {
         if (strcmp(keywords[i], str) == 0)
             return 1;
     }

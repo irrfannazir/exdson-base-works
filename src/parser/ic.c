@@ -51,12 +51,11 @@ int method_inline_handling(struct parseState ps){
     if(handling_declaration(ps.method_line_number)) return 1;
     
     size_t meaning_len = strlen(meaning);
-    char *ic_pgm = (char *) malloc( (strlen(meaning) + BUFFER_MAX) * sizeof(char) );
+    char *ic_pgm = (char *) malloc( (meaning_len + BUFFER_MAX) * sizeof(char) );
     if(!ic_pgm) return 1;
 
     int j = -1;
-    int k;
-    for(int i = 0 ;i < strlen(meaning); i++){
+    for(unsigned int i = 0 ;i < meaning_len; i++){
         switch(meaning[i]){
             case '%':
                 j++;
@@ -64,7 +63,7 @@ int method_inline_handling(struct parseState ps){
             default:
                 if(j >= 0){
                     int start = get_buffer_string(ps.buffer, j);
-                    for(int j = start; j < ps.buffer[j] != '\0' && ps.buffer[j] != '|'; j++){
+                    for(int j = start; ps.buffer[j] != '\0' && ps.buffer[j] != '|'; j++){
                         ic_pgm[ic_len++] = ps.buffer[j];
                     }
                     j = -1;

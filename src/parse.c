@@ -12,7 +12,7 @@
 
 char working_identifier[NAME_STRLEN] = "";
 
-void parsef(const char *src_filename, const char *dest_filename) {
+void parsef(const char *dest_filename) {
     printf("Parsing the tokens.\n");
     create_file(dest_filename, NULL);
     create_file(SYMBOL_TABLE_FILE_NAME, "");
@@ -30,7 +30,7 @@ void parsef(const char *src_filename, const char *dest_filename) {
         index = get_index_from_lex(1);
 
         log_debug("Analysing %s and %s(%d)\n", word, get_token(index), index);
-        log_debug("flag: %d%d%d\n",
+        log_debug("Flag: %d%d%d\n",
             get_token(index) == NULL,
             index == -1,
             word == NULL
