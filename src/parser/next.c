@@ -29,34 +29,18 @@ int get_index_from_lex(int cl){
     }
 }
 
-static inline int is_error_found_in_line(int mln){
-    char *error_message = get_error_message_from_method(mln);
-    if(error_message != NULL){
-        push_error(error_message);
-    }
-    free(error_message);
-    if( error ){
-        printf("Error (%d): ", num_lines(lsn));
-        dont_compile = 1;
-        print_error();
-        return 0;
-    }
-    return 1;
-}
-
 int skip_to_next_method(struct parseState *ps){
     ltn = 0;
     (ps -> method_line_number)++;
     ps -> method_token_number = 0;
     strcpy(ps -> buffer, "");
-    current_error_priority = error_priority;
     strcpy(parsed_token, "");
     return 0;
 }
 
 #define MAX_LINE_LENGTH 1024
 
-int count_inline_comment_until(int mln){
+static inline int count_inline_comment_until(int mln){
     FILE *file = fopen(METHOD_DIRECTORY, "r");
     if (!file) {
         __pc_error__("Error while retrieving method word from the file named %s", METHOD_DIRECTORY);
@@ -103,7 +87,6 @@ int skip_to_next_line(struct parseState *ps){
 
 int next_token(int *mtn){
     (*mtn)++;
-    error_priority++;
     return 0;
 }
 

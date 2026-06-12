@@ -3,6 +3,8 @@
 #include <string.h>
 #include "parse/parseh.h"
 #include "parse/strh.h"
+#include "common/errorm.h"
+
 
 static inline int is_variable_redefining(){
     FILE *file = fopen(SYMBOL_TABLE_FILE_NAME, "r");
@@ -24,9 +26,7 @@ static inline int handling_declaration(int mln){
         strstr(get_meaning_from_method(mln), "declare") != NULL
     ){
         if(is_variable_redefining()){
-            char temp[1024 + NAME_STRLEN];
-            sprintf(temp, "Redefinition of %s", working_identifier);
-            push_error(temp);
+            pushError(ERROR_HANDLING_FILENAME, num_lines(lsn), "Redefinition of %s", working_identifier);;
             return 1;
         }
         fputs_with_newl(SYMBOL_TABLE_FILE_NAME, working_identifier);

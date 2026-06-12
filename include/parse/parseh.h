@@ -10,16 +10,12 @@
 
 
 extern char parsed_token[PARSE_DETAILS_MAX];
-extern int error_priority;
-extern int current_error_priority;
-extern char *error;
 extern char working_identifier[NAME_STRLEN];
 extern int lsn;
 extern int ltn;
 
 void push_to_parse_string(int index);
 char *get_word_from_method(struct parseState ps); //Returns NULL if the line of method ends
-char *get_error_message_from_method(int line_number);
 char *get_meaning_from_method(int line_number);
 int get_index_from_lex(int cl); //Returns -1 if the type is EOF
 int next_token(int *mln); // Moves to next token for both
@@ -30,9 +26,6 @@ int append_token_details(int mln); //Saves the index in a file for parsing
 int does_tree_needed(char *word); //Is word contains in tree.txt ending with ':'
 int parsing_tree_analysis(struct parseState *ps, char *format, int start, int size); //Here is the function for parsing
 int fputs_with_newl(const char *filename, const char *str); //Append string into the filename
-
-void push_error(const char *temp);
-int print_error();
 
 int report_error_message(int mln);
 void handle_identifier_declaration(int index, int method_line_num);

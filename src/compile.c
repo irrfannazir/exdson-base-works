@@ -62,9 +62,9 @@ int compilef(const char *src_filename, const char *dest_filename){
     create_file(dest_filename, DEFAULT_PROGRAM);
     add_the_program(src_filename, dest_filename);
     printf("********The output program implemented in C programming Language********\n\n");
-    remove_string_from_file(PGM_EXATED_FILE_NAME, PGM_CURSOR, 1);
-    remove_string_from_file(PGM_EXATED_FILE_NAME, FUNCTION_CURSOR, 1);
-    remove_string_from_file(PGM_EXATED_FILE_NAME, INCLUDE_CURSOR, 1);
+    remove_string_from_file(dest_filename, PGM_CURSOR, 1);
+    remove_string_from_file(dest_filename, FUNCTION_CURSOR, 1);
+    remove_string_from_file(dest_filename, INCLUDE_CURSOR, 1);
     print_file_content(dest_filename);
     printf("\n\n\n");
     compile_file(dest_filename);

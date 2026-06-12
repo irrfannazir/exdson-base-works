@@ -10,7 +10,7 @@
 
 #define MAX_LINE_LEN 1024
 
-char *get_error_message_from_method(int line_number) {
+static inline char *get_error_message_from_method(int line_number) {
     FILE *file = fopen(METHOD_DIRECTORY, "r");
     if (!file) {
         __pc_error__("Error while retrieving error message from file %s", METHOD_DIRECTORY);

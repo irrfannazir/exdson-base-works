@@ -6,5 +6,8 @@
 int ReadLine(const char *filename, char *line, int size, int ln);
 int pushError(const char *filename, const float priority, const char *msg, ...);
 int printError(const char *filename, int mln);
+int num_lines(int size);
+
+extern int lsn;
 
 #endif

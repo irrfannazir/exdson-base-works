@@ -4,6 +4,7 @@
 #include "parse/node.h"
 #include "parse/parseh.h"
 #include "parse/strh.h"
+#include "common/errorm.h"
 
 
 int is_declared_variable(int index){
@@ -16,16 +17,7 @@ int is_declared_variable(int index){
             return 1;
         }
     }
-    if(1){
-        int temp = error_priority;
-        error_priority = 0xFFFF;
-        error_priority = temp;
-    }
-    if(1){
-        char temp[1024];
-        sprintf(temp, "The variable %s didn't declared", get_token(index));
-        push_error(temp);
-    }
+    pushError(ERROR_HANDLING_FILENAME, num_lines(lsn), "The variable %s didn't declared", get_token(index));
     fclose(file);
     return 0;
 }
