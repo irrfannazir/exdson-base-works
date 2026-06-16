@@ -1,3 +1,1 @@
 declare single a; a = t0;
-t1 = 2 + 3 ; comp 0 t1; jump indent if;
-declare single d; d = t0;

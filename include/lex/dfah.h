@@ -1,5 +1,8 @@
 //dfa
 
+#define LEX_VALUE_FIRST_SYMBOL  '$'
+#define LEX_VALUE_SECOND_SYMBOL '{'
+#define LEX_VALUE_END_SYMBOL    '}'
 
 typedef enum{
     TOKEN_EOF,          // 0 End Of File

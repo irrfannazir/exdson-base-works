@@ -12,11 +12,13 @@
 const char delimiter = ';';
 int dont_compile = 0;
 
-
 static inline int dfa_char_analysis(char c, int *s, struct lexInfo *li){
     switch(*s){
         case 0: // Start State: After newline
-            if(c == ' '){
+            if(c == LEX_VALUE_FIRST_SYMBOL){
+                *s = 7;
+                break;
+            }else if(c == ' '){
                 (li -> indent)++;
             }else if(c == '\n' || c == delimiter){
                 ;
@@ -41,7 +43,10 @@ static inline int dfa_char_analysis(char c, int *s, struct lexInfo *li){
             }
             break;
         case 1: //Space found
-            if(c == ' '){
+            if(c == LEX_VALUE_FIRST_SYMBOL){
+                *s = 7;
+                break;
+            }else if(c == ' '){
                 ;
             }else if(c == '\n' || c == delimiter){
                 *s = 0;
@@ -73,7 +78,9 @@ static inline int dfa_char_analysis(char c, int *s, struct lexInfo *li){
             }
             break;
         case 3: // Identifier found
-            if(c == ' '){
+            if(c == LEX_VALUE_FIRST_SYMBOL){
+                *s = 7;
+            }else if(c == ' '){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, lexeme_of_last_line(DFA_LEXEME_FILENAME));
                 *s = 1;
             }else if(c == '\n' || c == delimiter){
@@ -138,7 +145,9 @@ static inline int dfa_char_analysis(char c, int *s, struct lexInfo *li){
             }
             break;
         case 5: // Operator found
-            if(c == ' '){
+            if(c == LEX_VALUE_FIRST_SYMBOL){
+                *s = 7;
+            }else if(c == ' '){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_OPERATOR);
                 *s = 1;
             }else if(c == '\n' || c == delimiter){
@@ -170,7 +179,9 @@ static inline int dfa_char_analysis(char c, int *s, struct lexInfo *li){
             }
             break;
         case 6: // Punctuator
-            if(c == ' '){
+            if(c == LEX_VALUE_FIRST_SYMBOL){
+                *s = 7;
+            }else if(c == ' '){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_PUNCTUATION);
                 *s = 1;
             }else if(c == '\n' || c == delimiter){
@@ -198,6 +209,21 @@ static inline int dfa_char_analysis(char c, int *s, struct lexInfo *li){
             }else{
                 charerror(c);
                 return 1;
+            }
+            break;
+        case 7: // New expressions
+            if(c == LEX_VALUE_SECOND_SYMBOL){
+                *s = 8;
+            }else{
+                lexerror("The '{' is not found.");
+            }
+            break;
+        case 8:
+            if(c == LEX_VALUE_END_SYMBOL){
+                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
+                *s = 1;
+            }else{
+                dfa_string_conc(DFA_LEXEME_FILENAME, c);
             }
             break;
         case -1:

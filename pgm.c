@@ -1,1 +1,1 @@
- int main(){int a = 3;if(2 + 3){int d = 4;}return 0;}
+ int main(){int a = 2.3;return 0;}
