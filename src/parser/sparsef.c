@@ -88,7 +88,8 @@ int handle_syntax_tree(char *word, int index, struct parseState *ps) {
     push_to_parse_string(start + size);
     int status = parsing_tree_analysis(ps, word, start, size);
     if (status) {
-        skip_to_next_method(ps);
+        printError(ERROR_HANDLING_FILENAME, ps->method_line_number);
+        skip_to_next_line(ps);
     }
     if (end == NULL) {
         skip_to_next_line(ps);

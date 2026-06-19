@@ -3,6 +3,7 @@
 #include <string.h>
 #include "parse/tree.h"
 #include "parse/parseState.h"
+#include "common/errorm.h"
 #include "data.h"
 #include "parse/pdebug.h"
 
@@ -100,9 +101,13 @@ int parsing_tree_analysis(struct parseState *ps, char *format, int start, int si
             // printf("\n\n");
         #endif
         if(status){
-            printf("Invalid Expression.\n");
+            char temp_exp[1024] = "";
+            for(int i = start; i < start + size; i++){
+                strcat(temp_exp, get_token(i));
+            }
+            pushError(ERROR_HANDLING_FILENAME, ps-> method_line_number, "%s is an invalid expression", temp_exp);
             dont_compile = 1;
-            return 0;
+            return 1;
         }
         ptr = find_next_expression(root);
         endloop++;

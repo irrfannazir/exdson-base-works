@@ -1,1 +1,1 @@
-declare single a; a = t0;
+declare single a; a = single;
