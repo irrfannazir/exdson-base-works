@@ -49,6 +49,15 @@ static inline void shrink_the_tree(int *reg_avail, struct Node *root){
     #define NODE_RIGHT_RIGHT    root -> right -> right
     #define NODE_RIGHT_LEFT     root -> right -> left
 
+    if(
+        root -> size == 1
+    ){
+        FILE *fh = fopen(IC_FILENAME, "a");
+        fprintf(fh, "t%d = %s; ", *reg_avail, get_token(root -> start));
+        fclose(fh);
+        return;
+    }
+    
     if(NODE_RIGHT) shrink_the_tree(reg_avail, root->right);
     if(NODE_LEFT) shrink_the_tree(reg_avail, root->left);
 
