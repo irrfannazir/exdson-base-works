@@ -3,6 +3,7 @@
 #include <string.h>
 #include "parse/parseh.h"
 #include "parse/strh.h"
+#include "parse/comment.h"
 #include "common/errorm.h"
 
 
@@ -23,13 +24,32 @@ static inline int is_variable_redefining(){
 static inline int handling_declaration(int mln){
     if(
         working_identifier[0] != '\0' &&
-        strstr(get_meaning_from_method(mln), "declare") != NULL
+        strstr(get_meaning_from_method(mln), DECLARATION_INSTRUCTION) != NULL
     ){
         if(is_variable_redefining()){
             pushError(ERROR_HANDLING_FILENAME, num_lines(lsn), "Redefinition of %s", working_identifier);;
+            printError(ERROR_HANDLING_FILENAME, num_lines(lsn));
+            dont_compile = 1;
             return 1;
         }
         fputs_with_newl(SYMBOL_TABLE_FILE_NAME, working_identifier);
+    }
+    return 0;
+}
+
+static inline int is_the_syntax_for_assigning(const char *syntax){
+    return syntax != NULL && strstr(syntax, DECLARATION_INSTRUCTION) == NULL;
+}
+
+static inline int handling_undeclaration(int mln){
+    if(
+        working_identifier[0] != '\0' &&
+        is_the_syntax_for_assigning(get_meaning_from_method(mln))
+    ){
+        pushError(ERROR_HANDLING_FILENAME, num_lines(lsn), "The variable %s is not declared", working_identifier);
+        printError(ERROR_HANDLING_FILENAME, num_lines(lsn));
+        dont_compile = 1;
+        return 1;
     }
     return 0;
 }
@@ -49,6 +69,7 @@ int method_inline_handling(struct parseState ps){
     if(!meaning) return 1;
     if(ps.method_line_number + ps.method_token_number == 0) return 0; 
     if(handling_declaration(ps.method_line_number)) return 1;
+    if(handling_undeclaration(ps.method_line_number)) return 1;
     
     size_t meaning_len = strlen(meaning);
     char *ic_pgm = (char *) malloc( (meaning_len + BUFFER_MAX) * sizeof(char) );

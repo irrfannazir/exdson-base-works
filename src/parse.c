@@ -72,13 +72,7 @@ void parsef(const char *dest_filename) {
         }
 
         handle_identifier_declaration(index, ps.method_line_number);
-        if (handle_undeclared_variable(index, ps.method_line_number)){
-            pushError(ERROR_HANDLING_FILENAME, ps.method_line_number, "The variable %s is not declared", get_token(index));
-            printError(ERROR_HANDLING_FILENAME, num_lines(lsn));
-            skip_to_next_line(&ps);
-            dont_compile = 1;
-            continue;
-        }
+        handle_undeclared_variable(index, ps.method_line_number);
 
         if (try_match_type( word, index, &(ps.method_token_number) )) {
             if(save_type_in_buffer(ps.buffer, index)){

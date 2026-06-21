@@ -20,17 +20,14 @@ void handle_identifier_declaration(int index, int method_line_num) {
     }
 }
 
-static inline int is_the_syntax_for_assigning(const char *syntax){
-    return syntax != NULL && strstr(syntax, SYNTAX_FUNCTION_TOKEN) != NULL && strstr(syntax, DECLARATION_INSTRUCTION) == NULL;
-}
-
-int handle_undeclared_variable(int index, int method_line_num){
+void handle_undeclared_variable(int index, int method_line_num){
     const char *syntax = read_nth_content_werror(METHOD_DIRECTORY, method_line_num);
-    return
-        is_the_syntax_for_assigning(syntax) &&
+    if(
         get_type(index) == TOKEN_IDENTIFIER &&
         !is_declared_variable(index)
-    ;
+    ){
+        strcpy(working_identifier, get_token(index));
+    }
 }
 
 void clear_identifier_buffer(){
