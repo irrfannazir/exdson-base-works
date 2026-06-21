@@ -17,7 +17,6 @@ int is_declared_variable(int index){
             return 1;
         }
     }
-    pushError(ERROR_HANDLING_FILENAME, num_lines(lsn), "The variable %s didn't declared", get_token(index));
     fclose(file);
     return 0;
 }
@@ -30,6 +29,8 @@ int is_unidentified(struct Node *ptr){
         if(get_type(ptr -> start) == TOKEN_INTEGER){
             return 0;
         }else if(get_type(ptr -> start) == TOKEN_IDENTIFIER && is_declared_variable(ptr -> start)){
+            return 0;
+        }else if(get_type(ptr -> start) == TOKEN_STRING){
             return 0;
         }
         return 1;

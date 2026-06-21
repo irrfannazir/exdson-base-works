@@ -49,14 +49,6 @@ static inline void shrink_the_tree(int *reg_avail, struct Node *root){
     #define NODE_RIGHT_RIGHT    root -> right -> right
     #define NODE_RIGHT_LEFT     root -> right -> left
 
-    if(
-        root -> size == 1
-    ){
-        FILE *fh = fopen(IC_FILENAME, "a");
-        fprintf(fh, "t%d = %s; ", *reg_avail, get_token(root -> start));
-        fclose(fh);
-        return;
-    }
     
     if(NODE_RIGHT) shrink_the_tree(reg_avail, root->right);
     if(NODE_LEFT) shrink_the_tree(reg_avail, root->left);
@@ -88,9 +80,23 @@ static inline void shrink_the_tree(int *reg_avail, struct Node *root){
     freeNode(NODE_LEFT);
     NODE_RIGHT = NULL;
     NODE_LEFT = NULL;
-    root -> var = (char *)malloc(VAR_MAX * sizeof(char));
+    root -> var = (char *)malloc((DIGIT + 3) * sizeof(char));
     sprintf(root -> var, "t%d", *reg_avail);
 
+}
+
+static inline void ic_generation(int *reg_avail, struct Node *root){
+    if(
+        NODE_RIGHT == NULL  &&
+        NODE_LEFT == NULL   &&
+        root -> size == 1
+    ){
+        FILE *fh = fopen(IC_FILENAME, "a");
+        fprintf(fh, "t%d = %s; ", *reg_avail, get_token(root -> start));
+        fclose(fh);
+        return;
+    }
+    shrink_the_tree(reg_avail, root);
 }
 
 /*It is the where parsing tree in implemented*/
@@ -112,9 +118,10 @@ int parsing_tree_analysis(struct parseState *ps, char *format, int start, int si
         if(status){
             char temp_exp[1024] = "";
             for(int i = start; i < start + size; i++){
+                strcat(temp_exp, " ");
                 strcat(temp_exp, get_token(i));
             }
-            pushError(ERROR_HANDLING_FILENAME, ps-> method_line_number, "%s is an invalid expression", temp_exp);
+            pushError(ERROR_HANDLING_FILENAME, ps -> method_line_number, "%s is an invalid expression", temp_exp);
             dont_compile = 1;
             return 1;
         }
@@ -125,7 +132,7 @@ int parsing_tree_analysis(struct parseState *ps, char *format, int start, int si
         displayTree(root);
         printf("\n\n");
     #endif
-    shrink_the_tree(&(ps -> reg_avail), root);
+    ic_generation(&(ps -> reg_avail), root);
     if(ps -> buffer) {
         sprintf(ps -> buffer, "%st%d|", ps -> buffer, ps -> reg_avail);
         ps -> reg_avail++;

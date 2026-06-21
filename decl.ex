@@ -1,1 +1,1 @@
-single a = 3;
+func add():

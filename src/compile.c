@@ -9,24 +9,28 @@
 void process_parametres(const char *dfn, int *arr, int count){
     switch(arr[0]){
         case 0:
+        case 1:
             declaration_exec(dfn, arr, count);
             break;
         case 2:
-            block_paradigm(dfn, "if", arr, count);
+            assign_exec(dfn, arr, count);
             break;
         case 3:
-            block_paradigm(dfn, "else if", arr, count);    
+            block_paradigm(dfn, "if", arr, count);
             break;
         case 4:
-            else_condition(dfn, arr, count);
+            block_paradigm(dfn, "else if", arr, count);    
             break;
         case 5:
-            for_condition(dfn, arr, count);
+            else_condition(dfn, arr, count);
             break;
         case 6:
-            block_paradigm(dfn, "while", arr, count);
+            for_condition(dfn, arr, count);
             break;
         case 7:
+            block_paradigm(dfn, "while", arr, count);
+            break;
+        case 8:
             print_statement(dfn, arr, count);
             break;
     }

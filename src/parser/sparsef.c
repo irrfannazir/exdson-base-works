@@ -11,18 +11,37 @@
 #include "common/errorm.h"
 #include "data.h"
 
+int is_declared_variable(int index);
 
 void handle_identifier_declaration(int index, int method_line_num) {
-    const char *syntax = read_nth_content_from_file(METHOD_DIRECTORY, method_line_num);
+    const char *syntax = read_nth_content_werror(METHOD_DIRECTORY, method_line_num);
     if (syntax && get_type(index) == TOKEN_IDENTIFIER && strstr(syntax, DECLARATION_INSTRUCTION) != NULL){
         strcpy(working_identifier, get_token(index));
     }
+}
+
+static inline int is_the_syntax_for_assigning(const char *syntax){
+    return syntax != NULL && strstr(syntax, SYNTAX_FUNCTION_TOKEN) != NULL && strstr(syntax, DECLARATION_INSTRUCTION) == NULL;
+}
+
+int handle_undeclared_variable(int index, int method_line_num){
+    const char *syntax = read_nth_content_werror(METHOD_DIRECTORY, method_line_num);
+    return
+        is_the_syntax_for_assigning(syntax) &&
+        get_type(index) == TOKEN_IDENTIFIER &&
+        !is_declared_variable(index)
+    ;
 }
 
 void clear_identifier_buffer(){
     working_identifier[0] = '\0';
 }
 
+static inline int check_the_type(char *word, t_type type){
+    const int temp = token_to_type(word);
+    if(temp == -1) return 0;
+    return (temp == (int) type);
+}
 
 int try_match_type(char *word, int index, int *method_token_num) {
     if (check_the_type(word, get_type(index))) {
@@ -88,7 +107,7 @@ int handle_syntax_tree(char *word, int index, struct parseState *ps) {
     push_to_parse_string(start + size);
     int status = parsing_tree_analysis(ps, word, start, size);
     if (status) {
-        printError(ERROR_HANDLING_FILENAME, ps->method_line_number);
+        printError(ERROR_HANDLING_FILENAME, num_lines(lsn));
         skip_to_next_line(ps);
     }
     if (end == NULL) {

@@ -117,7 +117,6 @@ static inline int dfa_char_analysis(char c, int *s, struct lexInfo *li){
                     return 1;
                 }
             }
-            else if(li-> point == 1){}
             if(c == ' '){
                 dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
                 *s = 1;

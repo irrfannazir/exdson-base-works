@@ -2,8 +2,6 @@
 #define TREE_CONSTANTS_H
 #include "node.h"
 
-extern int ssn;
-
 void *createNode(char *value, NodeType type, int start, int size);
 void freeNode(struct Node *root);
 struct Node *find_next_expression(struct Node* root);

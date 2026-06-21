@@ -2,13 +2,16 @@
 TOKEN_DATATYPE TOKEN_ID =               // expecting expression after '='
 //Declaration
 TOKEN_DATATYPE TOKEN_ID = EXPRESSION    => declare % %%; %% = %%%;
-TOKEN_DATATYPE TOKEN_ID                 => declare % %%; 
+TOKEN_DATATYPE TOKEN_ID                 => declare % %%;
+TOKEN_ID = EXPRESSION                   => % = %%;
 //Conditional
 if ( EXPRESSION ) :                     => comp 0 %; jump indent if;
 else if ( EXPRESSION ) :                => comp 0 %; jump indent elseif;
 else :                                  => jump indent else;
 //Loop
-for ( TOKEN_DATATYPE TOKEN_ID from EXPRESSION to EXPRESSION ) : =>declare % %%; %% = %%%; clt %% %%%%; jump indent for;
+for ( TOKEN_DATATYPE TOKEN_ID from EXPRESSION to EXPRESSION ) : => declare % %%; %% = %%%; clt %% %%%%; jump indent for;
 while ( EXPRESSION ) :                  
 print { }                               // No Arguments are given for print
-print { ARGUMENT }                       
+print { ARGUMENT }                      => print %;                
+func TOKEN_ID ( ) :                     => declare func %; jump indent func;
+func TOKEN_ID ( ARGUMENT ) :            => declare func %; set args %%; jump indent func;

@@ -6,8 +6,6 @@ typedef enum{
     TERMINAL            // 4
 } NodeType;
 
-#define VAR_MAX 1024
-
 struct Node{
     NodeType type;
     int start;
