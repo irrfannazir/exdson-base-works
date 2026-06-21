@@ -1,1 +1,1 @@
- int main(){return 0;}
+ int main(){int a = 4;return 0;}

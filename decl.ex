@@ -1,1 +1,1 @@
-func add():
+single a = 4
