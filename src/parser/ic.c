@@ -5,34 +5,20 @@
 #include "parse/strh.h"
 #include "parse/comment.h"
 #include "common/errorm.h"
-
-
-static inline int is_variable_redefining(){
-    FILE *file = fopen(SYMBOL_TABLE_FILE_NAME, "r");
-    char name[NAME_STRLEN];
-    while(fgets(name, NAME_STRLEN, file)){
-        trim_newline(name);
-        if(strcmp(name, working_identifier) == 0){
-            fclose(file);
-            return 1;
-        }
-    }
-    fclose(file);
-    return 0;
-}
+#include "common/table.h"
 
 static inline int handling_declaration(int mln){
     if(
         working_identifier[0] != '\0' &&
         strstr(get_meaning_from_method(mln), DECLARATION_INSTRUCTION) != NULL
     ){
-        if(is_variable_redefining()){
+        if(vscan(SYMBOL_TABLE_FILE_NAME, working_identifier) != -1){
             pushError(ERROR_HANDLING_FILENAME, num_lines(lsn), "Redefinition of %s", working_identifier);;
             printError(ERROR_HANDLING_FILENAME, num_lines(lsn));
             dont_compile = 1;
             return 1;
         }
-        fputs_with_newl(SYMBOL_TABLE_FILE_NAME, working_identifier);
+        vadd(SYMBOL_TABLE_FILE_NAME, working_identifier);
     }
     return 0;
 }

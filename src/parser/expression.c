@@ -5,20 +5,11 @@
 #include "parse/parseh.h"
 #include "parse/strh.h"
 #include "common/errorm.h"
+#include "common/table.h"
 
 
 int is_declared_variable(int index){
-    FILE *file = fopen(SYMBOL_TABLE_FILE_NAME, "r");
-    char name[NAME_STRLEN];
-    while(fgets(name, NAME_STRLEN, file)){
-        trim_newline(name);
-        if(strcmp(name, get_token(index)) == 0){
-            fclose(file);
-            return 1;
-        }
-    }
-    fclose(file);
-    return 0;
+    return vscan(SYMBOL_TABLE_FILE_NAME, get_token(index)) != -1;
 }
 
 int is_unidentified(struct Node *ptr){
