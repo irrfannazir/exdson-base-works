@@ -3,10 +3,12 @@
 #include <string.h>
 #include "parse/tree.h"
 #include "parse/syntax.h"
-#include "parse/parseh.h"
 #include "parse/strh.h"
 #include "common/fileh.h"
+#include "data.h"
 
+int compare_the_word(char *word, char *token);
+int does_tree_needed(char *word); //Is word contains and ending with ':'
 
 static inline int count_tree_needed_words(char *line){
     int count = 0;
@@ -96,8 +98,8 @@ static inline int check_line(struct Node *ptr, char *syn_line) {
 
             if (end != NULL) {
                 ci = find_matching_token(ci, end);
-                
-                if (ci == ptr->start + ptr->size) {
+
+                if (ci >= ptr->start + ptr->size) {
                     free(copy);
                     return 1;
                 }
@@ -135,16 +137,16 @@ int analyze_expression(struct Node *ptr){
     // Go through each line from syntax.txt
     int ln = 0;
     char *syn_line = get_nth_line(SYNTAX_DIRECTORY, ln, ptr -> format);
-    
     ln++;
     while(syn_line != NULL){
-        int status;
         if(syn_line[0] == '\n'){
             free(syn_line);
             return 1;
         }
-        status = check_line(ptr, syn_line);
+        const int status = check_line(ptr, syn_line);
         if(status){
+            freeNode(ptr -> left);
+            freeNode(ptr -> right);
             syn_line = get_nth_line(SYNTAX_DIRECTORY, ln, ptr -> format);
             ln++;
         }else{

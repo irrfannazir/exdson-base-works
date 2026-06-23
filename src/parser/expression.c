@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parse/node.h"
-#include "parse/parseh.h"
 #include "parse/strh.h"
 #include "common/errorm.h"
 #include "common/table.h"
+#include "data.h"
 
 
 int is_declared_variable(int index){
@@ -34,30 +34,29 @@ struct Node *find_next_expression(struct Node* root) {
     if ( !root ) return NULL;
     if (root -> type == EXPRESSION && root -> size > 1 && root -> right == NULL && root -> left == NULL) return root;
 
-    // Create an auxiliary queue for level order traversal
-    struct Node* queue[100];  // Assuming a max tree size of 100 for simplicity
+    
+    struct Node* queue[100];  
     int front = 0, rear = 0;
 
-    // Enqueue root
+    
     queue[rear++] = root;
     while (front < rear) {
         struct Node* current = queue[front++];
 
-        // Add the current node's value to the array
         if(
             current -> type == EXPRESSION
-                &&
+            &&
             is_unidentified(current)
-                &&
+            &&
             current -> right == NULL
-                &&
+            &&
             current -> left == NULL
         ){
             return current;
         }
         (index)++;
 
-        // Enqueue left and right children if they exist
+        
         if (current->right != NULL) {
             queue[rear++] = current->right;
         }

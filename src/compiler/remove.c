@@ -27,11 +27,11 @@ void remove_string_from_file(const char *filename, const char *target, int isloo
         char *read_ptr = line;
         char *pos;
 
-        // printf("%s", line);
+        
         
         while ((pos = strstr(read_ptr, target)) != NULL) {
             if (isloop == 0 && removed_once) {
-                break; // Stop removing further if isloop == 0 and one removal is done
+                break; 
             }
 
             memmove(pos, pos + len, strlen(pos + len) + 1);
@@ -46,7 +46,7 @@ void remove_string_from_file(const char *filename, const char *target, int isloo
     fclose(src);
     fclose(temp);
 
-    // Replace original file with modified one
+    
     if (remove(filename) != 0) __pc_error__("Error while removing the file named %s", filename);
     if (rename("tempfile.txt", filename) != 0) __pc_error__("Error while renaming the file named tempfile.txt to %s", filename);
 }

@@ -1,2 +1,1 @@
-t0 = 4; declare single a; a = t0;
-t0 = 4; 
+t1 = 6 / 8 ; t2 = 4 + t1 ; declare single a; a = t2;

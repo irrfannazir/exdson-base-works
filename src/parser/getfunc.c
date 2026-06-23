@@ -19,25 +19,25 @@ char *get_meaning_from_method(int line_number) {
 
     while (fgets(line, sizeof(line), file)) {
         if(is_inline_comment(line)) continue;
-        // if(is_inline_comment(strstr(line, SYNTAX_COMMENT_TOKEN))) continue;
+        
         
         if (current_line == line_number) {
             fclose(file);
 
-            // Looking for TOKEN
+            
             char *comment_start = strstr(line, SYNTAX_FUNCTION_TOKEN);
             if (!comment_start) return NULL;
 
             comment_start += 2;
 
-            // Skip whitespace
+            
             while (*comment_start == ' ' || *comment_start == '\t') comment_start++;
 
-            // Remove trailing newline
+            
             char *newline = strchr(comment_start, '\n');
             if (newline) *newline = '\0';
 
-            // Allocation
+            
             char *result = malloc(strlen(comment_start) + 1);
             if (!result) return NULL;
 
@@ -49,5 +49,5 @@ char *get_meaning_from_method(int line_number) {
     }
 
     fclose(file);
-    return NULL;  // Line not found
+    return NULL;  
 }

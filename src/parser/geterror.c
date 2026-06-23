@@ -4,7 +4,6 @@
 #include "parse/syntax.h"
 #include "parse/comment.h"
 #include "parse/perror.h"
-#include "parse/parseh.h"
 #include "common/pc_error.h"
 #include "common/errorm.h"
 
@@ -22,12 +21,12 @@ static inline char *get_error_message_from_method(int line_number) {
 
     while (fgets(line, sizeof(line), file)) {
         if(is_inline_comment(line)) continue;
-        // if(is_inline_comment(strstr(line, SYNTAX_COMMENT_TOKEN))) continue;
+        
         
         if (current_line == line_number) {
             fclose(file);
 
-            // Look for '//'
+            
             char *comment_start = strstr(line, SYNTAX_COMMENT_TOKEN);
             if (!comment_start) {
                 return NULL;
@@ -35,16 +34,16 @@ static inline char *get_error_message_from_method(int line_number) {
 
             comment_start += 2;
 
-            // Skip whitespace
+            
             while (*comment_start == ' ' || *comment_start == '\t') {
                 comment_start++;
             }
 
-            // Remove trailing newline
+            
             char *newline = strchr(comment_start, '\n');
             if (newline) *newline = '\0';
 
-            // Allocation
+            
             char *result = malloc(strlen(comment_start) + 1);
             if (!result) return NULL;
 
@@ -56,7 +55,7 @@ static inline char *get_error_message_from_method(int line_number) {
     }
 
     fclose(file);
-    return NULL;  // Line not found
+    return NULL;  
 }
 
 int report_error_message(int mln){

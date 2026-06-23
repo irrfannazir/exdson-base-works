@@ -1,2 +1,1 @@
-single a = 4
-single a = 4
+single a = 4 + 6 - 8
