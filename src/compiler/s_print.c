@@ -1,3 +1,4 @@
+#define PRINT_STATEMENT
 #include <stdlib.h>
 #include "compile/sh.h"
 
@@ -22,13 +23,14 @@ static char *trim_the_string_qoutes(char *line) {
 }
 
 void print_statement(const char *dfn, int *arr, int count){
+    if (count != 3) return;
     char format[C_PROGRAM_MAX] = "";
     char para[C_PROGRAM_MAX] = "";
     char temp[C_PROGRAM_MAX*100] = "";
     p_prev flag = NO;
     add_the_header(dfn, "stdio.h");
     // insert_newline_before_target(dfn, INCLUDE_CURSOR);
-    for(int i = arr[1]; i < arr[2]; i++){
+    for(int i = arr[ORDER_PRINT_START]; i < arr[ORDER_PRINT_END]; i++){
         char *token = get_token(i);
         if(strcmp(token, ",") == 0){
             flag = NO;

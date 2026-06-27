@@ -46,6 +46,7 @@ static inline int get_buffer_string(char *buffer, int n){
         if(k == n) return i;
         if(buffer[i] == '|') k++;
     }
+    return -1;
 }
 
 int method_inline_handling(struct parseState ps){
@@ -70,7 +71,7 @@ int method_inline_handling(struct parseState ps){
             default:
                 if(j >= 0){
                     int start = get_buffer_string(ps.buffer, j);
-                    for(int j = start; ps.buffer[j] != '\0' && ps.buffer[j] != '|'; j++){
+                    for(int j = start; j != -1 && ps.buffer[j] != '\0' && ps.buffer[j] != '|'; j++){
                         ic_pgm[ic_len++] = ps.buffer[j];
                     }
                     j = -1;

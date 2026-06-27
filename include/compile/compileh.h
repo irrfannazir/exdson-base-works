@@ -17,7 +17,7 @@ const char *find_datatype(int index);
 void declaration_exec(const char *dfn, int *arr, int count);
 void assign_exec(const char *dfn, int *arr, int count);
 void block_paradigm(const char *dfn, char *keyword, int *arr, int count);
-void else_condition(const char *dfn, int *arr, int count);
+void else_condition(const char *dfn);
 void for_condition(const char *dfn, int *arr, int count);
 void print_statement(const char *dfn, int *arr, int count);
 
