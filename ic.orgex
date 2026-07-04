@@ -1,1 +1,5 @@
-t1 = 6 - 8 ; t2 = 4 + t1 ; declare single a; a = t2;
+t1 = 3 + 5 ; t2 = 42 + t1 ; comp 0 t2; jump indent if;
+t0 = 3; declare single b; b = t0;
+t0 = 4; declare single c; c = t0;
+t0 = 1; t1 = 6; declare single a; a = t0; clt a t1; jump indent for;
+t0 = 3; declare single d; d = t0;

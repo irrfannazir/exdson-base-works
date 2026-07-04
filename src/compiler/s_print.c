@@ -67,4 +67,6 @@ void print_statement(const char *dfn, int *arr, int count){
     }
     sprintf(temp, "printf(\"%s\"%s);", format, para);
     insert_before_target(dfn, temp, PGM_CURSOR);
+    sprintf(temp, "Implement %s as per the function in c", temp);
+    fputs_with_newl(PARSED_INFORMATION, "Implement");
 }

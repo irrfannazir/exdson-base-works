@@ -9,7 +9,7 @@ extern int lsn;
 extern int ltn;
 
 void push_to_parse_string(int index);
-char *get_word_from_method(struct parseState ps); //Returns NULL if the line of method ends
+char *get_word_from_method(struct parseState ps);
 char *get_meaning_from_method(int line_number);
 int get_index_from_lex(int cl); //Returns -1 if the type is EOF
 int next_token(int *mln); // Moves to next token for both

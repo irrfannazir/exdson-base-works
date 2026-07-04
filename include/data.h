@@ -12,6 +12,8 @@
 #define DIGIT 20
 #define TOKEN_STRING_MAX 500
 #define LEX_LINE_MAX TOKEN_STRING_MAX + DIGIT + 1
+#define PARSE_LINE_MAX 1024
+#define PSUEDO_CODE_MAX 1024
 
 #define NAME_STRLEN 1024
 
@@ -20,6 +22,7 @@
 #define PARSING_HANDLING_FILE_NAME    "parse.txt"
 #define PGM_EXATED_FILE_NAME          "program.c"
 #define SYMBOL_TABLE_FILE_NAME        "symtab.bin"
+#define PARSED_INFORMATION            "parse.info"
 #define PARSE_DATATYPE_LIST_FILE_NAME "grammar/datatype.txt"
 #define PARSE_KEYWORD_LIST_FILE_NAME  "grammar/keywords.bin"
 #define IC_FILENAME                   "ic.orgex"
