@@ -78,6 +78,7 @@ int skip_to_next_line(struct parseState *ps){
     ps -> method_token_number = 0;
     ps -> method_line_number = 0;
     ps -> reg_avail = 0;
+    ps -> found_error = 0;
     strcpy(ps -> buffer, "");
     
     if(get_token(lsn) == NULL || get_type(lsn) != TOKEN_NULL) return 1;

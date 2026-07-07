@@ -7,8 +7,20 @@
 #define INCLUDE_CURSOR "$$include_cursor;"
 #define C_PROGRAM_MAX 500
 
+typedef enum {
+    INSTRUCTION_DECLARATION = 0,
+    INSTRUCTION_DECLARATION_WITHOUT_ASSIGNMENT = 1,
+    INSTRUCTION_ASSIGNMENT = 2,
+    INSTRUCTION_IF_BLOCK = 3,
+    INSTRUCTION_ELSE_IF_BLOCK = 4,
+    INSTRUCTION_ELSE_BLOCK = 5,
+    INSTRUCTION_FOR_BLOCK = 6,
+    INSTRUCTION_WHILE_BLOCK = 7,
+    INSTRUCTION_PRINT = 8
+} InstructionKind;
+
 int *line_to_int_array(const char *line, int *count);
-void compile_file(const char *filename);
+int compile_file(const char *filename);
 void add_the_header(const char *filename, const char *headername);
 char *serialize(int start, int end);
 void remove_string_from_file(const char *filename, const char *target, int isloop);

@@ -16,8 +16,13 @@ int is_declared_variable(int index);
 void handle_identifier_declaration(int index, int method_line_num) {
     const char *syntax = read_nth_content_werror(METHOD_DIRECTORY, method_line_num);
     if (syntax && get_type(index) == TOKEN_IDENTIFIER && strstr(syntax, DECLARATION_INSTRUCTION) != NULL){
-        strcpy(working_identifier, get_token(index));
+        char *token = get_token(index);
+        if (token) {
+            snprintf(working_identifier, NAME_STRLEN, "%s", token);
+            free(token);
+        }
     }
+    free((char *)syntax);
 }
 
 void handle_undeclared_variable(int index){
@@ -25,7 +30,11 @@ void handle_undeclared_variable(int index){
         get_type(index) == TOKEN_IDENTIFIER &&
         !is_declared_variable(index)
     ){
-        strcpy(working_identifier, get_token(index));
+        char *token = get_token(index);
+        if (token) {
+            snprintf(working_identifier, NAME_STRLEN, "%s", token);
+            free(token);
+        }
     }
 }
 

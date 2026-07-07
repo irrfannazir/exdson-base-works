@@ -6,8 +6,12 @@
 char *get_nth_line(const char* filename, int n, const char *keyword){
     FILE* file = fopen(filename, "r");
     if (!file) return NULL;
-    const int size = sizeof(char) * 256;
+    const int size = sizeof(char) * 1024;
     char *line = malloc(size);
+    if (!line) {
+        fclose(file);
+        return NULL;
+    }
     if(keyword != NULL){
         while(fgets(line, size, file)){
             int line_len = strlen(line);
@@ -30,6 +34,7 @@ char *get_nth_line(const char* filename, int n, const char *keyword){
         n--;
     }
     fclose(file);
+    free(line);
     return NULL;
 }
 

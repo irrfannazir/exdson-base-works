@@ -1,277 +1,65 @@
 #include "lex/lexh.h"
 #include "lex/lexInfo.h"
-#include "lex/dfah.h"
 #include "lex/d_fh.h"
 #include "lex/lerror.h"
+#include "lex/dfaf.h"
 #include "common/pc_error.h"
 #include "common/fileh.h"
-#include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdio.h>
 
-const char delimiter = ';';
+
 int dont_compile = 0;
 
-static inline int dfa_char_analysis(char c, int *s, struct lexInfo *li){
-    switch(*s){
-        case 0: // Start State: After newline
-            if(c == LEX_VALUE_FIRST_SYMBOL){
-                *s = 7;
-                break;
-            }else if(c == ' '){
-                (li -> indent)++;
-            }else if(c == '\n' || c == delimiter){
-                ;
-            }else if(is_string_introduced(c)){
-                *s = 2;
-            }else if(is_char(c)){
-                *s = 3;
-            }else if(is_digit(c)){
-                *s = 4;
-            }else if(is_oper(c)){
-                *s = 5;
-            }else if(is_punct(c)){
-                *s = 6;
-            }else{
-                charerror(c);
-                return 1;
-            }
-    
-            if(c != ' ' && c != '\n' && c != delimiter){
-                if (!(li -> ignore_newline)) dfa_new_line(DFA_TOKEN_FILENAME, (li -> indent) / sitc);
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-            }
-            break;
-        case 1: //Space found
-            if(c == LEX_VALUE_FIRST_SYMBOL){
-                *s = 7;
-                break;
-            }else if(c == ' '){
-                ;
-            }else if(c == '\n' || c == delimiter){
-                *s = 0;
-                (li -> indent) = 0;
-            }else if(is_string_introduced(c)){
-                *s = 2;
-            }else if(is_char(c)){
-                *s = 3;
-            }else if(is_digit(c)){
-                *s = 4;
-            }else if(is_oper(c)){
-                *s = 5;
-            }else if(is_punct(c)){
-                *s = 6;
-            }else{
-                charerror(c);
-                return 1;
-            }
-    
-            if(c != ' ' && c != '\n' && c != delimiter){
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-            }
-            break;
-        case 2: // String introduced
-            dfa_string_conc(DFA_LEXEME_FILENAME, c);
-            if(is_string_introduced(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_STRING);
-                *s = 0;
-            }
-            break;
-        case 3: // Identifier found
-            if(c == LEX_VALUE_FIRST_SYMBOL){
-                *s = 7;
-            }else if(c == ' '){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, lexeme_of_last_line(DFA_LEXEME_FILENAME));
-                *s = 1;
-            }else if(c == '\n' || c == delimiter){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, lexeme_of_last_line(DFA_LEXEME_FILENAME));
-                (li -> indent) = 0;
-                *s = 0;
-            }else if(is_string_introduced(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, lexeme_of_last_line(DFA_LEXEME_FILENAME));
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 2;
-            }else if(is_char(c) || is_digit(c)){
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-            }else if(is_oper(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, lexeme_of_last_line(DFA_LEXEME_FILENAME));
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 5;
-            }else if(is_punct(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, lexeme_of_last_line(DFA_LEXEME_FILENAME));
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 6;
-            }else{
-                charerror(c);
-                return 1;
-            }
-            break;
-        case 4: // Digit found
-            if(c == '.'){
-                if(li->point == 0){
-                    li->point = 1;
-                    dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                    break;
-                }else{
-                    lexerror("Invalid floating value");
-                    return 1;
-                }
-            }
-            if(c == ' '){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
-                *s = 1;
-                li->point = 0;
-            }else if(c == '\n' || c == delimiter){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
-                (li -> indent) = 0;
-                *s = 0;
-                li->point = 0;
-            }else if(is_string_introduced(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 2;
-                li->point = 0;
-            }else if(is_char(c)){
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                int size = size_of_last_line(DFA_LEXEME_FILENAME);
-                char last_token[size + 1];
-                fget_last_line(DFA_LEXEME_FILENAME, last_token, size + 1);
-                const char *text = "Identifier %.*s is recognized as invalid";
-                size_t msg_len = snprintf(NULL, 0, text, size, last_token) + 1;
-                char error_msg[msg_len];
-                snprintf(error_msg, msg_len, text, size, last_token);
-                lexerror(error_msg);
-                li->point = 0;
-                *s = 0;
-            }else if(is_digit(c)){
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-            }else if(is_oper(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 5;
-                li->point = 0;
-            }else if(is_punct(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 6;
-                li->point = 0;
-            }else{
-                charerror(c);
-                return 1;
-            }
-            break;
-        case 5: // Operator found
-            if(c == LEX_VALUE_FIRST_SYMBOL){
-                *s = 7;
-            }else if(c == ' '){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_OPERATOR);
-                *s = 1;
-            }else if(c == '\n' || c == delimiter){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_OPERATOR);
-                (li -> indent) = 0;
-                *s = 0;
-            }else if(is_string_introduced(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_OPERATOR);
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 2;
-            }else if(is_oper(c)){
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 5;
-            }else if(is_char(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_OPERATOR);
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 3;
-            }else if(is_digit(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_OPERATOR);
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 4;
-            }else if(is_punct(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_OPERATOR);
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 6;
-            }else{
-                charerror(c);
-                return 1;
-            }
-            break;
-        case 6: // Punctuator
-            if(c == LEX_VALUE_FIRST_SYMBOL){
-                *s = 7;
-            }else if(c == ' '){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_PUNCTUATION);
-                *s = 1;
-            }else if(c == '\n' || c == delimiter){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_PUNCTUATION);
-                (li -> indent) = 0;
-                *s = 0;
-            }else if(is_string_introduced(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_PUNCTUATION);
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 2;
-            }else if(is_oper(c)){
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 5;
-            }else if(is_char(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_PUNCTUATION);
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 3;
-            }else if(is_digit(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_PUNCTUATION);
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-                *s = 4;
-            }else if(is_punct(c)){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_PUNCTUATION);
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-            }else{
-                charerror(c);
-                return 1;
-            }
-            break;
-        case 7: // New expressions
-            if(c == LEX_VALUE_SECOND_SYMBOL){
-                *s = 8;
-            }else{
-                lexerror("The '{' is not found.");
-            }
-            break;
-        case 8:
-            if(c == LEX_VALUE_END_SYMBOL){
-                dfa_new_token(DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME, TOKEN_INTEGER);
-                *s = 1;
-            }else{
-                dfa_string_conc(DFA_LEXEME_FILENAME, c);
-            }
-            break;
-        case -1:
-            puts("Lex Terminated!");
-            return 1;
+static char *read_inline_program(void) {
+    size_t capacity = INLINE_PROGRAM_MAX_SIZE;
+    size_t length = 0;
+    char *program = malloc(capacity);
+    if (!program) {
+        __pc_error__("The memory allocation failed while reading input");
+        return NULL;
     }
-    if (c == '{' || c == '(') (li -> ignore_newline) = 1;
-    if ( (li -> ignore_newline) && (c == '}' || c == ')') ) (li -> ignore_newline) = 0;
-    return 0;
+
+    int ch;
+    while ((ch = getchar()) != EOF && ch != '#') {
+        if (length + 1 >= capacity) {
+            size_t next_capacity = capacity * 2;
+            char *resized = realloc(program, next_capacity);
+            if (!resized) {
+                free(program);
+                __pc_error__("The memory allocation failed while expanding input");
+                return NULL;
+            }
+            program = resized;
+            capacity = next_capacity;
+        }
+        program[length++] = (char)ch;
+    }
+
+    program[length] = '\0';
+    return program;
 }
 
 int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filename){
-    char c;
+    int status = 0;
     int state = 0;
     struct lexInfo li = init_lexInfo();
-    create_file(dest_filename, "");
-    create_file(DFA_LEXEME_FILENAME, "");
-    create_file(DFA_TOKEN_FILENAME, "");
+    if (create_file(dest_filename, "")) return 1;
+    if (create_file(DFA_LEXEME_FILENAME, "")) return 1;
+    if (create_file(DFA_TOKEN_FILENAME, "")) return 1;
     init_stat();
     if(isinput){
-        char *com;
-        int i = 0;
-        com = (char*)malloc(INLINE_PROGRAM_MAX_SIZE);
-        if( !com ) printf("%s:%d: The memory allocation failed.\n", __FILE__, __LINE__);
-        scanf("%[^#]s", com);          // TODO: Replace with safer input method
+        char *com = read_inline_program();
+        if (!com) return 1;
+        size_t i = 0;
         while(com[i] != '\0'){
-            int status = dfa_char_analysis(com[i], &state, &li);
+            status = dfa_char_analysis(com[i], &state, &li);
             i++;
 	        if (status) break;
         }
+        free(com);
         puts("");
-        c = com[i];
     }else if(ex_filename != NULL){
         FILE *file = fopen(ex_filename, "r");
         if (!file) {
@@ -280,8 +68,9 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
             __pc_error__("Error while retrieving program from file named %s", ex_filename);
             return 1;
         }
-        while((c = fgetc(file)) != -1){
-            int status = dfa_char_analysis(c, &state, &li);
+        int c;
+        while((c = fgetc(file)) != EOF){
+            status = dfa_char_analysis((char)c, &state, &li);
             if (status) break;
         }
 	puts("");
@@ -289,9 +78,12 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
     }
     printf("\nTokenizing the command.\n");
 
-    dfa_char_analysis('\n', &state, &li);
-    change_to_form(dest_filename, DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME);
+    if (!status) status = dfa_char_analysis('\n', &state, &li);
+    if (!status && change_to_form(dest_filename, DFA_TOKEN_FILENAME, DFA_LEXEME_FILENAME) != 0) {
+        __pc_error__("Error while writing lexical analysis output to %s", dest_filename);
+        status = 1;
+    }
     delete_file(DFA_TOKEN_FILENAME);
     delete_file(DFA_LEXEME_FILENAME);
-    return 0;
+    return status;
 }

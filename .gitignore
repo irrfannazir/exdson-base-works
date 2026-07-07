@@ -1,2 +1,11 @@
 to-do*
 tools
+
+# Build output
+build
+obj
+/ex-c
+/ex-c.exe
+/out
+/out.exe
+

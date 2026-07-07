@@ -14,6 +14,7 @@ int ReadLine(const char *filename, char *line, int size, int ln){
 
 int pushError(const char *fn, const float priority, const char *msg, ...){
     FILE *fh = fopen(fn, "a");
+    if (!fh) return 1;
     va_list args;
     va_start(args, msg);
     fprintf(fh, "%f ", priority);
@@ -36,11 +37,11 @@ int printError(const char *filename, int lsn){
     printf("Error (%d): ", lsn);
     while(fscanf(fh, "%f %[^\n]s", &priority, line) == 2){
         if(max < priority){
-            strcpy(msg, line);
-            strcat(msg, "\n");
+            snprintf(msg, sizeof(msg), "%s\n", line);
             max = priority;
         }else if(max == priority){
-            strcat(msg, line);
+            size_t used = strlen(msg);
+            snprintf(msg + used, sizeof(msg) - used, "%s", line);
         }
     }
     if(strcmp(msg, "") == 0){
@@ -50,6 +51,6 @@ int printError(const char *filename, int lsn){
     }
     fclose(fh);
     fh = fopen(filename, "w");
-    fclose(fh);
+    if (fh) fclose(fh);
     return 0;
 }

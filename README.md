@@ -20,7 +20,7 @@ The S2S compiler for LOPS >> language oriented programming system.
 2. Run the Main Bat file which includes every compilation commands.
    ```sh
    # In Linux
-      bash scripts/linux.bat
+      sh scripts/linux.sh
    # In Windows
       .\scripts\win.bat
    ```
@@ -29,7 +29,7 @@ The S2S compiler for LOPS >> language oriented programming system.
    # Run this
    make
    ```
-3. It shows the c program which has been executed and shows the details of the compilation.
+3. It shows the generated C program and the details of the compilation. Intermediate files and the generated executable are written under `build/`.
 
 
 ## Updates

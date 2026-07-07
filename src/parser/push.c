@@ -23,6 +23,12 @@ int append_token_details(int mln){
 void push_to_parse_string(int index){
     char temp[DIGIT];
     itoaf(index, temp, 10);
+    size_t used = strlen(parsed_token);
+    size_t needed = strlen(temp) + 2;
+    if (used + needed >= sizeof(parsed_token)) {
+        __pc_error__("Parsed token buffer overflow");
+        return;
+    }
     strcat(parsed_token, temp);
     strcat(parsed_token, " ");
 }

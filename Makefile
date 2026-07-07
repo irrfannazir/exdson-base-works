@@ -4,6 +4,18 @@ INCLUDES = -I include
 
 CFLAGS = $(INCLUDES) -g -Wunused-function -Wall -Wextra
 
+ifeq ($(OS),Windows_NT)
+    MKDIR = if not exist "$(subst /,\,$(dir $@))" mkdir "$(subst /,\,$(dir $@))"
+    RM = rmdir /S /Q
+    DEL = del /Q
+    EXE = .exe
+else
+    MKDIR = mkdir -p $(dir $@)
+    RM = rm -rf
+    DEL = rm -f
+    EXE =
+endif
+
 SRC = main.c \
       $(wildcard src/*.c) \
       $(wildcard src/compiler/*.c) \
@@ -18,7 +30,7 @@ OBJDIR = obj
 OBJ = $(patsubst %.c,$(OBJDIR)/%.o,$(SRC))
 
 # Final executable name
-TARGET = ex-c
+TARGET = ex-c$(EXE)
 
 # Default target
 all: $(TARGET)
@@ -27,31 +39,14 @@ all: $(TARGET)
 $(TARGET): $(OBJ)
 	$(CC) $(OBJ) -o $(TARGET)
 
-# Compile each .c into .o inside obj/
-ifeq ($(OS),Windows_NT)
-    MKDIR = if not exist "$(subst /,\,$(dir $@))" mkdir "$(subst /,\,$(dir $@))"
-    RM = rmdir /S /Q
-    EXE = .exe
-else
-    MKDIR = mkdir -p $(dir $@)
-    RM = rm -rf
-    EXE =
-endif
-
 $(OBJDIR)/%.o: %.c
 	@$(MKDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean build files
-ifeq ($(OS),Windows_NT)
-    RM = rmdir /S /Q
-    EXE = .exe
-else
-    RM = rm -rf
-    EXE =
-endif
-
 clean:
-	$(RM) $(OBJDIR)
+	-$(RM) $(OBJDIR)
+	-$(RM) build
+	-$(DEL) ex-c$(EXE)
 
 .PHONY: all clean

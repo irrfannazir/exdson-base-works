@@ -12,6 +12,10 @@ char *get_token(int index) {
     }
 
     char *str = malloc(TOKEN_STRING_MAX * sizeof( char )); 
+    if (!str) {
+        fclose(file);
+        return NULL;
+    }
     int num;
     char line[LEX_LINE_MAX];
     int count = 0;
@@ -31,5 +35,6 @@ char *get_token(int index) {
     }
 
     fclose(file);
+    free(str);
     return NULL;
 }

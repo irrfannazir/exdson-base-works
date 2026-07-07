@@ -1,8 +1,6 @@
 #ifndef LEXINFO_H
 #define LEXINFO_H
 
-const int sitc = 2;
-
 struct lexInfo {
     int indent;
     int ignore_newline;

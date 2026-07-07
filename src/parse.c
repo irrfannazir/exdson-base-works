@@ -12,13 +12,17 @@
 
 char working_identifier[NAME_STRLEN] = "";
 
-void parsef(const char *dest_filename) {
+int parsef(const char *dest_filename) {
     printf("Parsing the tokens.\n");
-    create_file(dest_filename, NULL);
-    create_file(SYMBOL_TABLE_FILE_NAME, "");
-    create_file(IC_FILENAME, "");
+    if (create_file(dest_filename, NULL)) return 1;
+    if (create_file(SYMBOL_TABLE_FILE_NAME, "")) return 1;
+    if (create_file(IC_FILENAME, "")) return 1;
+    lsn = 0;
+    ltn = 0;
+    clear_identifier_buffer();
 
     struct parseState ps = init_parseState(); 
+    int had_error = 0;
 
     char *word;
     int index;
@@ -46,6 +50,8 @@ void parsef(const char *dest_filename) {
             case 0b001:
                 if(ps.method_token_number == 0) {
                     printError(ERROR_HANDLING_FILENAME,  num_lines(lsn));
+                    had_error = 1;
+                    ps.found_error = 1;
                     skip_to_next_line(&ps);
                     continue;
                 }
@@ -62,13 +68,14 @@ void parsef(const char *dest_filename) {
                 if (report_error_message(ps.method_line_number)) {
                     printError(ERROR_HANDLING_FILENAME,  num_lines(lsn));
                     ps.found_error = 1;
+                    had_error = 1;
                 }
                 skip_to_next_line(&ps);
                 continue;
             case 0b100:
             case 0b101:
                 log_debug("End of parsing\n");
-                return;
+                return had_error;
         }
 
         handle_identifier_declaration(index, ps.method_line_number);
@@ -76,7 +83,8 @@ void parsef(const char *dest_filename) {
 
         if (try_match_type( word, index, &(ps.method_token_number) )) {
             if(save_type_in_buffer(ps.buffer, index)){
-            __pc_error__("Buffer overflow while parsing");
+                __pc_error__("Buffer overflow while parsing");
+                return 1;
             }
             continue;
         }
@@ -95,5 +103,6 @@ void parsef(const char *dest_filename) {
         clear_identifier_buffer(); 
     }
 
+    return had_error;
 }
 

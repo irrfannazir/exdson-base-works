@@ -2,7 +2,7 @@
 #define PARSE_H
 
 
-void parsef(const char *dest_filename);
+int parsef(const char *dest_filename);
 
 
 #endif
