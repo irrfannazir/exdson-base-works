@@ -1,7 +1,6 @@
 #ifndef LEXH_H
 #define LEXH_H
 
-#define INLINE_PROGRAM_MAX_SIZE 500
 #define DFA_LEXEME_FILENAME "build/dfa_lexeme.txt"
 #define DFA_TOKEN_FILENAME "build/dfa_token.txt"
 

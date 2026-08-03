@@ -56,6 +56,7 @@ void print_statement(const char *dfn, int *arr, int count){
             switch(flag){
                 case NO:
                     if (append_checked(format, sizeof(format), "%d") ||
+                        (strcmp(para, ",") != 0 && append_checked(para, sizeof(para), ", ")) ||
                         append_checked(para, sizeof(para), token)) {
                         free(token);
                         return;

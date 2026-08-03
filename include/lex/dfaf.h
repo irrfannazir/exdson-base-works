@@ -5,5 +5,7 @@
 int dfa_char_analysis(char c, int *s, struct lexInfo *li);
 int change_to_form(const char *fnw, const char *fn1, const char *fn2);
 
+#define INLINE_PROGRAM_MAX_SIZE 500
+
 
 #endif
