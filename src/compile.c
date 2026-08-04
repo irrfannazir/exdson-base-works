@@ -51,7 +51,9 @@ static int instruction_opens_block(int instruction) {
            instruction == INSTRUCTION_ELSE_IF_BLOCK ||
            instruction == INSTRUCTION_ELSE_BLOCK ||
            instruction == INSTRUCTION_FOR_BLOCK ||
-           instruction == INSTRUCTION_WHILE_BLOCK;
+           instruction == INSTRUCTION_WHILE_BLOCK ||
+           instruction == INSTRUCTION_FUNCTION ||
+           instruction == INSTRUCTION_FUNCTION_WITH_ARGS;
 }
 
 static void close_generated_block(const char *dfn) {
@@ -60,44 +62,57 @@ static void close_generated_block(const char *dfn) {
 }
 
 void add_the_program(const char *pfn, const char *dfn){
-    enum { MAX_BLOCK_DEPTH = 128 };
-    int block_stack[MAX_BLOCK_DEPTH];
-    int block_depth = 0;
     int i = 0;
     char *parsed_data = get_nth_line(pfn, i, NULL);
+
+    int current_indent = 0;
+    int tab_space_count = -1;
+    int current_depth = 0;
 
     while(parsed_data != NULL){
         trim_newline(parsed_data);
 
-        int current_indent = get_indentation(i);
-        while (block_depth > 0 && current_indent <= block_stack[block_depth - 1]) {
-            close_generated_block(dfn);
-            block_depth--;
+        int next_indent = get_indentation(i);
+        if (tab_space_count == -1 && next_indent > 0) {
+            tab_space_count = next_indent;
+        }
+
+        if (tab_space_count > 0) {
+            while (current_indent > next_indent && current_depth > 0) {
+                close_generated_block(dfn);
+                current_depth--;
+                current_indent -= tab_space_count;
+            }
         }
 
         int count;
         int *arr = line_to_int_array(parsed_data, &count);
         int opens_block = arr && count > 0 && instruction_opens_block(arr[0]);
+        
         process_parametres(dfn, arr, count);
         free(parsed_data);
 
-        int next_indent = get_indentation(i + 1);
-        if (opens_block && next_indent > current_indent) {
-            if (block_depth < MAX_BLOCK_DEPTH) {
-                block_stack[block_depth++] = current_indent;
-            } else {
-                fprintf(stderr, "Maximum block nesting depth exceeded.\n");
+        if (opens_block) {
+            int following_indent = get_indentation(i + 1);
+            if (tab_space_count == -1 && following_indent > next_indent) {
+                tab_space_count = following_indent - next_indent;
+            }
+
+            if (tab_space_count > 0 && following_indent > next_indent) {
+                current_depth++;
+                current_indent = following_indent;
             }
         }
+        
         free(arr);
 
         i++;
         parsed_data = get_nth_line(pfn, i, NULL);
     }
 
-    while (block_depth > 0) {
+    while (current_depth > 0) {
         close_generated_block(dfn);
-        block_depth--;
+        current_depth--;
     }
 }
 

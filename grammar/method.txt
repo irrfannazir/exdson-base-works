@@ -13,5 +13,5 @@ for ( TOKEN_DATATYPE TOKEN_ID from EXPRESSION to EXPRESSION ) : => declare % %%;
 while ( EXPRESSION ) :                  
 print { }                               // No Arguments are given for print
 print { ARGUMENT }                      => print %;                
-func TOKEN_ID ( ) :                     => declare func %; jump indent func;
-func TOKEN_ID ( ARGUMENT ) :            => declare func %; set args %%; jump indent func;
+func TOKEN_ID ( ) :                     => declare func %; end of func;
+func TOKEN_ID ( ARGUMENT ) :            => declare func %; set args %%; end of func;
