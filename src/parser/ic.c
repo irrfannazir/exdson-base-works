@@ -7,18 +7,23 @@
 #include "common/errorm.h"
 #include "common/table.h"
 
-static inline int handling_declaration(int mln){
+static inline int handling_declaration(int bd, int mln){
     if(
         working_identifier[0] != '\0' &&
         strstr(get_meaning_from_method(mln), DECLARATION_INSTRUCTION) != NULL
     ){
-        if(vscan(SYMBOL_TABLE_FILE_NAME, working_identifier) != -1){
-            pushError(ERROR_HANDLING_FILENAME, num_lines(lsn), "Redefinition of %s", working_identifier);;
-            printError(ERROR_HANDLING_FILENAME, num_lines(lsn));
-            dont_compile = 1;
-            return 1;
+        char fn[sizeof(SYMTAB_FILE_NAME_FORMAT)];
+        for(int i = 0 ; i <= bd; i++){
+            SYMTAB_FILE_NAME(fn, i);
+            if(vscan(fn, working_identifier) != -1){
+                pushError(ERROR_HANDLING_FILENAME, num_lines(lsn), "Redefinition of %s", working_identifier);;
+                printError(ERROR_HANDLING_FILENAME, num_lines(lsn));
+                dont_compile = 1;
+                return 1;
+            }
         }
-        vadd(SYMBOL_TABLE_FILE_NAME, working_identifier);
+        SYMTAB_FILE_NAME(fn, bd);
+        vadd(fn, working_identifier);
     }
     return 0;
 }
@@ -55,7 +60,7 @@ int method_inline_handling(struct parseState ps){
     
     if(!meaning) return 1;
     if(ps.method_line_number + ps.method_token_number == 0) return 0; 
-    if(handling_declaration(ps.method_line_number)) return 1;
+    if(handling_declaration(ps.block_depth, ps.method_line_number)) return 1;
     if(handling_undeclaration(ps.method_line_number)) return 1;
     
     size_t meaning_len = strlen(meaning);

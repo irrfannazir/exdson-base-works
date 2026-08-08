@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "data.h"
 #include "parse/nexth.h"
 #include "parse/parseState.h"
 #include "parse/perror.h"
@@ -14,6 +15,19 @@
 
 int lsn = 0;
 int ltn = 0;
+
+
+int delete_space(int block_depth){
+    char fn[50];
+    SYMTAB_FILE_NAME(fn, block_depth);
+    if(file_exists(fn)){
+        delete_file(fn);
+    }else{
+        // log_line_analysis("\tNo file found: %s\n", fn);
+    }
+    return 0;
+}
+
 
 int method_inline_handling(struct parseState ps);
 
@@ -75,6 +89,30 @@ int skip_to_next_line(struct parseState *ps){
     
     lsn++;
     ltn = 0;
+
+    if(num_lines(lsn) > 1){
+        print_line(num_lines(lsn) - 1);
+        int prev_indent = get_indentation(num_lines(lsn) - 2);
+        int next_indent = get_indentation(num_lines(lsn) - 1);
+        if(next_indent == -1) next_indent = 0;
+        if(prev_indent == -1) prev_indent = 0;
+        
+        if(prev_indent < next_indent){
+            if( ps->space_count_for_tab == -1 ) ps->space_count_for_tab = next_indent - prev_indent;
+            if( next_indent != prev_indent + ps->space_count_for_tab ){
+                pushError(ERROR_HANDLING_FILENAME, 0xFFFF, "Indentation Error");
+            }else{
+                ps->block_depth++;
+            }
+        }
+        
+        while(prev_indent > next_indent){
+            delete_space(ps->block_depth);
+            ps->block_depth--;
+            prev_indent -= ps->space_count_for_tab;
+        }
+    }
+
     ps -> method_token_number = 0;
     ps -> method_line_number = 0;
     ps -> reg_avail = 0;

@@ -8,6 +8,8 @@ struct parseState{
     int method_token_number;
     int reg_avail;
     int found_error;
+    int space_count_for_tab;
+    int block_depth;
     char buffer[BUFFER_MAX];
 };
 
@@ -17,6 +19,8 @@ static inline struct parseState init_parseState(){
     ps.method_token_number = 0;
     ps.reg_avail = 0;
     ps.found_error = 0;
+    ps.space_count_for_tab = -1;
+    ps.block_depth = 0;
     ps.buffer[0] = '\0';
     return ps;
 }

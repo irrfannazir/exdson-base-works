@@ -22,11 +22,14 @@
 #define GENERATED_DIRECTORY           "build"
 #define PARSING_HANDLING_FILE_NAME    GENERATED_DIRECTORY "/parse.txt"
 #define PGM_EXATED_FILE_NAME          GENERATED_DIRECTORY "/pgm.c"
-#define SYMBOL_TABLE_FILE_NAME        GENERATED_DIRECTORY "/symtab.bin"
 #define PARSED_INFORMATION            GENERATED_DIRECTORY "/parse.info"
 #define PARSE_DATATYPE_LIST_FILE_NAME "grammar/datatype.txt"
 #define PARSE_KEYWORD_LIST_FILE_NAME  "grammar/keywords.bin"
 #define IC_FILENAME                   GENERATED_DIRECTORY "/ic.orgex"
+
+
+#define SYMTAB_FILE_NAME_FORMAT        GENERATED_DIRECTORY "/symtab_%03d.bin"
+#define SYMTAB_FILE_NAME(buf, digit) snprintf((buf), (sizeof(SYMTAB_FILE_NAME_FORMAT)), SYMTAB_FILE_NAME_FORMAT, (digit))
 
 
 // flush
@@ -35,7 +38,6 @@
     "build/lex.txt",
     PARSING_HANDLING_FILE_NAME,
     PGM_EXATED_FILE_NAME,
-    SYMBOL_TABLE_FILE_NAME,
     PARSED_INFORMATION,
     IC_FILENAME
   };

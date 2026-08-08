@@ -134,7 +134,7 @@ int parsing_tree_analysis(struct parseState *ps, char *format, int start, int si
     #endif
     ic_generation(&(ps -> reg_avail), root);
     if(ps -> buffer) {
-        sprintf(ps -> buffer, "%st%d|", ps -> buffer, ps -> reg_avail);
+        sprintf(ps -> buffer + strlen(ps -> buffer), "t%d|", ps -> reg_avail);
         ps -> reg_avail++;
     }
     return 0;

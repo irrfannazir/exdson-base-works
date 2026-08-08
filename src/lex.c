@@ -8,9 +8,14 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
+#include "parse/pdebug.h"
 
 
 int dont_compile = 0;
+#ifdef LINE_ANALYSIS
+char src_filename[LINE_FILENAME_MAX];
+#endif
 
 static char *read_inline_program(void) {
     size_t capacity = INLINE_PROGRAM_MAX_SIZE;
@@ -48,6 +53,9 @@ int lexf(const int8_t isinput, const char *ex_filename, const char *dest_filenam
     if (create_file(dest_filename, "")) return 1;
     if (create_file(DFA_LEXEME_FILENAME, "")) return 1;
     if (create_file(DFA_TOKEN_FILENAME, "")) return 1;
+    #ifdef LINE_ANALYSIS
+    strcpy(src_filename, ex_filename);
+    #endif
     init_stat();
     if(isinput){
         char *com = read_inline_program();

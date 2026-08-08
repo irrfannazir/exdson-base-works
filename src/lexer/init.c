@@ -50,7 +50,7 @@ static inline void init_keywords(){
     fclose(input);
 }
 
-static int file_exists(const char *filename) {
+int file_exists(const char *filename) {
     FILE *file = fopen(filename, "r");
     if (!file) return 0;
     fclose(file);

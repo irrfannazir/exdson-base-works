@@ -1,5 +1,5 @@
-if (2 + 3):
-    if (3+4):
-        single n = 3
-    single a = 3
-n = 4
+if(7+7):
+    single b = 4
+    if(3+4):
+        single a = 2
+        single c = 4

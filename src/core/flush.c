@@ -2,6 +2,7 @@
 #include <string.h>
 #include <errno.h>
 #include "data.h"
+#include "common/fileh.h"
 
 
 
@@ -15,5 +16,13 @@ int flushf(){
         }
     }
     #endif
+    int i = 0;
+    char fn[sizeof(SYMTAB_FILE_NAME_FORMAT)];
+    SYMTAB_FILE_NAME(fn, i);
+    while(file_exists(fn)){
+        delete_file(fn);
+        i++;
+        SYMTAB_FILE_NAME(fn, i);
+    }
     return 0;
 }

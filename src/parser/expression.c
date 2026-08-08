@@ -5,11 +5,20 @@
 #include "parse/strh.h"
 #include "common/errorm.h"
 #include "common/table.h"
+#include "common/fileh.h"
 #include "data.h"
 
 
 int is_declared_variable(int index){
-    return vscan(SYMBOL_TABLE_FILE_NAME, get_token(index)) != -1;
+    int i = 0;
+    char fn[sizeof(SYMTAB_FILE_NAME_FORMAT)];
+    SYMTAB_FILE_NAME(fn, i);
+    while(file_exists(fn)){
+        if(vscan(fn, get_token(index)) != -1) return 1;
+        i++;
+        SYMTAB_FILE_NAME(fn, i);
+    }
+    return 0;
 }
 
 int is_unidentified(struct Node *ptr){
